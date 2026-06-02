@@ -47,13 +47,15 @@ def _open_macos(filepath: str):
 
 
 def _open_windows(filepath: str):
+    filename = Path(filepath).name
     ps_script = f'''
     $filepath = "{filepath}"
+    $filename = "{filename}"
     try {{
         $word = [System.Runtime.InteropServices.Marshal]::GetActiveObject("Word.Application")
         foreach ($doc in $word.Documents) {{
-            if ($doc.FullName -eq $filepath) {{
-                $doc.Close([ref]$false)
+            if ($doc.Name -ieq $filename) {{
+                $doc.Close(0)
                 break
             }}
         }}
