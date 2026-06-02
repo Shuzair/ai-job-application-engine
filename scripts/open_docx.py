@@ -18,6 +18,7 @@ from pathlib import Path
 
 
 def _open_macos(filepath: str):
+    filename = Path(filepath).name
     script = f'''
     tell application "System Events"
         set wordRunning to (name of every process) contains "Microsoft Word"
@@ -25,12 +26,14 @@ def _open_macos(filepath: str):
 
     if wordRunning then
         tell application "Microsoft Word"
-            repeat with doc in documents
-                if full name of doc is "{filepath}" then
+            set docCount to count of documents
+            repeat with i from docCount to 1 by -1
+                set doc to document i
+                if name of doc is "{filename}" then
                     close doc saving no
                 end if
             end repeat
-            open "{filepath}"
+            open POSIX file "{filepath}"
             activate
         end tell
     else
