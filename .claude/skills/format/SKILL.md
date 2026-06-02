@@ -1,15 +1,17 @@
 ---
 name: format
-description: Convert CV and cover letter YAML data to docx and pdf. For job-applications/output/ folders, auto-resolves the style from input.md to find the right format config and schema. For generic-cv/ folders, requires an explicit style argument.
+description: Finalize CV and cover letter as PDF. Re-renders docx from YAML data and converts to PDF. This is the "publish" step — run it when you're satisfied with the content and formatting after previewing via /apply and /revise.
 disable-model-invocation: true
 argument-hint: "[folder_name] [style]"
 ---
 
 User-provided arguments: $ARGUMENTS
 
-# /format — Render Documents from Structured Data
+# /format — Finalize Documents as PDF
 
-This command runs the deterministic rendering pipeline. It does NOT generate content — it converts structured YAML data files into formatted Word documents and PDFs using the style-specific format configs and schemas.
+This command renders the final docx and converts to PDF. It is the "publish" step in the workflow — run it after you've previewed and revised the documents using `/apply` and `/revise`.
+
+For formatting changes (fonts, sizes, margins, colors), use `/revise <cv|cl> [folder] "your feedback"` before running `/format`.
 
 **Error handling:** If any step fails, stop and tell the user what went wrong with full error details.
 
@@ -112,8 +114,8 @@ Include the results in your report.
 
 Tell the user:
 - Style resolved (e.g., "Using cv-style-europe / cl-style-europe")
+- Whether a per-application format override was applied (if `cv-format-override.yaml` or `cl-format-override.yaml` exists in the folder)
 - Files created (list all generated files with paths)
 - Post-render validation results (content checks and stats)
 - Whether PDF conversion succeeded or was skipped
-- Remind them they can adjust formatting by editing the style's format config (e.g., `.claude/skills/cv-style-europe/cv-format.yaml`) and re-running `/format`
-- Suggest they open the docx files to verify formatting before sending
+- If formatting changes are needed, suggest: "Use `/revise <cv|cl> [folder] \"your feedback\"` to adjust formatting, then re-run `/format`"

@@ -29,6 +29,16 @@ def load_yaml(path):
         return yaml.safe_load(f)
 
 
+def deep_merge(base: dict, override: dict) -> dict:
+    result = base.copy()
+    for key, value in override.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = deep_merge(result[key], value)
+        else:
+            result[key] = value
+    return result
+
+
 def validate_data(data, schema_path):
     """Run schema validation; exit on failure."""
     from validate_schema import validate
@@ -99,6 +109,14 @@ def render_cv_doc(data_dir, cv_config_path, cv_schema_path, output_dir, gen_pdf)
 
     data = load_yaml(data_path)
     config = load_yaml(cv_config_path)
+
+    override_path = data_dir / "cv-format-override.yaml"
+    if override_path.exists():
+        override = load_yaml(override_path)
+        if override:
+            config = deep_merge(config, override)
+            print(f"  Applied override: {override_path}")
+
     validate_data(data, cv_schema_path)
 
     render_cv(data, config, str(output_path))
@@ -119,6 +137,14 @@ def render_cl_doc(data_dir, cl_config_path, cl_schema_path, output_dir, gen_pdf)
 
     data = load_yaml(data_path)
     config = load_yaml(cl_config_path)
+
+    override_path = data_dir / "cl-format-override.yaml"
+    if override_path.exists():
+        override = load_yaml(override_path)
+        if override:
+            config = deep_merge(config, override)
+            print(f"  Applied override: {override_path}")
+
     validate_data(data, cl_schema_path)
 
     render_cl(data, config, str(output_path))

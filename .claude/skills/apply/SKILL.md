@@ -155,7 +155,27 @@ If the result contains schema validation errors, stop and tell the user — the 
 
 Warnings (word count, paragraph count) are informational — report them in Step 9 but do not block on them.
 
-## Step 9: Report Back
+## Step 9: Render Draft Documents
+
+After all agents have completed successfully and validation has passed, render the docx files (without PDF — that happens later via `/format`):
+
+```bash
+python scripts/run.py scripts/render.py --type both \
+  --data-dir <folder_path> \
+  --cv-config <cv_config> \
+  --cl-config <cl_config> \
+  --cv-schema <cv_schema> \
+  --cl-schema <cl_schema>
+```
+
+Then open both docx files for the user to preview:
+
+```bash
+open <folder_path>/cv.docx
+open <folder_path>/cover-letter.docx
+```
+
+## Step 10: Report Back
 
 Tell the user:
 
@@ -169,10 +189,23 @@ Tell the user:
    - Achievements highlighted
    - Company details used (or note that cover letter is JD-focused only)
    - Word count
-5. **Files ready for review:**
-   - `research.md` (if research was done)
-   - `cv-data.yaml`
-   - `cl-data.yaml`
-6. Ask the user to review and either edit manually, or use `/revise <cv|cl> [folder] "feedback"` for targeted edits
-7. Ask the user: "Would you like to run `/format [folder_name]` now to generate docx and pdf files?"
+5. **Documents rendered:** `cv.docx` and `cover-letter.docx` have been opened for preview
+6. **Format settings used** — read the resolved `cv-format.yaml` and `cl-format.yaml` and print this exact template:
+
+```
+--- Format Settings (<cv_style>) ---
+Page:         <size>, margins <top>/<bottom>/<left>/<right> cm
+Fonts:        <heading_font> (headings), <body_font> (body)
+Sizes:        <body_size>pt body, <heading_size>pt headings, <name_font_size>pt name
+Spacing:      <line_spacing>x line
+Colors:       primary <primary>, body <body>, link <link>
+CV Sections:  <order joined with " > ">
+Headings:     <heading_case>, bold=<yes/no>, underline=<yes/no>
+Experience:   max <n> bullets/role, descriptions=<shown/hidden>
+CL Paragraphs: <min>-<max> paragraphs
+```
+
+Replace each `<placeholder>` with the actual value from the config files. Use the `cv_style` name (e.g., `europe`, `germany`, `default`) in the header.
+
+7. **Next steps:** "Review the documents in Word. Use `/revise` to adjust content or formatting, then `/format` to finalize as PDF."
 8. **Now execute the deferred Step 4:** Run `python scripts/run.py scripts/reset_input.py --input job-applications/input.md` to overwrite it with the blank template. This is the last action — only runs after all agents succeeded.
