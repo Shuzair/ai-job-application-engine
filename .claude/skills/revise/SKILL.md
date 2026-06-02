@@ -157,11 +157,11 @@ python scripts/run.py scripts/render.py --type <cv|cl> \
 
 Note: Always pass both `--cv-config`/`--cv-schema` and `--cl-config`/`--cl-schema` even when rendering only one type — the script ignores unused ones. The `--type` flag controls which document is actually rendered.
 
-Then open the re-rendered file:
+Then open the re-rendered file (this script handles close+reopen if already open):
 
 ```bash
-open <folder_path>/cv.docx       # if revising cv
-open <folder_path>/cover-letter.docx  # if revising cl
+python scripts/run.py scripts/open_docx.py <folder_path>/cv.docx       # if revising cv
+python scripts/run.py scripts/open_docx.py <folder_path>/cover-letter.docx  # if revising cl
 ```
 
 ## Step 8: Report Back

@@ -168,11 +168,10 @@ python scripts/run.py scripts/render.py --type both \
   --cl-schema <cl_schema>
 ```
 
-Then open both docx files for the user to preview:
+Then open both docx files for the user to preview (this script handles close+reopen if already open):
 
 ```bash
-open <folder_path>/cv.docx
-open <folder_path>/cover-letter.docx
+python scripts/run.py scripts/open_docx.py <folder_path>/cv.docx <folder_path>/cover-letter.docx
 ```
 
 ## Step 10: Report Back

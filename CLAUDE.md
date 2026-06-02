@@ -131,6 +131,7 @@ These scripts handle deterministic operations that must be consistent across all
 | `prepare_folder.py` | Create versioned output folder + write snapshot | `--input <path> --output-dir <path>` → JSON to stdout |
 | `reset_input.py` | Reset input.md to blank template | `--input <path>` |
 | `validate_output.py` | Validate CV/CL data against style rules | `--type cv\|cl\|both --data-dir <path> --cv-config <path> --cl-config <path>` → JSON to stdout |
+| `open_docx.py` | Cross-platform open/reload docx in Word (close+reopen if already open) | `<path> [<path2> ...]` |
 | `validate_style_input.py` | Validate /style identifier (normalize, fuzzy spell-correct, classify, check existing) | `--identifier <name>` → JSON to stdout |
 | `scaffold_style.py` | Scaffold style template files from best available base (region→default cascade) | `--identifier <name> --type country\|region\|new [--region <region>]` → JSON to stdout |
 | `update_style_resolution.py` | Add country/region to style-resolution.yaml programmatically | `--identifier <name> --type country\|region\|new [--region <region>] [--countries "a,b"] [--alias "k:v"]` → JSON to stdout |
