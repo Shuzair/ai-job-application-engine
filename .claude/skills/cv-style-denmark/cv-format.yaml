@@ -1,0 +1,93 @@
+# CV Format Configuration — Denmark Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # A4 is standard across Denmark and all EU countries (210×297mm)
+  margins:
+    top: 2.0  # cm — Suggested range: 2.5–3.0cm. Jobindex.dk recommends minimum 3cm for an "airy layout"; 2.5cm is a pragmatic balance
+    bottom: 2.0  # cm — Suggested range: 2.5–3.0cm. Match top margin
+    left: 2.0  # cm — Suggested range: 2.5–3.0cm. Jobindex.dk recommends 3cm minimum; 2.5cm keeps content readable without excess whitespace
+    right: 2.0  # cm — Suggested range: 2.0–2.5cm. Slightly smaller than left is acceptable
+
+header:
+  name_font_size: 16  # pt — Suggested range: 16–20pt. Danish CVs favor clean, prominent name headers; 18pt balances visibility and minimalism
+  name_color: "#2E74B5"  # Popular in Denmark: #2E74B5 (steel blue), #1F3864 (dark navy), #1a2e4a (deep navy), #000000 (black). Minimal color use is the Danish norm
+  name_case: title  # Options: upper, title, as-is. Danish minimalism favors title case over all-caps; uppercase is optional and not a strong norm (per research)
+  name_bold: true  # Options: true, false. Bold is standard in Danish CVs
+  show_titles: true  # Options: true, false. True — Danish CVs typically include a professional headline below the name
+  titles_font_size: 9  # pt — Suggested range: 9–11pt. Secondary text, should be smaller than name
+  contact_font_size: 9  # pt — Suggested range: 9–10pt. Standard contact line size
+  links_font_size: 9  # pt — Suggested range: 9–10pt. LinkedIn URL is required in Danish CVs; same size as contact info
+  show_relocation: false  # Options: true, false. True — Danish employers explicitly value relocation commitment statements (Workindenmark.dk). Required for international candidates
+  relocation_font_size: 9  # pt — Suggested range: 9–10pt. Match contact/links size
+  relocation_bold: true  # Options: true, false. Bold draws attention to the relocation signal, which Danish employers look for in international candidates
+  photo:
+    enabled: false  # Options: true, false. True — professional headshot is culturally expected in Denmark (The Local Denmark, Workindenmark.dk, alphatrad.dk)
+    width_cm: 2.8  # cm — Suggested range: 2.5–3.5cm. Standard Danish CV headshot is roughly passport-sized; 2.8cm is a clean fit
+    height_cm: 3.5  # cm — Suggested range: 3.0–4.0cm. Portrait orientation, consistent with Danish CV templates
+    border_radius: 0  # Options: 0 (square), > 0 (rounded corners in EMUs). Square or lightly rounded are both common in Danish CVs
+
+# Section order and headings for the Danish market.
+# Danish CVs include Interests (Interesser) and References (Referencer) sections.
+# Large employers (Maersk, Novo Nordisk, Vestas) and SMEs both expect them.
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - projects
+    - education
+    - languages
+    - interests
+    - references
+  headings:
+    summary: "Professional Summary"    # Om mig / Personlig profil
+    skills: "Skills"                   # Kompetencer / Færdigheder
+    experience: "Professional Experience"  # Erhvervserfaring
+    projects: "Projects"               # Projekter
+    education: "Education"             # Uddannelse
+    certifications: "Certifications"   # Kurser og certificeringer
+    languages: "Languages"             # Sprog
+    interests: "Interests"             # Interesser / Fritid
+    references: "References"           # Referencer
+  heading_case: upper  # Options: upper, title, as-is. Uppercase section headings are standard in Danish professional CVs
+  heading_bold: true  # Options: true, false. Bold headings are universal in Danish CV templates
+  heading_underline: true  # Options: true, false. Horizontal rule below headings is common in Danish CV design; adds the "airy" structure Jobindex.dk recommends
+  heading_size: 11  # pt — Suggested range: 11–13pt. Slightly larger than body text to clearly delineate sections
+  section_types:
+    interests: list  # Interests displayed as a comma/dot-separated inline list — concise, space-efficient
+    references: list   # References displayed as bullet-style entries (name, title, company, contact) or single "available upon request" line
+    projects: list     # Projects displayed as bullet-style list entries
+
+typography:
+  heading_font: Calibri  # Popular in Denmark: Calibri, Arial, Helvetica, Verdana, Garamond. Calibri is widely used across Danish corporate environments
+  body_font: Calibri  # Popular in Denmark: Calibri, Arial, Helvetica, Verdana, Times New Roman. Must match or pair with heading font
+  body_size: 9  # pt — Suggested range: 10–12pt. Danish standard is 10–12pt; 11pt is the commonly recommended sweet spot (per Jobindex.dk body text guidance)
+  line_spacing: 1.1  # Suggested range: 1.0–1.5. Danish CVs emphasize "airy and easy-to-scan" layout (Jobindex.dk); 1.15 provides readability without excessive whitespace
+
+skills:
+  separator: " | "  # Options: " · " (middle dot), " | " (pipe), ", " (comma). Middle dot is preferred in Danish CV templates
+
+languages:
+  separator: " | "  # Separator between language entries. Middle dot consistent with skills separator
+
+experience:
+  show_company_description: true  # Options: true, false. True — include one-line company descriptor for non-Danish/unfamiliar companies to help Danish employers contextualize the candidate's background
+  max_bullets_per_role: 5  # Suggested range: 4–6. Danish CVs are concise; 4–5 bullets for recent roles, 2–3 for older. Setting 5 as the max enforces this discipline
+
+colors:
+  primary: "#2E74B5"  # Popular in Denmark: #2E74B5 (steel blue), #1F3864 (dark navy), #1a2e4a (deep navy), #617d88 (slate blue). Conservative sectors (pharma, shipping) prefer darker tones
+  body: "#000000"  # Body text must be black (Jobindex.dk explicitly states black text is mandatory for readability)
+  link: "#2E74B5"  # Link color should match primary; keeps visual consistency
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # Suggested range: 35–50. Danish professional summary should be substantive but not padded; 40 words minimum ensures meaningful content
+  summary_max_words: 80  # Suggested range: 60–100. Danish CVs favor brevity; keep the summary tight. Jobindex.dk and Jobakademiet emphasize conciseness
+  max_bullet_words: 18  # Suggested range: 15–20. Danish bullet preference is concise and outcome-focused; 18 words max enforces this
+  max_bullets_recent: 5  # Suggested range: 4–6. Recent roles (past 5 years): 4–5 bullets. Danish CVs are dense but not exhaustive
+  max_bullets_old: 3  # Suggested range: 2–3. Older roles: 2–3 bullets max. Group roles older than 10–15 years under "Other experience" if needed
+  max_pages: 2  # Options: 1, 2, 3. Standard for Denmark across all sectors. Pharma/life sciences (Novo Nordisk) routinely use 2 pages. 1 page is too brief for experienced candidates

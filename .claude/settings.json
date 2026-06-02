@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Grep",
+      "Glob",
+      "Skill",
+      "Agent(research-agent)",
+      "Agent(cv-agent)",
+      "Agent(cl-agent)",
+      "Agent(job-scanner-agent)",
+      "Agent(career-scanner-agent)",
+      "Bash(python3 *)",
+      "Bash(pip install *)",
+      "Bash(curl *)",
+      "Bash(mkdir *)",
+      "Bash(libreoffice *)",
+      "Bash(python scripts/run.py *)",
+      "Bash(python3 scripts/run.py *)",
+      "Bash(./scripts/run.sh *)",
+      "Bash(find *)",
+      "Bash(ls *)",
+      "WebSearch",
+      "WebFetch"
+    ]
+  }
+}

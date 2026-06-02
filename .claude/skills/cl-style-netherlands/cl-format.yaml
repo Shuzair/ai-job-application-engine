@@ -1,0 +1,58 @@
+# Cover Letter Format Configuration — Netherlands Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4  # Must match CV — A4 is universal in the Netherlands
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV top margin (2.0cm)
+    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV
+    right: 2.0  # cm — Suggested range: 1.8–2.0cm. Must match CV
+
+header:
+  name_font_size: 18  # pt — Must match CV name_font_size (18pt). Suggested range: 16–22pt
+  name_color: "#1A3A5C"  # Must match CV primary color. Dark navy — Popular in NL: "#1A3A5C" (dark navy), "#2E6DA4" (mid-blue), "#2C3E50" (charcoal)
+  name_case: upper  # Must match CV name_case (upper). Options: upper, title, as-is
+  name_bold: true  # Must match CV name_bold (true). Options: true, false
+  show_title: true  # Must match CV show_titles (true). Options: true, false
+  title_font_size: 10  # pt — Must match CV titles_font_size (10pt). Suggested range: 9–11pt
+  contact_font_size: 10  # pt — Must match CV contact_font_size (10pt). Suggested range: 9–10pt
+  links_font_size: 10  # pt — Must match CV links_font_size (10pt). Suggested range: 9–10pt
+  show_relocation: true  # Must match CV show_relocation (true). Options: true, false
+  relocation_font_size: 10  # pt — Must match CV relocation_font_size (10pt)
+  relocation_bold: true  # Must match CV relocation_bold (true). Options: true, false
+
+date:
+  alignment: left  # Dutch business letter standard: left-aligned date in block format. Options: left, right
+
+body:
+  paragraph_spacing_after: 120  # twips — Suggested range: 100–160 twips (≈5–8pt). 120 twips (≈6pt) gives clean separation without excessive whitespace on A4
+
+# SIGN-OFF — Dutch business closing phrases.
+# Select based on letter language (Dutch or English) and formality of the opening salutation.
+# Dutch: "Met vriendelijke groet," is the standard, universally acceptable closing.
+# English: "Kind regards," is the equivalent standard closing.
+sign_off:
+  closing_text: "Kind regards,"  # English default. Dutch alternatives: "Met vriendelijke groet," (standard), "Hoogachtend," (very formal), "Met vriendelijke groeten," (slightly warmer), "Hartelijke groeten," (informal). Agent should select based on letter language and formality.
+  name_bold: true
+  name_color: "#1A3A5C"  # Must match CV primary color for visual consistency
+
+typography:
+  heading_font: Calibri  # Must match CV heading_font. Popular in NL: Calibri (most recommended), Arial, Verdana, Helvetica, Georgia (conservative sectors)
+  body_font: Calibri  # Must match CV body_font (Calibri)
+  body_size: 11  # pt — Must match CV body_size (11pt). Suggested range: 10–12pt. 11pt is the Dutch sweet spot
+  line_spacing: 1.15  # Must match CV line_spacing (1.15). Suggested range: 1.1–1.2
+
+colors:
+  primary: "#1A3A5C"  # Must match CV primary color. Dark navy — Popular in NL: "#1A3A5C", "#2E6DA4", "#2C3E50". Dutch design: minimal, neutral, professional
+  body: "#000000"
+  link: "#2E6DA4"  # Slightly lighter blue for links — must match CV link color
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 4  # Dutch motivatiebrief is a 4-paragraph structure (opening, fit, motivation, close). Minimum is 4.
+  max_paragraphs: 5  # Rarely 5 paragraphs; 4 is the standard. Max 5 to allow slight variation.
+  min_total_words: 200  # Floor for a substantive Dutch cover letter
+  max_total_words: 350  # Dutch directness: 250–350 words is ideal. One A4 page maximum. Per Dutch career guides and IAmExpat.

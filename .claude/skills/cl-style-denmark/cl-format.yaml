@@ -1,0 +1,59 @@
+# Cover Letter Format Configuration — Denmark Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4  # Must match CV — A4 is standard across Denmark and all EU countries
+  margins:
+    top: 2.0  # cm — Must match CV top margin. Suggested range: 2.5–3.0cm. Jobindex.dk recommends 3cm for "airy" layout
+    bottom: 2.0  # cm — Must match CV. Suggested range: 2.5–3.0cm
+    left: 2.0  # cm — Must match CV. Suggested range: 2.5–3.0cm
+    right: 2.0  # cm — Must match CV. Suggested range: 2.0–2.5cm
+
+header:
+  name_font_size: 16  # pt — Must match CV name_font_size. Suggested range: 16–20pt
+  name_color: "#2E74B5"  # Must match CV primary color for visual consistency. Popular: #2E74B5 (steel blue), #1F3864 (dark navy)
+  name_case: title  # Must match CV name_case. Options: upper, title, as-is. Title case preferred in Danish minimalist design
+  name_bold: true  # Must match CV name_bold
+  show_title: true  # Must match CV show_titles. Options: true, false. Include professional headline below name
+  title_font_size: 9  # pt — Must match CV titles_font_size. Suggested range: 9–11pt
+  contact_font_size: 9  # pt — Must match CV contact_font_size. Suggested range: 9–10pt
+  links_font_size: 9  # pt — Must match CV links_font_size. Suggested range: 9–10pt
+  show_relocation: false  # Must match CV show_relocation. Required for international candidates applying to Danish companies
+  relocation_font_size: 9  # pt — Must match CV relocation_font_size. Suggested range: 9–10pt
+  relocation_bold: true  # Must match CV relocation_bold
+
+date:
+  alignment: left  # Options: left, right. Left alignment follows standard Danish/continental European business letter convention (most common in Denmark)
+
+body:
+  paragraph_spacing_after: 140  # twips (1 twip = 1/1440 inch ≈ 0.018mm). Suggested range: 100–160 twips (≈5–8pt). Danish cover letters emphasize readability; 140 twips ≈ 7pt gap between paragraphs — "airy" without wasting space
+
+# Danish sign-off conventions:
+# - Danish: "Med venlig hilsen," — universal professional standard. Never abbreviate to "Mvh" in first-contact letters
+# - English: "Kind regards," or "Sincerely,"
+# - Avoid "Med kærlig hilsen," (reserved for family/close friends)
+# The agent selects based on the letter language (English for English-language applications).
+sign_off:
+  closing_text: "Kind regards,"  # Default for English letters. Danish alternative: "Med venlig hilsen," — agent should use the appropriate language match
+  name_bold: true
+  name_color: "#2E74B5"  # Must match CV primary color for visual consistency
+
+typography:
+  heading_font: Calibri  # Must match CV heading_font. Popular in Denmark: Calibri, Arial, Helvetica, Verdana, Garamond
+  body_font: Calibri  # Must match CV body_font. Popular: Calibri, Arial, Helvetica. Must match CV for visual consistency
+  body_size: 9  # pt — Must match CV body_size. Suggested range: 10–12pt. Danish standard is 11pt (Jobindex.dk guidance)
+  line_spacing: 1.1  # Must match CV line_spacing. Suggested range: 1.0–1.5. 1.15 provides the "airy" readability Danish employers expect
+
+colors:
+  primary: "#2E74B5"  # Must match CV primary color. Popular: #2E74B5 (steel blue), #1F3864 (dark navy), #1a2e4a (deep navy)
+  body: "#000000"  # Body text must be black — Jobindex.dk states black text is mandatory for readability
+  link: "#2E74B5"  # Match primary color for visual consistency
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 3  # Suggested range: 3–4. Danish cover letters typically have 3–4 paragraphs (Jobakademiet, howtoliveindenmark.com, jobera.com). 3 is the minimum for a credible letter
+  max_paragraphs: 4  # Suggested range: 4–5. 4 is optimal for Denmark; 5–6 is too long for Danish preferences
+  min_total_words: 280  # Suggested range: 250–300. Danish cover letter minimum is ~300 words; 280 allows slightly shorter letters that still meet expectations
+  max_total_words: 400  # Suggested range: 350–450. Danish consensus is 300–400 words (Jobakademiet, jobera.com, howtoliveindenmark.com). One page maximum. Stay strict at 400

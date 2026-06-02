@@ -1,0 +1,62 @@
+# JSON Schema (in YAML) for cl-data.yaml — Europe Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+
+  date:
+    type: string
+    description: "Letter date, format: 'Month DD, YYYY' (e.g. 'May 17, 2026')"
+
+  salutation:
+    type: string
+    description: "e.g. 'Dear Hiring Team,' or 'Dear [Name],'"
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 2
+    maxItems: 6
+    description: "Body paragraphs (count varies by style)"
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "e.g. 'Kind regards,'"
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

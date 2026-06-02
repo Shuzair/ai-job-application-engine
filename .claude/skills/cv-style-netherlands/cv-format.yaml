@@ -1,0 +1,88 @@
+# CV Format Configuration — Netherlands Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # Universal standard in the Netherlands. Never Letter.
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. Dutch guides cite CareerBldr standard of 2–2.5cm; 2.0 is the clean minimum
+    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Typically matches top margin
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. Some guides suggest 2.5cm left for a slight offset
+    right: 2.0  # cm — Suggested range: 1.8–2.0cm. Can be slightly smaller than left
+
+header:
+  name_font_size: 18  # pt — Suggested range: 16–22pt. Dutch CV templates commonly use 18–20pt bold name
+  name_color: "#1A3A5C"  # Dark navy — Popular in NL: "#1A3A5C" (dark navy), "#2E6DA4" (mid-blue/LinkedIn), "#2C3E50" (charcoal), "#000000" (black for conservative sectors)
+  name_case: upper  # Dutch CV convention: bold uppercase name is standard. Options: upper, title, as-is
+  name_bold: true  # Bold name is universal in Dutch CV templates. Options: true, false
+  show_titles: true  # Professional headline/title below name is expected. Options: true, false
+  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary line, smaller than name
+  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard secondary text size
+  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn URL is required; keep same size as contact
+  show_relocation: true  # Relocation notices are common and useful for expat-heavy Dutch market. Options: true, false
+  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact size
+  relocation_bold: true  # Bold draws attention; appropriate for relocation-relevant roles. Options: true, false
+
+# SECTIONS — Netherlands standard section order for experienced professionals.
+# Fresh graduates: swap order of experience and education (education first).
+# Dutch work culture values hobbies/interests as showing "whole person" — include interests.
+# References section is NOT included; "available upon request" in cover letter suffices.
+# Projects section: valued in Dutch tech market (per Tech-Careers.nl and Cresuma).
+sections:
+  order:
+    - summary
+    - experience
+    - education
+    - skills
+    - certifications
+    - languages
+    - interests
+  headings:                   # English display names — Dutch equivalents shown as comments
+    summary: "Professional Summary"     # Persoonlijk Profiel / Professioneel Profiel
+    skills: "Skills"                    # Vaardigheden / Technische Vaardigheden
+    experience: "Professional Experience"  # Werkervaring
+    education: "Education"              # Opleiding
+    certifications: "Certifications"    # Certificeringen
+    languages: "Languages"             # Taalvaardigheden
+    interests: "Interests"             # Interesses / Hobby's
+    projects: "Projects"               # Projecten (optional — add to order if using)
+    volunteer_work: "Volunteer Work"   # Vrijwilligerswerk (optional — add to order if using)
+  heading_case: upper  # Uppercase section headings are standard in Dutch professional CVs. Options: upper, title, as-is
+  heading_bold: true  # Bold headings are universal. Options: true, false
+  heading_underline: true  # Ruled underline below heading is clean and common in Dutch templates. Options: true, false
+  heading_size: 12  # pt — Suggested range: 12–14pt. 12pt bold uppercase is the most common Dutch heading treatment
+  section_types:
+    interests: inline  # Interests displayed as comma/dot separated list (not bullets)
+    volunteer_work: list  # Volunteer work displayed as bullet list
+    projects: list  # Projects displayed as bullet list
+
+typography:
+  heading_font: Calibri  # Most-recommended font in Dutch career guides. Popular alternatives: Arial, Verdana, Helvetica, Georgia (conservative sectors)
+  body_font: Calibri  # Must match heading font or pair well. Calibri and Arial are the two most-cited fonts in NL guides
+  body_size: 11  # pt — Suggested range: 10–12pt. 11pt is the Dutch sweet spot per career guides; 10pt is the minimum acceptable floor
+  line_spacing: 1.15  # Suggested range: 1.1–1.2. Standard European business document line spacing; "proper spacing" explicitly required in Dutch CV guides
+
+skills:
+  separator: " · "  # Middle dot is clean and standard. Options: " · " (middle dot), " | " (pipe), ", " (comma)
+
+languages:
+  separator: " · "            # Separator between language entries
+
+experience:
+  show_company_description: false  # Dutch CV guides do not list company descriptions as standard. For obscure companies, a brief context note within the bullet is acceptable. Options: true, false
+  max_bullets_per_role: 5  # Suggested range: 3–5 for recent roles. Dutch preference is quality over quantity; 5 is the ceiling
+
+colors:
+  primary: "#1A3A5C"  # Dark navy — Popular in NL: "#1A3A5C" (dark navy), "#2E6DA4" (mid-blue), "#2C3E50" (charcoal). Dutch design philosophy: minimal, neutral, professional. Avoid bright or vivid colors
+  body: "#000000"             # Body text
+  link: "#2E6DA4"             # Slightly lighter blue for links; matches LinkedIn blue which is well-recognised in NL
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # Dutch summaries are concise; 40 words is the floor for meaningful content
+  summary_max_words: 80  # Dutch preference for directness: keep summary tight. Suggested range: 60–100 words
+  max_bullet_words: 18  # Dutch CV guides emphasise brevity and clarity. Suggested range: 15–20 words per bullet
+  max_bullets_recent: 5  # Recent/current roles: 3–5 bullets. Quality over quantity is the explicit Dutch norm
+  max_bullets_old: 3  # Older roles (3+ years ago): 2–3 bullets maximum
+  max_pages: 2  # Mid-career professionals: max 2 pages. Entry-level: 1 page. Exceeding 2 is seen as poor prioritisation in NL

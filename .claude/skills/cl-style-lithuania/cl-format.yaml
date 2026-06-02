@@ -1,0 +1,58 @@
+# Cover Letter Format Configuration — Lithuania Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4  # Must match CV — A4 is standard for Lithuania (all of Europe)
+  margins:
+    top: 2.0  # cm — Must match CV. Suggested range: 2.0–2.5cm. "1-inch margin" standard cited by Lithuanian sources
+    bottom: 2.0  # cm — Must match CV. Suggested range: 2.0–2.5cm
+    left: 2.0  # cm — Must match CV. Suggested range: 2.0–2.5cm
+    right: 2.0  # cm — Must match CV. Suggested range: 1.5–2.0cm. Slightly smaller than left is acceptable
+
+header:
+  name_font_size: 16  # pt — Must match CV name_font_size. Suggested range: 16–20pt
+  name_color: "#1B2A4A"  # Must match CV primary color. Popular in Lithuania: #1B2A4A (dark navy), #2E74B5 (steel blue)
+  name_case: upper  # Must match CV name_case. Options: upper, title, as-is
+  name_bold: true  # Must match CV name_bold. Options: true, false
+  show_title: true  # Must match CV show_titles. Options: true, false
+  title_font_size: 9  # pt — Must match CV titles_font_size. Suggested range: 9–11pt
+  contact_font_size: 9  # pt — Must match CV contact_font_size. Suggested range: 9–10pt
+  links_font_size: 9  # pt — Must match CV links_font_size. Suggested range: 9–10pt
+  show_relocation: false  # Must match CV show_relocation. Relocation statement relevant for international candidates applying to Lithuania
+  relocation_font_size: 9  # pt — Must match CV relocation_font_size. Suggested range: 9–10pt
+  relocation_bold: true  # Must match CV relocation_bold. Options: true, false
+
+date:
+  alignment: left  # Options: left, right. European standard is left-alignment; Europass and Lithuanian business letter norms use left
+
+body:
+  paragraph_spacing_after: 120  # twips — Suggested range: 100–160 twips (≈5–8pt). Lithuanian business letters follow European spacing norms; 120 twips ≈ 6pt provides clean paragraph separation
+
+# Lithuanian cover letter sign-off: "Pagarbiai," is the universal professional closing
+# English equivalent: "Kind regards," or "Yours sincerely,"
+sign_off:
+  closing_text: "Pagarbiai,"  # Lithuanian: "Pagarbiai," (Respectfully/Sincerely — the standard professional closing). English alternative: "Kind regards," or "Yours sincerely,"
+  name_bold: true
+  name_color: "#1B2A4A"  # Must match CV primary color
+
+typography:
+  heading_font: Arial  # Must match CV heading_font. Popular in Lithuania: Arial, Calibri, Times New Roman
+  body_font: Arial  # Must match CV body_font. Suggested range: same as CV
+  body_size: 10  # pt — Must match CV body_size. Suggested range: 10–12pt
+  line_spacing: 1.15  # Must match CV line_spacing. Suggested range: 1.0–1.15
+
+colors:
+  primary: "#1B2A4A"  # Must match CV primary color for visual consistency. Popular: #1B2A4A (dark navy), #2E74B5 (steel blue)
+  body: "#000000"     # Body text — standard black
+  link: "#2E74B5"     # Link color — must match CV
+
+# Validation limits for validate_output.py
+# Lithuania: one A4 page max, 250–400 words, 3–4 paragraphs
+# Per EURES Lithuania and Lithuanian Employment Service guidance
+validation:
+  min_paragraphs: 3   # Suggested range: 3–4. Lithuanian cover letter structure: intro, fit, company-specific, close
+  max_paragraphs: 4   # Suggested range: 3–4. Per Lithuanian Employment Service: brief, structured, 1 A4 page max
+  min_total_words: 250  # Suggested range: 220–280. "Motyvacinis laiškas" should be substantive but concise
+  max_total_words: 400  # Suggested range: 350–420. One A4 page limit; 400 words is the cited maximum

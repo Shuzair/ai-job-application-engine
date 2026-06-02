@@ -1,0 +1,164 @@
+# JSON Schema (in YAML) for cv-data.yaml — Lithuania Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, summary, skills, experience, education]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      titles:
+        type: array
+        items: { type: string }
+        description: "Role titles, e.g. ['Analytics Engineer', 'Data Engineer']"
+      location:
+        type: string
+        description: "City and country only — e.g. 'Vilnius, Lithuania' or 'Lahore, Pakistan'"
+      nationality:
+        type: string
+        description: "Nationality — standard in Lithuanian CVs per Employment Service guidance. e.g. 'Pakistani'"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+        description: "Include country code, e.g. '+92 321 1234567'"
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Relocation statement — include when applying from abroad. e.g. 'Open to relocation to Lithuania'"
+
+  summary:
+    type: string
+    description: "Professional summary (Profesinis tikslas) — 3-5 lines, concise and evidence-based"
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category name — e.g. 'Data Engineering & Processing', 'Cloud & Infrastructure', 'Programming & Scripting'"
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "CEFR level or 'Native' — e.g. 'C1 (IELTS 7.0)', 'B2', 'Native'"
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location, e.g. 'San Francisco, USA'"
+        location:
+          type: string
+          description: "Candidate's working location"
+        work_model:
+          type: string
+          enum: ["", Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: "One-line factual company descriptor — optional, use for lesser-known companies"
+        date_start:
+          type: string
+          description: "Format: MM/YYYY (e.g. '09/2022') — follows Europass/Lithuanian standard"
+        date_end:
+          type: string
+          description: "Format: MM/YYYY (e.g. '03/2024') or 'Present'"
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+        institution:
+          type: string
+        location:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "Include only if 8.0+/10 (Lithuanian scale) and graduated within 5 years. Note the scale if non-Lithuanian."
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year, e.g. 'April 2026'"
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — omit if not available"
+
+  interests:
+    type: array
+    items: { type: string }
+    description: "Hobbies/Interests (Pomėgiai) — REQUIRED per Lithuanian Employment Service. 3-5 items. Rendered inline."
+
+  references:
+    type: string
+    description: "References (Rekomendacijos) — either 'Available upon request' or a brief structured note. Standard section in Lithuanian CVs."

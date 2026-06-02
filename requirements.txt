@@ -1,0 +1,4 @@
+python-docx>=0.8.11
+PyYAML>=6.0
+jsonschema>=4.0
+docx2pdf>=0.1.8

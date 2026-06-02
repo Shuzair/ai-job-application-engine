@@ -1,0 +1,94 @@
+# CV Format Configuration — France Style
+# Complete, standalone visual configuration for French CVs.
+# Each style has its own format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+#
+# Research sources for formatting norms:
+# - Novoresume French Resume Guide (2026)
+# - France Travail (formerly Pôle Emploi) CV guidelines
+# - AFNOR NF Z 11-001 standard (French document formatting norms)
+
+page:
+  size: A4                       # French standard. Options: A4 (210×297mm), Letter (216×279mm)
+  margins:
+    top: 2.0                     # cm — Suggested range: 1.5–2.5cm. AFNOR recommends minimum 2cm
+    bottom: 2.0                  # cm — Suggested range: 1.5–2.5cm
+    left: 2.0                    # cm — Suggested range: 2.0–2.5cm. AFNOR norm: 2cm minimum left margin
+    right: 2.0                   # cm — Suggested range: 1.5–2.0cm
+
+header:
+  name_font_size: 16             # pt — Suggested range: 14–20pt. French standard: 16pt
+  name_color: "#1F3864"          # Popular in France: #1F3864 (dark navy), #2E74B5 (steel blue), #2C3E50 (charcoal blue)
+  name_case: upper               # French preference: uppercase for prominence. Options: upper, title, as-is
+  name_bold: true                # Standard in French CVs
+  show_titles: true              # Show role titles below the name. Expected in French CVs
+  titles_font_size: 10           # pt — Suggested range: 9–11pt
+  contact_font_size: 10          # pt — Suggested range: 9–10pt
+  links_font_size: 10            # pt — Suggested range: 9–10pt
+  show_relocation: true          # Important for international candidates applying to France
+  relocation_font_size: 10       # pt
+  relocation_bold: true
+  # --- Photo Configuration ---
+  # Photos are expected/common in French CVs (source: Novoresume, France Travail)
+  photo:
+    enabled: true                # Photos are expected in France for most applications
+    width: 3.0                   # cm — Standard photo width: 2.5–3.5cm (passport format)
+    height: 4.0                  # cm — Standard photo height: 3.5–4.5cm
+    shape: rectangle             # Most common style in France. Options: rectangle, rounded-rectangle, circle
+    position: top-right          # Standard placement in French CVs
+    border: false                # Clean, borderless look preferred
+
+sections:
+  order:                          # French-standard section order
+    - summary
+    - skills
+    - experience
+    - education
+    - certifications
+    - languages
+    - interests
+  headings:                        # Display names — French market English conventions (for English-language CVs)
+    summary: "Profile"              # French CVs use "Profil" / "Profile" rather than "Professional Summary"
+    skills: "Skills"                # "Compétences" in French
+    experience: "Professional Experience"  # "Expérience Professionnelle" in French
+    education: "Education"          # "Formation" in French
+    certifications: "Certifications"
+    languages: "Languages"          # "Langues" in French — critical section
+    interests: "Interests"          # "Centres d'intérêt" in French — culturally important
+  heading_case: upper             # French preference: uppercase headings. Options: upper, title, as-is
+  heading_bold: true
+  heading_underline: true         # Horizontal rule below heading — standard in French CVs
+  heading_size: 12                # pt — Suggested range: 11–14pt. French standard: 12pt
+  section_types:
+    interests: inline             # Hobbies/interests displayed as inline keywords with separator
+
+typography:
+  heading_font: "Calibri"        # Popular heading fonts in France: Calibri, Garamond, Arial, Cambria
+                                  # Font pairs: Calibri (headings) + Calibri (body), Garamond (headings) + Garamond (body)
+  body_font: "Calibri"           # Popular body fonts in France: Calibri, Arial, Garamond, Cambria, Lora
+  body_size: 10                  # pt — Suggested range: 9–11pt. French standard: 10pt
+  line_spacing: 1.15             # Suggested range: 1.0–1.15. French standard: 1.0–1.15
+
+skills:
+  separator: " · "               # Separator between skill items. Middle dot is standard in French CVs
+
+languages:
+  separator: " · "               # Separator between language entries. Middle dot convention
+
+experience:
+  show_company_description: true  # Company descriptions are standard in French CVs — adds context
+  max_bullets_per_role: 6         # Suggested range: 4–6. French norm: concise but detailed
+
+colors:
+  primary: "#1F3864"             # French preferences: conservative. Popular: #1F3864 (dark navy), #2E74B5 (steel blue), #34495E (dark slate)
+  body: "#000000"                # Standard body text color
+  link: "#1F3864"
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40
+  summary_max_words: 100
+  max_bullet_words: 18
+  max_bullets_recent: 6
+  max_bullets_old: 3
+  max_pages: 2

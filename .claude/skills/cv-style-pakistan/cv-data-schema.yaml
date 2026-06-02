@@ -1,0 +1,171 @@
+# JSON Schema (in YAML) for cv-data.yaml — Pakistan Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+#
+# Pakistan notes:
+# - photo_path: optional; omit for modern private-sector CVs; include only when job posting requests
+# - father_name: optional; government/traditional sectors may require it
+# - date_of_birth: optional; government roles may require it; omit for private sector
+# Standard sections: header, summary, skills, experience, education
+# Optional sections: languages, certifications, interests
+
+type: object
+required: [header, summary, skills, experience, education]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      titles:
+        type: array
+        items: { type: string }
+        description: "Role titles, e.g. ['Data Engineer', 'Analytics Engineer']"
+      location:
+        type: string
+        description: "City and country only — e.g. 'Lahore, Pakistan'. No street address."
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+        description: LinkedIn profile URL — include for corporate and tech roles
+      github:
+        type: string
+        description: GitHub URL — include for IT/tech roles if relevant
+      relocation:
+        type: string
+        description: "Relocation statement if applying outside current city, e.g. 'Open to relocation to Karachi'"
+      photo_path:
+        type: string
+        description: "Path to passport-size headshot — ONLY include when job posting explicitly requests a photo. Format: plain background (white or light blue), formal attire."
+      father_name:
+        type: string
+        description: "Father's name — include ONLY for government/public sector applications that explicitly require it. Omit for private sector."
+      date_of_birth:
+        type: string
+        description: "Date of birth — include ONLY for government applications that require it. Format: DD Month YYYY (e.g. '15 March 1990'). Omit for private sector."
+
+  summary:
+    type: string
+    description: "Professional Summary for experienced (3+ years) or Career Objective for fresh graduates (0–2 years). 40–90 words for summary; 30–60 words for objective."
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category name — e.g. 'Programming & Scripting', 'Cloud & Infrastructure', 'Data & Analytics', 'Databases', 'Tools & Platforms', 'Core Competencies'"
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "Proficiency level — use descriptors: 'Native', 'Fluent', 'Professional Working Proficiency', 'Conversational', 'Basic'. Include IELTS band if above 7.0 (e.g. 'Fluent (IELTS 7.5)'). CEFR levels also acceptable."
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location, e.g. 'Karachi, Pakistan'"
+        location:
+          type: string
+          description: "Candidate's working location"
+        work_model:
+          type: string
+          enum: ["", Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: "One-line factual company descriptor — industry, size, notable products or clients"
+        date_start:
+          type: string
+          description: "Format: Month YYYY (e.g. 'March 2021')"
+        date_end:
+          type: string
+          description: "Format: Month YYYY (e.g. 'June 2023') or 'Present'"
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+          description: "Full formal degree name, e.g. 'BS (Hons) Computer Science', 'MBA', 'BBA (Hons)'"
+        institution:
+          type: string
+          description: "Full official institution name — e.g. 'Lahore University of Management Sciences (LUMS)'"
+        location:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "CGPA if 3.0+ on a 4.0 scale, or percentage if First Division (60%+) or Distinction (75%+). Omit if weak."
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year, e.g. 'April 2026'"
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — include if available"

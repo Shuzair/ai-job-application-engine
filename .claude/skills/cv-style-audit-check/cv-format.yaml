@@ -1,0 +1,89 @@
+# CV Format Configuration — Audit Check Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4                    # [CUSTOMIZE: A4 for Europe/Asia/most countries, Letter for US/Canada]
+  margins:
+    top: 2.0                  # [CUSTOMIZE: typical 1.5-2.5cm — research local norms]
+    bottom: 2.0
+    left: 2.0                 # [CUSTOMIZE: some countries have specific standards, e.g. DIN 5008 = 2.5cm]
+    right: 2.0
+
+header:
+  name_font_size: 16          # [CUSTOMIZE: 14-18pt typical — research local CV header sizing]
+  name_color: "#2E74B5"       # [CUSTOMIZE: conservative markets prefer black/dark blue; creative markets allow more color]
+  name_case: upper            # [CUSTOMIZE: upper | title | as-is — research local CV header conventions]
+  name_bold: true             # [CUSTOMIZE: true in most markets; research if understated headers are preferred]
+  show_titles: true           # [CUSTOMIZE: true if local CVs include a professional headline below the name]
+  titles_font_size: 10        # [CUSTOMIZE: 9-11pt typical — research local sub-header sizing]
+  contact_font_size: 10       # [CUSTOMIZE: 9-11pt typical — research local contact info sizing]
+  links_font_size: 10         # [CUSTOMIZE: 9-11pt typical — research local links line sizing]
+  show_relocation: true       # [CUSTOMIZE: true if relocation statements are common/expected in this market]
+  relocation_font_size: 10    # [CUSTOMIZE: typically matches contact/links font size]
+  relocation_bold: true       # [CUSTOMIZE: true/false — research if relocation lines should be visually emphasized]
+
+# [CUSTOMIZE: Research country-specific CV sections. You CAN and SHOULD add or remove
+# sections from the order list below. Common country-specific additions:
+# interests/hobbies, references, volunteer work, military service, self-PR, awards.
+# For each section: (1) add to order, (2) add heading with local-language name in
+# a comment, (3) define section_type in section_types (inline/list/paragraph).
+# Rename existing headings to match local conventions and add local-language
+# equivalents as inline comments (e.g., experience: 'Work Experience'  # Erhvervserfaring).]
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+  headings:                   # Display names — European English CV conventions
+    summary: "Professional Summary"
+    skills: "Skills"
+    experience: "Professional Experience"
+    education: "Education"
+    certifications: "Certifications"
+    languages: "Languages"
+  heading_case: upper         # [CUSTOMIZE: upper | title | as-is — research local section heading style]
+  heading_bold: true          # [CUSTOMIZE: true in most markets; research local section heading style]
+  heading_underline: true     # [CUSTOMIZE: true/false — research if ruled section headings are standard]
+  heading_size: 12            # [CUSTOMIZE: 11-14pt typical — research local section heading size]
+  # section_types: map unknown section names to a layout
+  #   inline — items joined with separator on one line (like skills)
+  #   list   — each item as a bullet point
+  # Example:
+  #   section_types:
+  #     interests: inline
+  #     awards: list
+
+typography:
+  heading_font: Calibri       # [CUSTOMIZE: research locally popular professional fonts (Calibri, Arial, Garamond, etc.)]
+  body_font: Calibri          # [CUSTOMIZE: should match heading_font unless local norms differ]
+  body_size: 10               # [CUSTOMIZE: 10-12pt typical; research local preference]
+  line_spacing: 1.15          # [CUSTOMIZE: 1.0-1.15 typical; research local readability norms]
+
+skills:
+  separator: " · "            # [CUSTOMIZE: " · " (middle dot) or " | " or ", " — research local preference]
+
+languages:
+  separator: " · "            # Separator between language entries
+
+experience:
+  show_company_description: true # [CUSTOMIZE: true in most markets; false if local CVs omit company context]
+  max_bullets_per_role: 6     # [CUSTOMIZE: 4-6 typical; adjust based on local CV density expectations]
+
+colors:
+  primary: "#2E74B5"          # [CUSTOMIZE: conservative = dark blue/black; research local color expectations]
+  body: "#000000"             # Body text
+  link: "#2E74B5"
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40       # [CUSTOMIZE: adjust based on local summary length norms]
+  summary_max_words: 100      # [CUSTOMIZE: adjust based on local summary length norms]
+  max_bullet_words: 18        # [CUSTOMIZE: 15-20 typical; some markets allow longer bullets]
+  max_bullets_recent: 6       # [CUSTOMIZE: 4-6 for recent roles (last 5 years); research local expectations]
+  max_bullets_old: 3          # [CUSTOMIZE: 2-3 for older roles; research if older roles should be brief or detailed]
+  max_pages: 2                # [CUSTOMIZE: 1-2 pages — research local page count expectations]

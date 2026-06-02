@@ -1,0 +1,168 @@
+# JSON Schema (in YAML) for cv-data.yaml — France Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, summary, skills, experience, education, languages]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      titles:
+        type: array
+        items: { type: string }
+        description: "Role titles, e.g. ['Data Engineer', 'Analytics Engineer']"
+      location:
+        type: string
+        description: Current city and country
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+        description: "Include country code, e.g. +33 6 12 34 56 78"
+      linkedin:
+        type: string
+      github:
+        type: string
+      photo_path:
+        type: string
+        description: "Path to professional headshot photo (expected in French CVs)"
+      nationality:
+        type: string
+        description: "Nationality — include for non-EU applicants to clarify work authorization"
+      date_of_birth:
+        type: string
+        description: "Format: DD/MM/YYYY — optional, increasingly omitted in tech"
+      relocation:
+        type: string
+        description: "Relocation statement, e.g. 'Open to immediate relocation to Paris'"
+
+  summary:
+    type: string
+    description: Professional summary paragraph (3-5 lines)
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category name, e.g. 'Programming & Scripting'"
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "CEFR level (A1-C2), 'Native', or with cert e.g. 'B2 (DELF B2)'"
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location, e.g. 'Paris, France'"
+        location:
+          type: string
+          description: "Candidate's working location"
+        work_model:
+          type: string
+          enum: [Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: One-line factual company descriptor
+        date_start:
+          type: string
+          description: "Format: Mon YYYY (3-letter month, e.g. Sep 2024)"
+        date_end:
+          type: string
+          description: "Format: Mon YYYY or 'Present' / 'Présent'"
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+          description: "Include Bac+N equivalence for foreign degrees, e.g. 'BSc Computer Science (Bac+3)'"
+        institution:
+          type: string
+        location:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "French Mention (Très Bien/Bien/Assez Bien) or foreign GPA"
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year, e.g. 'April 2026'"
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — omit if not available"
+
+  interests:
+    type: array
+    items: { type: string }
+    description: "Hobbies and interests as short phrases, e.g. 'Trail Running · Photography · Chess'"

@@ -1,0 +1,67 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Editor
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Generated outputs
+*.docx
+*.pdf
+*.swp
+*~
+
+# Secrets / credentials
+*.pem
+*.key
+*.cert
+*.p12
+secrets/
+
+# Local Claude Code settings (contains machine-specific paths)
+.claude/settings.local.json
+
+# Personal / candidate data
+candidate.md
+candidate.backup.md
+*.jpg
+
+# Application output contents (keep folder structure, ignore contents)
+job-applications/output/*
+!job-applications/output/.gitkeep
+
+# Generic CV outputs
+generic-cv/

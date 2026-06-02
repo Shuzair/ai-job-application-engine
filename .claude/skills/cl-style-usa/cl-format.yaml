@@ -1,0 +1,56 @@
+# Cover Letter Format Configuration — USA Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: Letter  # US standard: Letter (8.5×11in). Must match CV — never A4 for US applications
+  margins:
+    top: 1.9  # cm — Must match CV top margin. Suggested range: 1.27–2.54cm (0.5–1.0in)
+    bottom: 1.9  # cm — Must match CV. Suggested range: 1.27–2.54cm
+    left: 1.9  # cm — Must match CV. Suggested range: 1.27–2.54cm
+    right: 1.9  # cm — Must match CV. Suggested range: 1.27–2.54cm
+
+header:
+  name_font_size: 18  # pt — Must match CV name_font_size. Suggested range: 16–22pt
+  name_color: "#1F3864"  # Must match CV primary color for visual consistency. Options: "#1F3864" (navy), "#2E74B5" (steel blue), "#000000" (black)
+  name_case: upper  # Must match CV name_case. Options: upper, title, as-is
+  name_bold: true  # Must match CV name_bold
+  show_title: true  # Must match CV show_titles. Options: true, false
+  title_font_size: 10  # pt — Must match CV titles_font_size. Suggested range: 9–11pt
+  contact_font_size: 9  # pt — Must match CV contact_font_size. Suggested range: 9–10pt
+  links_font_size: 9  # pt — Must match CV links_font_size. Suggested range: 9–10pt
+  show_relocation: true  # Must match CV show_relocation
+  relocation_font_size: 9  # pt — Must match CV relocation_font_size
+  relocation_bold: true  # Must match CV relocation_bold
+
+date:
+  alignment: left  # Options: left, right. US business letter standard: left-aligned date. Right alignment is more European
+
+body:
+  paragraph_spacing_after: 120  # twips — Suggested range: 100–160 twips (≈5–8pt). US letters: 120–140 twips is standard. Matches double-space feel between paragraphs
+
+# US SIGN-OFF — "Sincerely," is the most formal; "Best regards," for slightly warmer tone.
+# English only. No local-language alternatives needed.
+sign_off:
+  closing_text: "Sincerely,"  # US alternatives: "Sincerely," (most formal), "Best regards," (professional/warm), "Kind regards," (professional), "Best," (casual — avoid for formal applications)
+  name_bold: true
+  name_color: "#1F3864"  # Must match CV primary color
+
+typography:
+  heading_font: Calibri  # Must match CV heading_font. Popular: Calibri, Arial, Georgia, Garamond, Cambria
+  body_font: Calibri  # Must match CV body_font
+  body_size: 10  # pt — Must match CV body_size. Suggested range: 10–11pt
+  line_spacing: 1.15  # Must match CV line_spacing. Suggested range: 1.0–1.15. Slightly more open than CV for readability
+
+colors:
+  primary: "#1F3864"  # Must match CV primary color for visual consistency
+  body: "#000000"
+  link: "#2E74B5"
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 3  # Suggested range: 3–4. US standard: 3 paragraphs (hook + fit + close) or 4 paragraphs (hook + fit + company + close)
+  max_paragraphs: 4  # Suggested range: 4–5. 4 paragraphs is the US sweet spot. 5 allowed for senior roles. Never >5
+  min_total_words: 200  # Suggested range: 200–250. US cover letters lean concise; even 200 words is acceptable for lean styles
+  max_total_words: 400  # Suggested range: 300–400. US standard: under 400 words strictly. Per Harvard Career Services: 250–400 words optimal. Never exceed 1 page

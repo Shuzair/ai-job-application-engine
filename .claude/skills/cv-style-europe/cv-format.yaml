@@ -1,0 +1,82 @@
+# CV Format Configuration — Europe Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4                    # A4 (210mm x 297mm) or Letter (216mm x 279mm)
+  margins:
+    top: 2.0                 # cm
+    bottom: 2.0
+    left: 2.0
+    right: 2.0
+
+header:
+  name_font_size: 16          # pt
+  name_color: "#2E74B5"
+  name_case: upper            # upper | title | as-is
+  name_bold: true
+  show_titles: true           # Show role titles below the name
+  titles_font_size: 10        # pt — role titles line
+  contact_font_size: 10       # pt — location / phone / email line
+  links_font_size: 10         # pt — LinkedIn / GitHub line
+  show_relocation: true
+  relocation_font_size: 10    # pt — relocation notice line
+  relocation_bold: true
+
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+  headings:                   # Display names — European English CV conventions
+    summary: "Professional Summary"
+    skills: "Skills"
+    experience: "Professional Experience"
+    education: "Education"
+    certifications: "Certifications"
+    languages: "Languages"
+  heading_case: upper         # upper | title | as-is
+  heading_bold: true
+  heading_underline: true     # Horizontal rule below heading
+  heading_size: 12            # pt
+  # section_types: map unknown section names to a layout
+  #   inline — items joined with separator on one line (like skills)
+  #   list   — each item as a bullet point
+  # Example:
+  #   section_types:
+  #     interests: inline
+  #     awards: list
+
+typography:
+  heading_font: Calibri       # Font for name and section headings
+  body_font: Calibri          # Font for body text, bullets, contact info
+  body_size: 10               # pt
+  line_spacing: 1.15          # multiplier (1.0 = single, 1.5 = 1.5x)
+
+skills:
+  separator: " · "            # Separator between skill items
+
+languages:
+  separator: " · "            # Separator between language entries
+
+experience:
+  show_company_description: true
+  max_bullets_per_role: 6     # Hard cap on bullets rendered per role
+
+colors:
+  primary: "#2E74B5"          # Name, hyperlinks
+  body: "#000000"             # Body text
+  link: "#2E74B5"
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40
+  summary_max_words: 100
+  max_bullet_words: 18
+  max_bullets_recent: 6
+  max_bullets_old: 3
+  max_pages: 2

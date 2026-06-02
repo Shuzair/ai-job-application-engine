@@ -1,0 +1,59 @@
+# Cover Letter Format Configuration — France Style
+# Complete, standalone visual configuration for French cover letters.
+# Each style has its own format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+#
+# Research sources:
+# - Novoresume French Resume Guide (2026)
+# - France Travail (formerly Pôle Emploi) application guidelines
+# - AFNOR NF Z 11-001 (French business correspondence norms)
+
+page:
+  size: A4                       # Must match CV format config. French standard
+  margins:
+    top: 2.0                     # cm — Suggested range: 2.0–2.5cm. Matches CV
+    bottom: 2.0                  # cm — Suggested range: 2.0–2.5cm
+    left: 2.0                    # cm — Suggested range: 2.0–2.5cm. AFNOR: minimum 2cm
+    right: 2.0                   # cm — Suggested range: 1.5–2.0cm
+
+header:
+  name_font_size: 16             # pt — Must match CV for visual consistency
+  name_color: "#1F3864"          # Must match CV. Popular in France: #1F3864 (dark navy)
+  name_case: upper               # Must match CV. Options: upper, title, as-is
+  name_bold: true
+  show_title: true               # Show role title below name
+  title_font_size: 10            # pt — Matches CV titles font size
+  contact_font_size: 10          # pt — Matches CV
+  links_font_size: 10            # pt — Matches CV
+  show_relocation: true          # Important for international candidates
+  relocation_font_size: 10       # pt
+  relocation_bold: true
+
+date:
+  alignment: right               # French convention: date on the right. Options: left, right
+
+body:
+  paragraph_spacing_after: 140   # twips between paragraphs. Suggested range: 100–160 twips. French letters have slightly more spacing
+
+sign_off:
+  closing_text: "Cordialement,"  # French standard professional closing. Alternatives: "Bien cordialement,", "Kind regards,"
+  name_bold: true
+  name_color: "#1F3864"          # Should match CV primary color
+
+typography:
+  heading_font: "Calibri"        # Must match CV heading font for visual consistency
+  body_font: "Calibri"           # Must match CV body font
+  body_size: 10                  # pt — Must match CV body size
+  line_spacing: 1.15             # Should match CV line spacing
+
+colors:
+  primary: "#1F3864"             # Must match CV. Dark navy — conservative French business style
+  body: "#000000"
+  link: "#1F3864"
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 2
+  max_paragraphs: 6
+  min_total_words: 250
+  max_total_words: 400                # Must match CV

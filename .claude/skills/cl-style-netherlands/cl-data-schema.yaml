@@ -1,0 +1,64 @@
+# JSON Schema (in YAML) for cl-data.yaml — Netherlands Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+        description: "LinkedIn URL — required in Dutch applications; LinkedIn is the primary professional network in the Netherlands"
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Optional relocation/work authorization statement — e.g. 'EU citizen, no work permit required' or 'Available to relocate to Amsterdam'"
+
+  date:
+    type: string
+    description: "Letter date — format: 'DD Month YYYY' for Dutch (e.g. '30 mei 2026') or 'Month DD, YYYY' for English (e.g. 'May 30, 2026'). Match language of the letter."
+
+  salutation:
+    type: string
+    description: "Dutch: 'Geachte heer [Surname],' / 'Geachte mevrouw [Surname],' / 'Geachte heer of mevrouw,' / 'Geachte sollicitatiecommissie,' / 'Beste [First Name],'. English: 'Dear Mr./Ms. [Surname],' / 'Dear Hiring Manager,' / 'Hi [First Name],' — match formality to letter tone and company culture."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 4
+    maxItems: 5
+    description: "4 paragraphs: (1) opening hook with specific company reference, (2) why I'm a good fit with quantified achievements, (3) why this company specifically, (4) close with call to action. Dutch letters are direct and concrete — no padding."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "Dutch: 'Met vriendelijke groet,' (standard) / 'Hoogachtend,' (very formal) / 'Met vriendelijke groeten,' (warmer) / 'Hartelijke groeten,' (informal). English: 'Kind regards,' / 'Yours sincerely,' / 'Best regards,'. Match language and formality of the letter opening."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

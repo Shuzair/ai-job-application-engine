@@ -1,0 +1,54 @@
+# Cover Letter Format Configuration — Europe Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4
+  margins:
+    top: 2.0
+    bottom: 2.0
+    left: 2.0
+    right: 2.0
+
+header:
+  name_font_size: 16          # pt — must match CV
+  name_color: "#2E74B5"
+  name_case: upper
+  name_bold: true
+  show_title: true            # Show role title below name
+  title_font_size: 10         # pt — role title line
+  contact_font_size: 10       # pt — phone / email line
+  links_font_size: 10         # pt — LinkedIn / GitHub line
+  show_relocation: true
+  relocation_font_size: 10    # pt — relocation notice line
+  relocation_bold: true
+
+date:
+  alignment: left             # left | right
+
+body:
+  paragraph_spacing_after: 120  # twips between paragraphs (120 ≈ 6pt)
+
+sign_off:
+  closing_text: "Kind regards,"  # default if data omits closing
+  name_bold: true
+  name_color: "#2E74B5"
+
+typography:
+  heading_font: Calibri       # Font for name heading
+  body_font: Calibri          # Font for body text, paragraphs, sign-off
+  body_size: 10
+  line_spacing: 1.15
+
+colors:
+  primary: "#2E74B5"
+  body: "#000000"
+  link: "#2E74B5"
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 2
+  max_paragraphs: 6
+  min_total_words: 250
+  max_total_words: 400

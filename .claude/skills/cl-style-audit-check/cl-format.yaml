@@ -1,0 +1,57 @@
+# Cover Letter Format Configuration — Audit Check Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4                    # [CUSTOMIZE: should match CV — A4 for Europe/Asia, Letter for US/Canada]
+  margins:
+    top: 2.0
+    bottom: 2.0
+    left: 2.0
+    right: 2.0
+
+header:
+  name_font_size: 16          # [CUSTOMIZE: must match CV name_font_size]
+  name_color: "#2E74B5"       # [CUSTOMIZE: must match CV primary color]
+  name_case: upper            # [CUSTOMIZE: must match CV name_case]
+  name_bold: true             # [CUSTOMIZE: must match CV name_bold]
+  show_title: true            # [CUSTOMIZE: true if CL header should show role title — must match CV show_titles]
+  title_font_size: 10         # [CUSTOMIZE: must match CV titles_font_size]
+  contact_font_size: 10       # [CUSTOMIZE: must match CV contact_font_size]
+  links_font_size: 10         # [CUSTOMIZE: must match CV links_font_size]
+  show_relocation: true       # [CUSTOMIZE: must match CV show_relocation]
+  relocation_font_size: 10    # [CUSTOMIZE: must match CV relocation_font_size]
+  relocation_bold: true       # [CUSTOMIZE: must match CV relocation_bold]
+
+date:
+  alignment: left             # [CUSTOMIZE: left | right — research local business letter date placement]
+
+body:
+  paragraph_spacing_after: 120 # [CUSTOMIZE: 100-140 twips typical; research local paragraph spacing norms]
+
+# [CUSTOMIZE: Research local business letter sign-off conventions.
+# Provide the standard local-language closing phrase AND English alternative.
+# Some cultures use formal titles; others use warm/informal closings.]
+sign_off:
+  closing_text: "Kind regards," # [CUSTOMIZE: research local sign-off phrase — provide local language + English option]
+  name_bold: true
+  name_color: "#2E74B5"
+
+typography:
+  heading_font: Calibri       # [CUSTOMIZE: must match CV heading_font — research locally popular fonts]
+  body_font: Calibri          # [CUSTOMIZE: must match CV body_font]
+  body_size: 10               # [CUSTOMIZE: must match CV body_size — 10-12pt typical]
+  line_spacing: 1.15          # [CUSTOMIZE: must match CV line_spacing]
+
+colors:
+  primary: "#2E74B5"          # [CUSTOMIZE: must match CV primary color]
+  body: "#000000"
+  link: "#2E74B5"
+
+# Validation limits for validate_output.py
+validation:
+  min_paragraphs: 2           # [CUSTOMIZE: research local cover letter paragraph count norms]
+  max_paragraphs: 6           # [CUSTOMIZE: research local cover letter paragraph count norms]
+  min_total_words: 250        # [CUSTOMIZE: research local cover letter length expectations]
+  max_total_words: 400        # [CUSTOMIZE: research local cover letter length expectations]

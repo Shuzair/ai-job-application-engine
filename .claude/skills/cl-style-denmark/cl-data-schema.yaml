@@ -1,0 +1,64 @@
+# JSON Schema (in YAML) for cl-data.yaml — Denmark Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+        description: "LinkedIn URL — required for Danish applications (58% of Danish companies check it)"
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Relocation statement for international candidates, e.g. 'Open to immediate relocation to Denmark'"
+
+  date:
+    type: string
+    description: "Letter date. English letters: 'May 28, 2026' or '28 May 2026'. Danish letters: '28. maj 2026'. Use the format matching the letter's language."
+
+  salutation:
+    type: string
+    description: "Danish addressing conventions: named recipient in English: 'Dear [First Name],' | named recipient in Danish: 'Kære [First Name],' | unknown recipient: 'Dear Hiring Manager,' or 'Kære ansættelsesansvarlige,' — first names are standard in Danish professional culture (flat-hierarchy norm)"
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 4
+    description: "3–4 body paragraphs. Structure: (1) Hook — specific company + role; (2) Why I'm a fit — 2-3 achievements with metrics; (3) Why this company — values/mission alignment + relocation if applicable; (4) Close — brief, warm call to action. Total: 300–400 words."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "Danish sign-off: 'Med venlig hilsen,' for Danish letters | 'Kind regards,' or 'Sincerely,' for English letters. Never abbreviate 'Med venlig hilsen' to 'Mvh' in first-contact letters."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

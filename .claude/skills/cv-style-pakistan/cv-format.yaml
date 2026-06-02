@@ -1,0 +1,90 @@
+# CV Format Configuration — Pakistan Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+#
+# Pakistan context: A4 is the universal standard. Conservative black-on-white
+# is traditional; subtle color is increasingly accepted in corporate/tech sectors.
+# Sources: ilm.com.pk, pakjobbazar.com, teezjobs.com, resumeflex.com (Tier 2)
+
+page:
+  size: A4  # A4 is the universal standard in Pakistan. Letter is not used domestically.
+  margins:
+    top: 2.54  # cm — No Pakistan-specific standard found; 1 inch (2.54cm) is the implied professional norm. Suggested range: 2.0–2.54cm
+    bottom: 2.54  # cm — Suggested range: 2.0–2.54cm. Matches top margin.
+    left: 2.54  # cm — Suggested range: 2.0–2.54cm. No formal standard (unlike DIN 5008).
+    right: 2.0  # cm — Suggested range: 1.5–2.54cm. Slightly narrower than left is acceptable.
+
+header:
+  name_font_size: 16  # pt — Suggested range: 14–20pt. Name should be "bold and highlighted" per ilm.com.pk; larger than all other text. 16pt is safe default.
+  name_color: "#1A1A1A"  # Traditional Pakistan CVs use black. Popular alternatives: "#1A1A1A" (near-black), "#1F3864" (dark navy for modern/tech), "#2E74B5" (steel blue). Conservative and government roles: use #000000.
+  name_case: title  # title is the implied standard — e.g. "Muhammad Ali Khan". Options: upper, title, as-is. Uppercase is not a documented Pakistani norm.
+  name_bold: true  # true is standard per ilm.com.pk: "write name in bold and highlighted font as the first line of the CV". Options: true, false.
+  show_titles: true  # true — a professional headline/title below the name is increasingly common in corporate and tech CVs. Options: true, false.
+  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary descriptor below name; should be noticeably smaller.
+  contact_font_size: 10  # pt — Suggested range: 9–11pt. Standard secondary text size matching body norms.
+  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn URL expected for professional/tech roles per professionalcv.pk.
+  show_relocation: true  # true — relevant when candidate is based outside the target city. Options: true, false.
+  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact/links size.
+  relocation_bold: true  # true — bold draws attention to availability/mobility. Options: true, false.
+
+# Pakistan section norms (per pakjobbazar.com, teezjobs.com, resumeflex.com — Tier 2):
+# Modern private-sector order: Summary → Skills → Certifications → Experience → Education → Languages
+# IT/tech CVs add Projects section (recommended by teezjobs.com for IT professionals).
+# References: "Available on request" is the modern standard — do NOT list named references inline.
+# Hobbies/Interests: not recommended for modern private-sector CVs; omit unless explicitly relevant.
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+  headings:
+    summary: "Professional Summary"   # "Career Objective" for fresh graduates with no experience
+    skills: "Skills"                  # Also seen: "Technical Skills", "Core Competencies", "Knowledge, Skills & Abilities"
+    experience: "Professional Experience"  # Also seen: "Work Experience", "Employment History"
+    education: "Education"            # Standard heading; no local-language alternative needed
+    certifications: "Certifications"  # Also seen: "Achievements & Certifications"
+    languages: "Languages"
+  heading_case: upper  # UPPER is standard in modern Pakistani CVs for section headings. Options: upper, title, as-is.
+  heading_bold: true  # true — bold headings are standard per ilm.com.pk. Options: true, false.
+  heading_underline: true  # true — ruled/underlined headings are common in Pakistani CVs. Options: true, false.
+  heading_size: 12  # pt — Suggested range: 11–14pt. ilm.com.pk uses 14pt bold for headings; 12pt is a conservative modern choice.
+  # section_types: map unknown section names to a layout
+  #   inline — items joined with separator on one line (like skills)
+  #   list   — each item as a bullet point
+  # section_types:
+  #   interests: inline
+  #   volunteer_work: list
+
+typography:
+  heading_font: Calibri  # Popular fonts in Pakistan: Calibri (modern standard), Arial (ATS-safe), Times New Roman (traditional/formal sectors), Cambria. Avoid decorative fonts — explicitly warned against by ilm.com.pk and teezjobs.com.
+  body_font: Calibri  # Should match or pair with heading_font. Popular body fonts: Calibri, Arial, Times New Roman. Calibri is widely recommended as modern yet professional.
+  body_size: 11  # pt — Suggested range: 10–12pt. ilm.com.pk sets body at 12pt; pakjobbazar.com and resumeflex.com suggest 10–12pt. 11pt is the safe middle ground.
+  line_spacing: 1.15  # resumeflex.com explicitly recommends 1.15 to "avoid a cramped appearance". Suggested range: 1.0–1.15.
+
+skills:
+  separator: " · "  # Middle dot is standard for inline skill lists. Options: " · " (middle dot), " | " (pipe), ", " (comma).
+
+languages:
+  separator: " · "  # Matches skills separator for visual consistency.
+
+experience:
+  show_company_description: true  # true — one-line company descriptor is helpful for ATS and recruiter context. Options: true, false.
+  max_bullets_per_role: 5  # Suggested range: 4–6. Pakistan CVs target max 2 pages; 5 bullets for recent roles is appropriate. Use fewer for older roles.
+
+colors:
+  primary: "#1A1A1A"  # Traditional/conservative: near-black or pure black. Modern/tech: "#2E74B5" (steel blue), "#1F3864" (dark navy), "#2C3E50" (charcoal). Multiple sources advise minimal color use for ATS compatibility.
+  body: "#000000"     # Black body text is standard across all Pakistani CV guides.
+  link: "#2E74B5"     # Subtle blue for hyperlinks. Alternatives: "#1A1A1A" (black, fully conservative), "#1F3864" (dark navy).
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40   # Experienced professionals: 2–4 lines of substance. Suggested range: 30–60.
+  summary_max_words: 90   # Pakistan cover letters are concise; summary should be focused. Suggested range: 70–100.
+  max_bullet_words: 18    # "Concise, achievement-focused" per all Pakistani guides. Suggested range: 15–20.
+  max_bullets_recent: 5   # Recent roles: up to 5 bullets to stay within 2-page limit. Suggested range: 4–6.
+  max_bullets_old: 3      # Older roles should be brief: 2–3 bullets. Suggested range: 2–3.
+  max_pages: 2            # Max 2 pages is universally stated across all Pakistani sources. 1 page for fresh graduates.

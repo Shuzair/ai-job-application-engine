@@ -1,0 +1,84 @@
+# CV Format Configuration — USA Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+# NOTE: In the US, this document is called a "resume" not a "CV" for non-academic positions.
+
+page:
+  size: Letter  # US standard paper size — 8.5×11 inches (21.59×27.94cm). Never use A4 for US applications.
+  margins:
+    top: 1.27  # cm — Suggested range: 1.27–2.54cm (0.5–1.0in). US default: ~2cm (0.75in). Tighter margins help fit content on 1 page
+    bottom: 1.27  # cm — Suggested range: 1.27–2.54cm. Match top margin
+    left: 1.27  # cm — Suggested range: 1.27–2.54cm. US standard: 1.0in=2.54cm; many use 0.75in=1.9cm
+    right: 1.27  # cm — Suggested range: 1.27–2.54cm. Match left margin
+
+header:
+  name_font_size: 16  # pt — Suggested range: 16–22pt. US resumes typically have large, prominent names
+  name_color: "#1F3864"  # Popular US professional colors: "#1F3864" (dark navy), "#2E74B5" (steel blue), "#1A1A2E" (deep navy), "#000000" (black). Tech companies often use black; finance prefers navy
+  name_case: upper  # Options: upper, title, as-is. US norm: upper or title. All-caps is very common in US resumes
+  name_bold: true  # Options: true, false. Always true in US resumes — name must stand out
+  show_titles: true  # Options: true, false. True — professional headline below name is standard in US tech/corporate resumes
+  titles_font_size: 9  # pt — Suggested range: 9–11pt. Secondary text, smaller than name
+  contact_font_size: 9  # pt — Suggested range: 9–10pt. US resumes often keep contact line compact on one row
+  links_font_size: 9  # pt — Suggested range: 9–10pt. Match contact font size
+  show_relocation: false  # Options: true, false. True — "Open to relocation" is common and valued in US applications
+  relocation_font_size: 9  # pt — Suggested range: 9–10pt. Match contact/links size
+  relocation_bold: true  # Options: true, false. Bold draws attention to availability
+
+# USA SECTIONS — No photo, DOB, nationality, marital status (illegal to request under EEO laws).
+# Projects section included — US tech market highly values side projects and portfolio work.
+# Interests/hobbies: omitted — not expected in US tech/corporate resumes.
+# References: omit entirely — "References available upon request" is outdated; they are assumed.
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - projects
+    - education
+    - languages
+  headings:                   # Display names for section headings. US English, no translations needed.
+    summary: "Professional Summary"
+    skills: "Technical Skills"  # "Technical Skills" is the US standard heading for tech roles
+    experience: "Professional Experience"
+    projects: "Projects"  # Side projects, open source, portfolio — valued in US tech market
+    education: "Education"
+    certifications: "Certifications"
+    languages: "Languages"
+  heading_case: upper  # Options: upper, title, as-is. All-caps section headings are the US standard (e.g. EXPERIENCE, EDUCATION)
+  heading_bold: true  # Options: true, false. Always bold in US resumes
+  heading_underline: true  # Options: true, false. Horizontal rule under headings is standard in US resumes
+  heading_size: 10  # pt — Suggested range: 10–13pt. Section headings slightly larger than body
+  section_types:
+    projects: list  # Projects as bulleted list entries
+
+typography:
+  heading_font: Calibri  # Popular US resume fonts: Calibri, Arial, Georgia, Garamond, Cambria, Helvetica, Times New Roman. Calibri and Arial dominate for ATS compatibility
+  body_font: Calibri  # Popular choices: Calibri, Arial, Georgia, Garamond. Match or pair with heading font. Calibri is the most ATS-safe choice
+  body_size: 9  # pt — Suggested range: 10–11pt. US standard: 10–11pt. Never below 10pt (readability). 11pt reads well for 1-page resumes
+  line_spacing: 1.0  # Suggested range: 1.0–1.15. US resumes favor compact spacing to maximize content on 1 page
+
+skills:
+  separator: " · "  # Options: " · " (middle dot), " | " (pipe), ", " (comma). Middle dot and pipe are both common in US tech resumes; avoid comma (looks like a list within a list)
+
+languages:
+  separator: " · "  # Separator between language entries
+
+experience:
+  show_company_description: true  # Options: true, false. True — brief company descriptor is standard in US resumes for lesser-known companies. Omit for FAANG/top-tier companies
+  max_bullets_per_role: 5  # Suggested range: 4–6. US standard: 4–5 for recent roles, 2–3 for older. Never exceed 6. Quality over quantity
+
+colors:
+  primary: "#1F3864"  # Popular US professional colors: "#1F3864" (dark navy), "#2E74B5" (steel blue), "#1A365D" (classic navy), "#2C3E50" (charcoal), "#000000" (black for conservative/finance roles)
+  body: "#000000"             # Body text — always black in US resumes
+  link: "#2E74B5"  # Steel blue for hyperlinks — matches primary if using blue theme
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # Suggested range: 40–60. US summaries tend to be concise but substantive
+  summary_max_words: 80  # Suggested range: 60–100. 3-4 sentences. US recruiters spend ~7 seconds on first pass — be crisp
+  max_bullet_words: 20  # Suggested range: 15–20. US norm: strong action verb + impact + metric in one line. Ideal 15–18 words
+  max_bullets_recent: 5  # Suggested range: 4–6. US standard: 4–5 for current/recent roles
+  max_bullets_old: 3  # Suggested range: 2–3. Older roles get fewer bullets. 2-3 max for roles >5 years ago
+  max_pages: 2  # Options: 1 (entry-level / <10 yrs), 2 (10+ yrs experience). Per Indeed/LinkedIn guidelines: 2 pages acceptable for senior tech candidates. Never 3+ for non-academic roles

@@ -1,0 +1,65 @@
+# JSON Schema (in YAML) for cl-data.yaml — Pakistan Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+#
+# Pakistan norms: 3–4 paragraphs, 180–350 words, formal English,
+# British Commonwealth sign-off conventions.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+
+  date:
+    type: string
+    description: "Letter date in British-style format: 'DD Month YYYY' (e.g. '29 May 2026'). Placed at top-left per Pakistani formal letter convention."
+
+  salutation:
+    type: string
+    description: "Preferred: 'Dear Mr./Ms. [Last Name],' when name is known. Otherwise: 'Dear Hiring Manager,' (modern) or 'Respected Sir,' / 'Respected Ma'am,' (traditional/formal). Avoid 'To Whom It May Concern'."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 4
+    description: "3–4 body paragraphs: (1) opening with role/source/company name, (2) achievements + fit, (3) why this company, (4) close with CTA. Total 180–350 words."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "'Yours sincerely,' when recipient is named. 'Yours faithfully,' when unnamed (Dear Hiring Manager / Dear Sir/Madam). 'Respectfully yours,' for government/NGO/academic roles."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

@@ -1,0 +1,64 @@
+# JSON Schema (in YAML) for cl-data.yaml — Lithuania Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+        description: "Include country code"
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Relocation statement — include when applying from abroad"
+
+  date:
+    type: string
+    description: "Letter date — format: 'Month DD, YYYY' (e.g. 'May 29, 2026'). Left-aligned per European and Europass convention"
+
+  salutation:
+    type: string
+    description: "Use 'Dear Mr./Ms. [Surname],' if name known; 'Dear Hiring Team,' if unknown. Lithuanian: 'Gerbiamas Ponas/Ponia [Surname],' or 'Gerbiami,'"
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 4
+    description: "Body paragraphs — exactly 3-4 paragraphs per Lithuanian cover letter convention. Total 250-400 words."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "Lithuanian: 'Pagarbiai,' — universal professional closing. English: 'Kind regards,' or 'Yours sincerely,'"
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

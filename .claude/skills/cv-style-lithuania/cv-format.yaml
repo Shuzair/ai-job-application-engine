@@ -1,0 +1,85 @@
+# CV Format Configuration — Lithuania Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # Standard across all of Europe; confirmed for Lithuania
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. Lithuanian sources cite "1-inch margins" (≈2.54cm) as the recommended standard
+    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Matches top margin per Lithuanian CV guides
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. "1-inch margin on all sides" cited explicitly
+    right: 2.0  # cm — Suggested range: 1.5–2.0cm. Slightly smaller than left is acceptable
+
+header:
+  name_font_size: 16  # pt — Suggested range: 16–20pt. Lithuanian CVs follow European norm: large bold name at top
+  name_color: "#1B2A4A"  # Popular in Lithuania: #1B2A4A (dark navy), #2E74B5 (steel blue), #2C3E50 (charcoal). Conservative markets prefer darker tones
+  name_case: upper  # Options: upper, title, as-is. Uppercase is common in European CVs; Lithuania sources show uppercase names
+  name_bold: true  # Options: true, false. Bold name is standard across all European CV formats
+  show_titles: true  # Options: true, false. Professional headline below name is expected in Lithuanian CVs
+  titles_font_size: 9  # pt — Suggested range: 9–11pt. Secondary text, smaller than name
+  contact_font_size: 9  # pt — Suggested range: 9–10pt. Standard secondary text size
+  links_font_size: 9  # pt — Suggested range: 9–10pt. LinkedIn is expected; GitHub for tech roles
+  show_relocation: false  # Options: true, false. Lithuania sources explicitly note relocation readiness is relevant for international candidates
+  relocation_font_size: 9  # pt — Suggested range: 9–10pt. Matches contact/links size
+  relocation_bold: true  # Options: true, false. Bold draws attention to availability for relocation
+
+# Lithuania section order: Personal Info (in header), Summary (Profesinis tikslas), Skills (Įgūdžiai),
+# Experience (Darbo patirtis), Education (Išsilavinimas), Certifications, Languages (Kalbos),
+# Interests/Hobbies (Pomėgiai — REQUIRED per Lithuanian Employment Service), References (Rekomendacijos)
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+    - interests    # Pomėgiai — explicitly listed as required by Lithuanian Employment Service
+    - references   # Rekomendacijos — standard section per official Lithuanian Employment Service guidance
+  headings:
+    summary: "Professional Summary"       # Profesinis tikslas
+    skills: "Skills"                      # Įgūdžiai
+    experience: "Professional Experience" # Darbo patirtis
+    education: "Education"                # Išsilavinimas
+    certifications: "Certifications"
+    languages: "Languages"                # Kalbos
+    interests: "Interests"                # Pomėgiai
+    references: "References"              # Rekomendacijos
+  heading_case: upper  # Options: upper, title, as-is. Uppercase section headings are standard in European CVs including Lithuania
+  heading_bold: true  # Options: true, false. Bold headings are universal in CV formats
+  heading_underline: true  # Options: true, false. Ruled headings with horizontal line are standard in European CVs
+  heading_size: 11  # pt — Suggested range: 11–13pt. Lithuanian CVs follow European norm for section headers
+  section_types:
+    interests: list    # Pomėgiai listed as comma/dot-separated keywords, not full sentences
+    references: paragraph  # Rekomendacijos: either "Available upon request" or actual names/contact
+
+typography:
+  heading_font: Arial  # Popular fonts in Lithuania: Arial (most cited), Calibri, Times New Roman, Tahoma, Cambria
+  body_font: Arial  # Matches heading font. Arial is the most frequently cited font for Lithuanian CVs
+  body_size: 9  # pt — Suggested range: 10–12pt. Lithuanian sources cite 10-12pt; 11pt is the practical midpoint for A4 readability
+  line_spacing: 1.15  # Suggested range: 1.0–1.15. Lithuanian sources explicitly cite 1.0 or 1.15; dense paragraphs noted as a mistake to avoid
+
+skills:
+  separator: " | "  # Options: " · " (middle dot), " | " (pipe), ", " (comma). Middle dot is clean and widely used in European CVs
+
+languages:
+  separator: " | "  # Separator between language entries; matches skills separator for visual consistency
+
+experience:
+  show_company_description: true  # Options: true, false. Optional but acceptable in Lithuanian CVs; brief one-liner for context is fine
+  max_bullets_per_role: 5  # Suggested range: 3–5. Lithuanian CV max 2 pages + 10-word bullet preference = 5 bullets for recent roles
+
+colors:
+  primary: "#1B2A4A"  # Popular in Lithuania: #1B2A4A (dark navy), #2E74B5 (steel blue), #2C3E50 (charcoal), #2E6E6E (muted teal for tech). Conservative palette preferred
+  body: "#000000"     # Body text — standard black
+  link: "#2E74B5"     # Link color — steel blue; safe and professional
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40   # Suggested range: 30–50. Lithuanian CVs include a short Profesinis tikslas (2-3 lines)
+  summary_max_words: 80   # Suggested range: 60–100. Concise summary; Lithuanian preference for directness limits length
+  max_bullet_words: 18    # Suggested range: 15–20. Lithuanian sources note preference for concise, fact-based bullets; 18 words balances detail and directness
+  max_bullets_recent: 5   # Suggested range: 4–5. Recent roles: 3–5 bullets per Lithuanian CV norms
+  max_bullets_old: 3      # Suggested range: 2–3. Older roles should be briefer
+  max_pages: 2            # 1 page for <10 years experience; 2 pages maximum for senior professionals — per Lithuanian Employment Service and recruiter guidance

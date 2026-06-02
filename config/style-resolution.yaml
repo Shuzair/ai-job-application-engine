@@ -1,0 +1,121 @@
+# Style Resolution Configuration
+# Maps countries to regions for automatic style skill selection.
+#
+# Resolution order (first match wins):
+#   1. Explicit Style field in input.md → cv-style-{value} / cl-style-{value}
+#   2. Country from Location → cv-style-{country} / cl-style-{country}
+#   3. Region lookup → cv-style-{region} / cl-style-{region}
+#   4. Default → cv-style-default / cl-style-default
+#
+# Each style skill is a COMPLETE, self-contained set of rules.
+# Only one CV style and one CL style is loaded per application.
+#
+# Naming convention:
+#   CV styles: cv-style-{identifier}  (skill folder: .claude/skills/cv-style-{identifier}/)
+#   CL styles: cl-style-{identifier}  (skill folder: .claude/skills/cl-style-{identifier}/)
+regions:
+  europe:
+    countries:
+    - germany
+    - netherlands
+    - belgium
+    - denmark
+    - sweden
+    - norway
+    - finland
+    - austria
+    - switzerland
+    - france
+    - spain
+    - portugal
+    - italy
+    - ireland
+    - uk
+    - united-kingdom
+    - poland
+    - czech-republic
+    - czechia
+    - romania
+    - hungary
+    - greece
+    - croatia
+    - luxembourg
+    - estonia
+    - latvia
+    - lithuania
+    - slovakia
+    - slovenia
+    - bulgaria
+    - cyprus
+    - malta
+    - iceland
+  middle-east:
+    countries:
+    - saudi-arabia
+    - uae
+    - united-arab-emirates
+    - qatar
+    - bahrain
+    - kuwait
+    - oman
+    - jordan
+    - egypt
+    - israel
+    - turkey
+    - lebanon
+  north-america:
+    countries:
+    - usa
+    - united-states
+    - canada
+    - mexico
+  asia-pacific:
+    countries:
+    - india
+    - pakistan
+    - singapore
+    - australia
+    - new-zealand
+    - japan
+    - south-korea
+    - china
+    - hong-kong
+    - taiwan
+    - malaysia
+    - indonesia
+    - philippines
+    - thailand
+    - vietnam
+    - bangladesh
+    - sri-lanka
+  latin-america:
+    countries:
+    - brazil
+    - argentina
+    - chile
+    - colombia
+    - peru
+    - uruguay
+    - costa-rica
+    - panama
+    - ecuador
+  africa:
+    countries:
+    - ethiopia
+    - ghana
+    - kenya
+    - morocco
+    - nigeria
+    - rwanda
+    - south-africa
+    - tanzania
+    - tunisia
+aliases:
+  eu: europe
+  mena: middle-east
+  gcc: middle-east
+  apac: asia-pacific
+  na: north-america
+  latam: latin-america
+  worldwide: default
+  global: default

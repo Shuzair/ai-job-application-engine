@@ -1,0 +1,62 @@
+# JSON Schema (in YAML) for cl-data.yaml — Germany Style (Anschreiben)
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+
+  date:
+    type: string
+    description: "Letter date with city. German format: 'Berlin, 29. Mai 2026' or 'Frankfurt, 29.05.2026' (city, day. Month YYYY). City before date is DIN 5008 standard. Right-aligned in rendered document."
+
+  salutation:
+    type: string
+    description: "German: 'Sehr geehrter Herr [Nachname],' (male) / 'Sehr geehrte Frau [Nachname],' (female) / 'Sehr geehrte Damen und Herren,' (unknown). English: 'Dear [Name],' or 'Dear Hiring Team,'. Named contact strongly preferred — research from job posting/LinkedIn."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 4
+    maxItems: 5
+    description: "Body paragraphs. German Anschreiben: 4–5 paragraphs, 250–400 words total, one A4 page maximum. Structure: 1) Opening hook (do not start with Ich), 2) Why a good fit with quantified achievements, 3) Why this company (research-based), 4) Close with interview availability. Paragraph 5 optional for context (work permit, career change)."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "German formal standard: 'Mit freundlichen Grüßen,' — warmer option: 'Mit herzlichen Grüßen,' — most formal (banking/law): 'Hochachtungsvoll,' — English: 'Kind regards,' or 'With warm regards,'. Use German sign-off for German-language letters, English for English letters."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
