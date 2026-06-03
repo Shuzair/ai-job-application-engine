@@ -1,0 +1,63 @@
+# JSON Schema (in YAML) for cl-data.yaml — Qatar Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Relocation or QID status statement — e.g. 'Valid QID – NOC available', 'Open to immediate relocation to Qatar', or 'Currently based in Lahore — available immediately'"
+
+  date:
+    type: string
+    description: "Letter date in British format: DD Month YYYY (e.g. '2 June 2026'). Right-aligned per British business letter convention."
+
+  salutation:
+    type: string
+    description: "Qatar addressing: 'Dear Mr./Ms. [Surname],' (named — preferred); 'Dear Sir/Madam,' or 'Dear Hiring Manager,' (unnamed — both acceptable); 'Dear Hiring Committee,' (formal/government); 'Assalamu alaikum,' (Qatari-owned organisations/government). NEVER use 'To Whom It May Concern' — explicitly discouraged in Qatar."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 4
+    description: "Body paragraphs — 3 to 4 paragraphs, 250–400 words total. Structure: (1) opening — role statement, company hook, referral if applicable; (2) fit — 2–3 quantified achievements tied to JD requirements with JD terminology; (3) why this company — specific research-backed motivation + Qatar/relocation readiness; (4) close — call to action, availability, thank-you."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "Qatar sign-off: 'Yours sincerely,' (named recipient); 'Yours faithfully,' (unnamed); 'Best regards,' (multinational/QFC); 'Respectfully yours,' (formal/government). Arabic: 'مع خالص التحية والتقدير'"
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

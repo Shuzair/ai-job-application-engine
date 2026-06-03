@@ -1,0 +1,91 @@
+# CV Format Configuration — Dubai Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # A4 is the UAE standard. US Letter is understood but not preferred. Sources: Labeeb.ae, GulfTalent
+  margins:
+    top: 2.0  # cm — Suggested range: 1.5–2.5cm. Labeeb.ae specifies minimum 1.5cm; below 1cm risks text cutoff on UAE government portal printouts. 2.0cm is a safe professional default.
+    bottom: 2.0  # cm — Suggested range: 1.5–2.5cm. Matches top margin.
+    left: 2.0  # cm — Suggested range: 1.5–2.5cm. No UAE-specific left margin standard (unlike DIN 5008 in Germany); 2.0cm is widely used.
+    right: 1.8  # cm — Suggested range: 1.5–2.0cm. Slightly narrower than left is acceptable and common.
+
+header:
+  name_font_size: 18  # pt — Suggested range: 16–20pt. Name must stand out clearly above body text. UAE professional CVs use 16–20pt bold; 18pt is the standard middle ground (per Labeeb.ae header conventions).
+  name_color: "#1F3864"  # Dark navy — conservative professional standard in UAE/GCC. Popular UAE CV accent colors: "#1F3864" (dark navy, formal/finance), "#2C3E50" (charcoal blue, corporate), "#2E4057" (steel blue-grey, modern), "#2E74B5" (steel blue, tech/international). Black (#000000) is also acceptable for fully ATS-safe output.
+  name_case: upper  # Bold uppercase is the UAE professional standard for CV headers. Options: upper, title, as-is. Per Labeeb.ae and GulfTalent conventions, uppercase + bold is most common.
+  name_bold: true  # Bold name is standard in UAE CVs across all reviewed sources.
+  show_titles: true  # Professional headline below name is standard in UAE CVs — positions the candidate at a glance.
+  titles_font_size: 11  # pt — Suggested range: 10–12pt. Sub-header title sits below the name; slightly smaller than name, clearly readable. Often styled in accent color or italic.
+  contact_font_size: 10  # pt — Suggested range: 9–10pt. Contact line (email, phone, location) at secondary text size.
+  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn, GitHub links; same size as contact info.
+  show_relocation: true  # Relocation/visa status line is functionally mandatory in UAE CVs. Per Labeeb.ae 2026: vague availability is treated as no availability by UAE employers assessing sponsorship requirements. Always show.
+  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact info size.
+  relocation_bold: true  # Bold draws attention to visa status and availability — critical information for UAE recruiters.
+  photo:
+    enabled: true  # Photos are expected for most UAE/Dubai applications. Required for customer-facing roles (hospitality, aviation, retail); strongly recommended for local/traditional companies. Optional for MNCs and senior roles. Sources: GulfTalent, Labeeb.ae, Rezumea, Kudoswall.
+    width: 3.0  # cm — Suggested range: 2.5–3.5cm. Standard professional headshot width for UAE CVs.
+    height: 3.5  # cm — Suggested range: 3.0–4.0cm. Square or slight portrait format is standard; avoid overly long formats.
+    shape: rectangle  # Standard shape for UAE professional CVs. Options: rectangle, rounded-rectangle, circle. Rectangle is most ATS-safe and most widely used.
+    position: top-right  # Standard placement in UAE/GCC CVs — top-right corner of the header, aligned with the name block on the left.
+    border: false  # Clean borderless headshot preferred in UAE professional context.
+
+# UAE/Dubai section order per research consensus (Labeeb.ae, Rezumea, GulfTalent, Bayt.com):
+# Summary → Skills → Experience → Education → Certifications → Languages
+# Skills block appears before Experience — UAE recruiters use it as a quick-scan filter before reading work history.
+# Projects and Interests are optional additions for tech roles and culture-fit signaling respectively.
+sections:
+  order:
+    - summary
+    - skills
+    - experience
+    - education
+    - certifications
+    - languages
+  headings:
+    summary: "Professional Summary"  # Standard English heading used across UAE job market
+    skills: "Core Skills"  # "Core Skills" or "Key Competencies" — both are standard UAE labels; flat 8-12 skill lists are widely used
+    experience: "Professional Experience"  # Standard. Alternative: "Work Experience" (also acceptable in UAE context)
+    education: "Education & Qualifications"  # "Education & Qualifications" signals awareness of UAE's attestation norms
+    certifications: "Certifications & Licenses"  # "& Licenses" added because UAE roles often require professional licenses (RERA, DHA, DFSA)
+    languages: "Languages"  # Arabic is a significant differentiator — this section matters more in UAE than in most Western markets
+    projects: "Projects"  # Optional — for tech/engineering roles where applied skills matter
+    interests: "Interests"  # Optional — UAE relationship culture; include if candidate has strong culture-fit signals
+  heading_case: upper  # Section headings in uppercase is the UAE standard — gives clean visual hierarchy and is widely used across reviewed sources.
+  heading_bold: true  # Bold headings are standard in UAE professional CVs.
+  heading_underline: true  # Horizontal rule below headings is a common UAE CV design choice for clear section separation.
+  heading_size: 12  # pt — Suggested range: 11–14pt. 12pt is a balanced choice — visible but not dominant. Some UAE CVs use 13-14pt for headings.
+  section_types:
+    interests: inline  # Comma-separated list — concise culture-fit signal
+    projects: list    # Each project as a structured entry
+
+typography:
+  heading_font: Calibri  # Calibri is the top-ranked ATS-safe font for UAE job market per Labeeb.ae. Popular UAE professional fonts: Calibri (top pick), Arial, Tahoma, Helvetica, Cambria, Times New Roman. Avoid: Montserrat, Raleway, Lato, Google Fonts — cause ATS character-recognition failures in UAE government portals.
+  body_font: Calibri  # Matches heading font. Calibri is universally recommended for UAE ATS compatibility per Labeeb.ae.
+  body_size: 11  # pt — Suggested range: 10–12pt. 10–11pt preferred for ATS per Labeeb.ae; 11pt is the recommended balance of readability and content density for UAE recruiters.
+  line_spacing: 1.15  # Labeeb.ae explicitly recommends 1.15 as the optimal ATS-safe line spacing for UAE job applications. Range: 1.0–1.5. Single (1.0) is also used but 1.15 is the safest balance.
+
+skills:
+  separator: " · "  # Middle dot separator is the most widely used in UAE professional CVs. Options: " · " (middle dot), " | " (pipe), ", " (comma). Middle dot is clean and ATS-safe.
+
+languages:
+  separator: " · "  # Separator between language entries — matches skills separator for visual consistency.
+
+experience:
+  show_company_description: true  # GulfTalent explicitly recommends including a one-line company descriptor for employers not widely recognized in the UAE market — helps recruiters unfamiliar with international companies assess scope and relevance.
+  max_bullets_per_role: 6  # Current/most recent role: 4–6 bullets (per Labeeb.ae). Older roles: 2–3. Very early career: 1–2.
+
+colors:
+  primary: "#1F3864"  # Dark navy — conservative professional standard for UAE/GCC market. Popular alternatives: "#2C3E50" (charcoal blue), "#2E4057" (steel blue-grey), "#2E74B5" (steel blue), "#4A4A4A" (dark charcoal). Avoid: UAE flag green (#00732F) — culturally significant, inappropriate as a design accent in professional documents.
+  body: "#000000"  # Black body text — mandatory for full ATS compatibility. Multi-color body text explicitly listed as ATS-breaking by Labeeb.ae.
+  link: "#1F3864"  # Links match primary color for visual consistency.
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # UAE professional summaries are 3-6 lines; 40 words is the practical minimum for substantive content.
+  summary_max_words: 80  # UAE employers prefer concise, achievement-dense summaries. 80 words fits comfortably in 3-5 lines at 11pt Calibri. Avoid verbose narrative-style summaries.
+  max_bullet_words: 30  # UAE bullet formula: action verb + scope + quantified result. Target 20-30 words per bullet per Labeeb.ae. 30-word limit enforces the "1-2 lines maximum" rule.
+  max_bullets_recent: 6  # Per Labeeb.ae: 4-6 bullets for the current/most recent role.
+  max_bullets_old: 3  # Older roles should be briefer; 2-3 bullets per GulfTalent and Labeeb.ae guidance.
+  max_pages: 2  # Per Labeeb.ae 2026: 1 page (0-3 years), 2 pages (4-10 years), up to 3 pages (10+ years). 2 pages is the safe default for mid-career professionals.

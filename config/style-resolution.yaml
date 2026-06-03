@@ -110,6 +110,8 @@ regions:
     - south-africa
     - tanzania
     - tunisia
+  dubai:
+    countries: []
 aliases:
   eu: europe
   mena: middle-east
@@ -119,3 +121,6 @@ aliases:
   latam: latin-america
   worldwide: default
   global: default
+
+  uae: dubai
+  united-arab-emirates: dubai

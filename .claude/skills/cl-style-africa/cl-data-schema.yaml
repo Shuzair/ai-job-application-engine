@@ -1,6 +1,7 @@
-# JSON Schema (in YAML) for cl-data.yaml — Germany Style
+# JSON Schema (in YAML) for cl-data.yaml — Africa Style
 # Validates structured cover letter data produced by the cl-agent.
 # Each style has its own complete schema. No inheritance.
+# Covers English-language African markets: South Africa, Nigeria, Kenya, Ghana, Rwanda, Ethiopia.
 
 type: object
 required: [header, date, salutation, paragraphs, sign_off]
@@ -28,21 +29,22 @@ properties:
         type: string
       relocation:
         type: string
+        description: "Relocation note — include if applying cross-border"
 
   date:
     type: string
-    description: "Letter date. English format: 'Month DD, YYYY' (e.g., 'June 2, 2026'). German format: 'City, DD.MM.YYYY' (e.g., 'Berlin, 02.06.2026') or 'City, D. Monat YYYY' (e.g., 'Berlin, 2. Juni 2026'). Match the language of the posting"
+    description: "Letter date in British format: '5 September 2025' — day (no ordinal), full month name, year. No abbreviations."
 
   salutation:
     type: string
-    description: "Formal address. English: 'Dear Hiring Team,' or 'Dear Mr/Ms [Surname],'. German: 'Sehr geehrte Damen und Herren,' or 'Sehr geehrte/r Frau/Herr [Nachname],'. Always use formal 'Sie' — never 'du'"
+    description: "Named contact: 'Dear Ms Naidoo,' or 'Dear Mr Okonkwo,' — surname with title. Unknown: 'Dear Hiring Manager,' (preferred). Government/traditional: 'Dear Sir/Madam,' (acceptable). Never: 'To Whom It May Concern'"
 
   paragraphs:
     type: array
     items: { type: string }
-    minItems: 3
+    minItems: 4
     maxItems: 4
-    description: "Body paragraphs. German Anschreiben: 3-4 paragraphs, strictly one A4 page"
+    description: "Exactly 4 paragraphs: (1) opening/hook, (2) why I'm a fit with metrics, (3) why this company, (4) closing call-to-action. 300–400 words total. British English spelling."
 
   sign_off:
     type: object
@@ -51,7 +53,7 @@ properties:
     properties:
       closing:
         type: string
-        description: "English: 'Kind regards,'. German: 'Mit freundlichen Grüßen' (no comma — per DIN 5008). Match the language of the posting"
+        description: "Closing phrase: 'Kind regards,' (modern, pan-African), 'Yours sincerely,' (named addressee — British convention), 'Yours faithfully,' (unnamed addressee — SA convention), 'Best regards,' (Nigeria/Kenya corporate)"
       name:
         type: string
       title:

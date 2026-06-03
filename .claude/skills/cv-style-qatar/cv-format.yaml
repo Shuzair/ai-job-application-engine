@@ -1,0 +1,94 @@
+# CV Format Configuration — Qatar Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # GCC universal standard. No source in Qatar/Gulf recommends Letter size. A4 (210×297mm).
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. MenaJobs recommends 2–2.5cm for Qatar CVs; ResumeFlex recommends ~2.54cm (1 inch)
+    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Typically matches top margin
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. MenaJobs recommends 2–2.5cm
+    right: 2.0  # cm — Suggested range: 1.5–2.0cm. Can be slightly smaller than left
+
+header:
+  name_font_size: 18  # pt — Suggested range: 16–22pt. Qatar sources consistently say "large, clear font" for the name. 18pt is the safe midpoint for a prominent but professional header
+  name_color: "#8D1B3D"  # Qatar maroon — the national color, explicitly recommended as a culturally appropriate CV accent (MenaJobs). Alternatives: "#1F3864" (dark navy), "#2C3E50" (charcoal blue), "#000000" (black). Government/conservative sectors prefer navy or black
+  name_case: upper  # Options: upper, title, as-is. Both upper and title case are acceptable in Qatar professional CVs; upper is more common
+  name_bold: true  # Options: true, false. True is universal across GCC markets
+  show_titles: true  # Options: true, false. A professional headline below the name is standard in Qatar CVs
+  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary text, noticeably smaller than name
+  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard secondary text size for contact block
+  links_font_size: 10  # pt — Suggested range: 9–10pt. Same size as contact info
+  show_relocation: true  # Options: true, false. Relocation statements and QID/visa status are practically expected for international applicants in Qatar
+  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Typically matches contact/links size
+  relocation_bold: true  # Options: true, false. Bold draws attention to QID status or relocation availability
+
+  # Photo is expected across most Qatar sectors (local employers, oil & gas, hospitality, finance, healthcare, government).
+  # Exception: multinational/QFC-registered companies with global HR standards may not require or want a photo.
+  # Safe default: include unless applying to a visibly Western/international company (e.g., Shell QFC, Siemens).
+  # Passport-style headshot: formal attire, white or neutral background, professional expression.
+  photo:
+    enabled: true
+    width_cm: 3.0  # Suggested range: 2.5–3.5cm. Passport-style photo width
+    height_cm: 3.5  # Suggested range: 3.0–4.0cm. Standard passport photo height ratio
+    position: top-right  # Standard placement in GCC/Qatar CV templates
+
+# Qatar CV section order — mainstream local/semi-government/oil & gas market.
+# For fresh graduates (0–3 years): swap experience and education (place education before experience).
+sections:
+  order:
+    - summary
+    - skills
+    - experience
+    - education
+    - certifications
+    - languages
+    - references
+  headings:                   # Display names for section headings in the rendered document.
+                              # Arabic equivalents (for reference): summary=الملخص المهني, skills=المهارات,
+                              # experience=الخبرة العملية, education=التعليم / المؤهلات العلمية,
+                              # certifications=الشهادات المهنية, languages=اللغات, references=المراجع
+    summary: "Professional Summary"
+    skills: "Skills"
+    experience: "Professional Experience"
+    education: "Education"
+    certifications: "Certifications"
+    languages: "Languages"
+    references: "References"
+  heading_case: upper  # Options: upper, title, as-is. Upper case section headings are the dominant Qatar professional CV standard
+  heading_bold: true  # Options: true, false. Bold headings are universal across GCC CV templates
+  heading_underline: true  # Options: true, false. Horizontal rule under section headings is standard in Qatar CV templates
+  heading_size: 12  # pt — Suggested range: 11–14pt. 12pt bold is the GCC standard for section labels
+  section_types:
+    references: list  # Each reference is a list item (name, title, organisation, contact); or single item "References available upon request"
+
+typography:
+  heading_font: Calibri  # Popular in Qatar/GCC: Calibri (ATS-safe default), Arial (universal), Garamond (traditional/corporate), Open Sans (tech/digital), Helvetica (design industries). Bold or decorative fonts are explicitly discouraged (Jobseeker). Calibri recommended.
+  body_font: Calibri  # Should match or pair well with heading font. Calibri is the most ATS-safe and widely compatible across all major Gulf ATS platforms (Workday, Taleo, SAP SuccessFactors)
+  body_size: 11  # pt — Suggested range: 10–12pt. MenaJobs cites 10–12pt; ResumeFlex cites 11–12pt; 11pt is the consensus midpoint
+  line_spacing: 1.15  # Suggested range: 1.0–1.5. ResumeFlex explicitly recommends 1.15 or 1.5 for readability in Gulf CVs
+
+skills:
+  separator: " · "  # Middle dot is the standard separator for Gulf CVs. Alternatives: " | " (pipe), ", " (comma). Never use visual skill bars — ATS-unfriendly and not used in Qatar professional CVs
+
+languages:
+  separator: " · "            # Separator between language entries. Inline format is standard for Qatar CVs
+
+experience:
+  show_company_description: true  # Options: true, false. True — include a brief one-line descriptor for lesser-known organisations. Major Gulf/global brands (QatarEnergy, Qatar Airways, Qatargas, Ooredoo, HSBC, Shell) need no description
+  max_bullets_per_role: 5  # Suggested range: 3–6. ResumeFlex explicitly states 3–5 bullets per role for Qatar. 5 is the ceiling for recent roles
+
+colors:
+  primary: "#8D1B3D"  # Qatar maroon — national color, recommended as CV accent (MenaJobs). Alternatives: "#1F3864" (dark navy), "#2C3E50" (charcoal blue), "#34495E" (dark slate). Conservative sectors (government, banking) favour navy or charcoal
+  body: "#000000"             # Body text — always black for maximum ATS compatibility
+  link: "#8D1B3D"  # Matches primary accent color. Alternatives: same as primary color options above
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # Suggested range: 40–60. Qatar summaries should be substantive — 3 to 5 lines of achievement-oriented content
+  summary_max_words: 100  # Suggested range: 80–120. 3–5 lines at standard text density
+  max_bullet_words: 20  # Suggested range: 15–25. GCC sources say "concise, 1–2 lines per bullet." 20 words keeps bullets tight and impactful
+  max_bullets_recent: 5  # Suggested range: 3–5. ResumeFlex explicitly states 3–5 bullets per role. 5 is the ceiling for roles in the last 5 years
+  max_bullets_old: 3  # Suggested range: 2–3. Older roles (5+ years ago) should be summarised more briefly
+  max_pages: 2  # Suggested range: 2–3. Qatar norm: 2 pages for 0–10 years experience; up to 3 pages for senior professionals (10+ years) with extensive certifications. 2 is the safe default

@@ -1,0 +1,64 @@
+# JSON Schema (in YAML) for cl-data.yaml — Saudi Arabia Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+        description: "Include international dialing code, e.g. '+966 5X XXX XXXX' if in Saudi Arabia"
+      linkedin:
+        type: string
+      github:
+        type: string
+      relocation:
+        type: string
+        description: "Iqama/visa status — as important on cover letter as on CV. E.g. 'Iqama: Transferable — valid 04/2027' or 'Employment Visa — NOC available'"
+
+  date:
+    type: string
+    description: "Letter date — use DD Month YYYY format for English letters in Saudi Arabia, e.g. '02 June 2026'. For Arabic letters, right-aligned date is conventional."
+
+  salutation:
+    type: string
+    description: "Use 'Dear [Name],' when a contact name is known (preferred — personalisation signals research). Use 'Dear Hiring Manager,' as standard fallback. 'Dear Sir/Madam,' is formal and acceptable. For Arabic letters: 'السلام عليكم' (As-salamu alaykum) is culturally natural. If recipient's title is known (Doctor, Engineer, Sheikh, Director), use it — omitting titles is perceived negatively in Saudi business culture."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 4
+    description: "Body paragraphs — 3 to 4 paragraphs. P1: Opening — state role, express confidence. P2: Why you — connect experience to employer needs (future-oriented). P3: Achievement highlight or why this company. P4 (optional): Close — request interview, thank reader. Emphasise what you will accomplish for them, not just past history."
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "English: 'Yours sincerely,' (when name is known) or 'Yours faithfully,' (when name is unknown). Arabic formal: 'تفضلوا بقبول فائق الاحترام والتقدير' or 'مع خالص التحية والتقدير'. Choose based on letter language and recipient knowledge."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

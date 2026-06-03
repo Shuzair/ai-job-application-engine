@@ -1,0 +1,76 @@
+# JSON Schema (in YAML) for cl-data.yaml — Dubai Style
+# Validates structured cover letter data produced by the cl-agent.
+# Each style has its own complete schema. No inheritance.
+# UAE-specific: visa_status required in header; nationality included.
+
+type: object
+required: [header, date, salutation, paragraphs, sign_off]
+additionalProperties: false
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+        description: "Candidate's current/target role title for the header"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      visa_status:
+        type: string
+        description: "UAE cover letter best practice: include visa status and availability. e.g. 'Employment Visa · Available in 30 days' or 'Visit Visa · Available Immediately · Open to Sponsorship'"
+      nationality:
+        type: string
+        description: "Optional in cover letter header — already in CV header. Include if it strengthens the application context (e.g., for roles requiring specific nationality status)."
+      relocation:
+        type: string
+        description: "Relocation statement if applying from outside UAE. e.g. 'Relocating to Dubai, June 2026'"
+
+  date:
+    type: string
+    description: "Letter date. Format: 'DD Month YYYY' (e.g. '02 June 2026') — UK/international business letter convention used in UAE. Alternatively: 'June 2, 2026' for MNC/US-style applications."
+
+  salutation:
+    type: string
+    description: "UAE preference: 'Dear Ms. [Surname],' or 'Dear Mr. [Surname],' when name is known. Fallback: 'Dear Talent Acquisition Team,' or 'Dear Hiring Manager,'. Avoid 'To Whom It May Concern,' — flagged as a red flag by UAE recruiters per Labeeb.ae."
+
+  paragraphs:
+    type: array
+    items: { type: string }
+    minItems: 3
+    maxItems: 5
+    description: |
+      UAE 4-paragraph cover letter structure (Labeeb.ae framework):
+      1. Opening hook: exact role title + visa status/availability + one specific company research signal
+      2. Quantified fit: 2-3 achievements mapped to JD requirements, AED-denominated or %-quantified
+      3. UAE market fit: GCC experience, regulatory awareness, multicultural team context, Vision 2031 alignment
+      4. Confident close: genuine enthusiasm + direct call to action (no apologetic tone)
+      Note: Paragraph 1 MUST include visa status and availability — this is the top structural difference from Western cover letters.
+
+  sign_off:
+    type: object
+    required: [closing, name]
+    additionalProperties: false
+    properties:
+      closing:
+        type: string
+        description: "Standard UAE close: 'Kind regards,' — formal alternative: 'Sincerely,' or 'Yours sincerely,' for DIFC/ADGM banking roles. Avoid: 'Thank you for considering my application' as a standalone close (signals subordinate positioning per Labeeb.ae)."
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string

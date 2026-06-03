@@ -1,88 +1,87 @@
-# CV Format Configuration — Germany Style (Lebenslauf)
+# CV Format Configuration — Germany Style
 # Controls all visual/layout aspects of the rendered CV document.
 # Each style has its own complete format config. No inheritance.
 # The rendering script (scripts/render.py) reads this file deterministically.
-# DIN 5008 standard applies to German business documents.
+# References: DIN 5008, StepStone.de, Bundesagentur für Arbeit, Fintiba, NovoResume
 
 page:
-  size: A4  # Universal standard in Germany. Never use Letter (US/Canada). Per Tier 1 (DIN 5008), Tier 2 (all German job platforms)
+  size: A4  # Germany uses A4 exclusively (210×297mm). Options: A4, Letter
   margins:
-    top: 2.0  # cm — Suggested range: 2.0–2.5cm. DIN 5008 specifies minimum 16.9mm top; 2.0cm is the practical standard for CVs
-    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Matches top margin per DIN 5008 convention
-    left: 2.5  # cm — Suggested range: 2.0–2.5cm. DIN 5008 specifies 24.1mm (rounds to 2.5cm); wider left margin is standard in German business documents
-    right: 2.0  # cm — Suggested range: 1.5–2.0cm. DIN 5008 minimum 8.1mm; 2.0cm recommended for legibility and consistent look
+    top: 2.0  # cm — Per DIN 5008 Form A. Suggested range: 2.0–2.7cm
+    bottom: 2.0  # cm — Suggested range: 1.5–2.0cm. No DIN lower bound specified
+    left: 2.5  # cm — Per DIN 5008 standard (25mm). Wider left margin accommodates binding/folder punches
+    right: 2.0  # cm — Per DIN 5008 standard (20mm). Suggested range: 1.5–2.0cm
 
 header:
-  name_font_size: 18  # pt — Suggested range: 16–20pt. German CVs use 18–20pt bold for name; 18pt is the common standard. Per Tier 2 (gluckglobal.com, airesume.guru)
-  name_color: "#2E4057"  # Popular professional choices for Germany: "#2E4057" (muted slate — tech standard), "#003366" (navy — corporate/conservative), "#4682B4" (steel blue — modern tech), "#000000" (black — most conservative for finance/law). Max 1–2 accent colors; no bright colors
-  name_case: upper  # Options: upper, title, as-is. Uppercase surname is a strong German CV convention (e.g., "Max MÜLLER"). Per Tier 2 (novoresume.com, supported-growth.com)
-  name_bold: true  # true is universal standard in German CVs
-  show_titles: true  # Professional headline below name (e.g., "Senior Data Engineer | Python | AWS") is standard for experienced candidates; mirrors JD title. Per Tier 2 (gluckglobal.com)
-  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary text below name; 2pt smaller than contact size
-  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard for Persönliche Daten contact block
-  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn, XING, GitHub links; same size as contact info
-  show_relocation: true  # Include relocation statement. Strongly recommended for international applicants to proactively address recruiter uncertainty. Per Tier 2 (gluckglobal.com, fintiba.com)
+  name_font_size: 18  # pt — Suggested range: 18–24pt. Must be the largest element on the page
+  name_color: "#003366"  # Navy blue — most popular in Germany; conveys trustworthiness. Popular: #003366 (navy), #005F73 (dark teal), #36454F (charcoal), #4A6FA5 (slate blue)
+  name_case: upper  # German convention accepts uppercase. Options: upper, title, as-is. Some templates use uppercase surname only (e.g., "Max MÜLLER")
+  name_bold: true  # Universally standard in Germany. Options: true, false
+  show_titles: true  # Professional headline (Berufsbezeichnung) below name is increasingly standard. Options: true, false
+  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary text, smaller than name
+  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard secondary text
+  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn preferred over XING in 2025-2026
+  show_relocation: true  # Relocation statements expected when applying from abroad. Options: true, false
   relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact/links size
-  relocation_bold: true  # Bold draws recruiter attention to willingness to relocate
+  relocation_bold: true  # Bold draws attention to availability/relocation readiness. Options: true, false
   photo:
-    enabled: true  # Germany: professional photo (Bewerbungsfoto) is culturally expected. ~82% of German recruiters still expect one. Legally optional under AGG but omitting it signals "foreign application norms" to traditional recruiters. Per Tier 2 (gluckglobal.com, fintiba.com, airesume.guru)
-    width_cm: 3.0  # cm — Standard Bewerbungsfoto: 4.5×6cm (portrait). 3.0cm width fits CV layout while maintaining proportions
-    height_cm: 4.0  # cm — Proportional height. Final rendered size is approximately passport-photo proportions in top-right corner
+    enabled: true  # Photos expected in Germany despite AGG (2006). ~82% of recruiters expect one. Options: true, false
+    width_cm: 4.5  # cm — Standard German Bewerbungsfoto: 4.5×6cm passport-style
+    height_cm: 6.0  # cm — Professional studio shot, head and shoulders, neutral background
+    position: top-right  # Placement: top-right corner of page 1. Options: top-right, top-left
 
-# SECTIONS — Customized for German Lebenslauf conventions
-# Standard German order: Persönliche Daten → Profil → Berufserfahrung → Ausbildung → Kenntnisse → Zertifikate → Interessen
-# English headings used here for ATS compatibility in international applications to German companies
-# German section name equivalents provided as inline comments
+# Sections — customized for German Lebenslauf conventions
+# German heading equivalents shown as inline comments
 sections:
   order:
     - summary
     - skills
+    - certifications
     - experience
     - education
-    - certifications
     - languages
-    - interests    # Interessen / Hobbys — standard and expected in German CVs; "whole person" culture
+    - interests
   headings:
-    summary: "Professional Summary"       # Profil / Kurzprofil — German label; increasingly common in German tech CVs
-    skills: "Skills"                       # Kenntnisse / IT-Kenntnisse / Technische Kenntnisse
-    experience: "Professional Experience"  # Berufserfahrung — core German CV section
-    education: "Education"                 # Ausbildung / Bildungsweg — includes Abitur, university, Ausbildung
-    certifications: "Certifications"       # Zertifikate / Zusatzqualifikationen / Bescheinigungen
-    languages: "Languages"                 # Sprachkenntnisse — critical section; CEFR levels required
-    interests: "Interests"                 # Interessen / Hobbys — standard German CV section; 3–5 items inline
-  heading_case: upper  # Options: upper, title, as-is. Uppercase section headings are the German CV standard. Per Tier 2 (gluckglobal.com, topcv.io)
-  heading_bold: true  # Standard in German CVs
-  heading_underline: true  # Horizontal rule below section headings is the German visual convention
-  heading_size: 12  # pt — Suggested range: 11–13pt. 12pt is standard for section headings; 11pt for denser CVs
+    summary: "Professional Summary"  # Profil / Kurzprofil
+    skills: "Skills"  # Kenntnisse / Fähigkeiten / IT-Kenntnisse
+    experience: "Professional Experience"  # Berufserfahrung / Beruflicher Werdegang
+    education: "Education"  # Ausbildung / Bildungsweg
+    certifications: "Certifications"  # Zertifikate / Weiterbildungen
+    languages: "Languages"  # Sprachkenntnisse
+    interests: "Interests"  # Hobbys / Interessen
+  heading_case: upper  # German CVs commonly use uppercase headings. Options: upper, title, as-is
+  heading_bold: true  # Always bold in Germany. Options: true, false
+  heading_underline: true  # Thin horizontal rule below heading is very common in German templates. Options: true, false
+  heading_size: 12  # pt — Suggested range: 11–14pt. Clearly larger than body, smaller than name
   section_types:
-    interests: inline  # Interests listed inline with separator on one line; 3–5 items maximum
+    interests: inline  # Hobbys displayed as inline items with separator
 
 typography:
-  heading_font: Arial  # Popular fonts in Germany: Arial (DIN 5008 references it explicitly — safest default), Calibri (modern/tech), Times New Roman (formal/academic/finance), Helvetica (design/tech), Cambria (conservative corporate). Per Tier 1 (DIN 5008), Tier 2 (gluckglobal.com, topcv.io)
-  body_font: Arial  # Must match or complement heading font. Arial is the German corporate standard; Calibri is acceptable for modern/tech roles. Same font for heading and body is the DIN 5008 convention
-  body_size: 11  # pt — Suggested range: 10–12pt. DIN 5008 specifies 10pt minimum; 11pt has prevailed in practice as the optimal readability standard. Per Tier 1 (DIN 5008)
-  line_spacing: 1.15  # Suggested range: 1.0–1.15 for CVs. 1.15 provides readability for dense content; 1.0 for very dense CVs. DIN 5008 cover letters use 1.0 but CVs benefit from slightly more spacing
+  heading_font: Calibri  # Sans-serif preferred in Germany. Popular: Calibri, Arial, Helvetica, Roboto, Garamond (serif for traditional/academic)
+  body_font: Calibri  # Must match or pair with heading font. Popular: Calibri, Arial, Helvetica, Roboto
+  body_size: 11  # pt — German standard: 11pt. Suggested range: 10–12pt. Never below 10pt (recruiters print CVs)
+  line_spacing: 1.15  # German standard for body text. Suggested range: 1.05–1.15. Avoid 1.0 (cramped) or 1.5 (wastes space)
 
 skills:
-  separator: " · "  # Middle dot is the German standard separator for skill lists. Options: " · " (middle dot — most common), " | " (pipe), ", " (comma). Per Tier 2 (gluckglobal.com)
+  separator: " · "  # Middle dot is standard in German CVs. Options: " · " (middle dot), " | " (pipe), ", " (comma)
 
 languages:
-  separator: " · "  # Separator between language entries; middle dot consistent with skills section
+  separator: " · "  # Matches skills separator for visual consistency
 
 experience:
-  show_company_description: true  # German standard: one-line descriptor expected for non-famous companies (e.g., "(FinTech startup, 200 employees, Berlin)"). Omit for SAP, BMW, Siemens, Deutsche Bank, Bosch, Volkswagen. Per Tier 2 (novoresume.com, supported-growth.com)
-  max_bullets_per_role: 5  # Suggested range: 3–5 for recent roles. German CVs are results-focused but concise. 5 for current role; 3 for 2–5 years ago; 1–2 for older roles. Per Tier 2 (gluckglobal.com, careerbee.io)
+  show_company_description: true  # Brief descriptor for lesser-known companies is standard. Options: true, false
+  max_bullets_per_role: 5  # German convention: 4–5 bullets for recent roles. Suggested range: 4–6
 
 colors:
-  primary: "#2E4057"  # Accent color — Popular in German tech CVs: "#2E4057" (muted slate — modern tech), "#003366" (navy — corporate/banking), "#4682B4" (steel blue — tech-friendly), "#36454F" (charcoal — neutral/versatile), "#008080" (teal — IT/tech). Finance/law: use "#000000" (black-only). Maximum 1–2 accent colors; no bright colors; color should cover <10% of visual space. Per Tier 2 (gluckglobal.com, topcv.io)
-  body: "#000000"  # Body text always black — German CV standard
-  link: "#2E4057"  # Links match primary accent color
+  primary: "#003366"  # Navy blue — conservative German market preference. Popular: #003366 (navy), #005F73 (dark teal), #36454F (charcoal), #4A6FA5 (slate blue)
+  body: "#000000"  # Black body text on white background — universal German standard
+  link: "#003366"  # Matches primary for visual consistency
 
 # Validation limits for validate_output.py
 validation:
-  summary_min_words: 40  # Suggested range: 30–60. German Profil: 2–4 factual sentences (~40–90 words). Avoid buzzwords; brevity is valued
-  summary_max_words: 90  # Suggested range: 80–100. Keep summary tight; German recruiters value substance over narrative
-  max_bullet_words: 20  # Suggested range: 15–20. German preference: concrete results in ~1.5 lines; quantified; avoid narrative. Per Tier 2 (gluckglobal.com)
-  max_bullets_recent: 5  # Suggested range: 3–5 for recent roles (last 5 years). 5 bullets maximum for current/most recent role
-  max_bullets_old: 2  # Suggested range: 1–3 for older roles (5+ years ago). German CVs keep older roles brief; 1–2 bullets is standard
-  max_pages: 2  # 2 pages is the German standard for mid/senior candidates. Junior (<3 years): 1 page. Academic CVs: 3 pages acceptable. Per Tier 2 (gluckglobal.com, novoresume.com)
+  summary_min_words: 40  # Suggested range: 30–50. German Kurzprofil: 2–4 factual sentences
+  summary_max_words: 100  # Suggested range: 80–120. Keep brief and factual — not promotional
+  max_bullet_words: 20  # Suggested range: 15–25. German bullets: 1–2 lines, precise and quantified
+  max_bullets_recent: 5  # Suggested range: 4–5. Recent roles get most detail
+  max_bullets_old: 3  # Suggested range: 2–3. Older roles condensed; sometimes one-line summary
+  max_pages: 2  # German Lebenslauf: strictly 1–2 pages. Options: 1, 2, 3

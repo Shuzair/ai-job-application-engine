@@ -1,4 +1,4 @@
-# JSON Schema (in YAML) for cl-data.yaml — Germany Style
+# JSON Schema (in YAML) for cl-data.yaml — Australia Style
 # Validates structured cover letter data produced by the cl-agent.
 # Each style has its own complete schema. No inheritance.
 
@@ -28,21 +28,22 @@ properties:
         type: string
       relocation:
         type: string
+        description: "Work rights or relocation statement — e.g. 'Australian Permanent Resident — full working rights' or 'Available to relocate to Melbourne'"
 
   date:
     type: string
-    description: "Letter date. English format: 'Month DD, YYYY' (e.g., 'June 2, 2026'). German format: 'City, DD.MM.YYYY' (e.g., 'Berlin, 02.06.2026') or 'City, D. Monat YYYY' (e.g., 'Berlin, 2. Juni 2026'). Match the language of the posting"
+    description: "Letter date in Australian format — 'D Month YYYY' e.g. '2 June 2026' (no ordinal suffix, no comma). Full block left-aligned layout."
 
   salutation:
     type: string
-    description: "Formal address. English: 'Dear Hiring Team,' or 'Dear Mr/Ms [Surname],'. German: 'Sehr geehrte Damen und Herren,' or 'Sehr geehrte/r Frau/Herr [Nachname],'. Always use formal 'Sie' — never 'du'"
+    description: "Use hiring manager's name if known: 'Dear [First Name Last Name],' or 'Dear [Last Name],' for formal sectors. Fallback: 'Dear Hiring Manager,' — preferred over 'To Whom It May Concern' (outdated) or 'Dear Sir/Madam' (gender-specific)."
 
   paragraphs:
     type: array
     items: { type: string }
     minItems: 3
-    maxItems: 4
-    description: "Body paragraphs. German Anschreiben: 3-4 paragraphs, strictly one A4 page"
+    maxItems: 5
+    description: "Body paragraphs — 3 to 5 paragraphs, 300–450 words total. Standard structure: (1) opening hook, (2) skills/achievements fit, (3) company alignment, (4) close. Australian private sector only — not KSC/selection criteria format."
 
   sign_off:
     type: object
@@ -51,7 +52,7 @@ properties:
     properties:
       closing:
         type: string
-        description: "English: 'Kind regards,'. German: 'Mit freundlichen Grüßen' (no comma — per DIN 5008). Match the language of the posting"
+        description: "Australian standard: 'Kind regards,' (most recommended). Alternatives: 'Regards,', 'Warm regards,' (less formal/tech), 'Sincerely,' (formal/finance)."
       name:
         type: string
       title:

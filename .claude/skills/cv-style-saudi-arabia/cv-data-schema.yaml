@@ -1,4 +1,4 @@
-# JSON Schema (in YAML) for cv-data.yaml — Germany Style
+# JSON Schema (in YAML) for cv-data.yaml — Saudi Arabia Style
 # Validates structured CV data produced by the cv-agent.
 # Each style has its own complete schema. No inheritance.
 
@@ -21,39 +21,40 @@ properties:
       titles:
         type: array
         items: { type: string }
-        description: "Role titles, e.g. ['Analytics Engineer', 'Data Engineer']"
+        description: "Role titles/professional headline, e.g. ['Senior Data Engineer']"
       location:
         type: string
-        description: Current city and country
+        description: "City and country, e.g. 'Riyadh, Saudi Arabia' or 'London, UK'"
       email:
         type: string
         format: email
       phone:
         type: string
+        description: "Include +966 country code if in Saudi Arabia, e.g. '+966 5X XXX XXXX'"
       linkedin:
         type: string
-        description: "LinkedIn URL — preferred platform in Germany (2025-2026)"
       github:
         type: string
-      photo_path:
-        type: string
-        description: "Path to professional headshot (Bewerbungsfoto). Expected in Germany: 4.5×6cm, studio quality, head and shoulders, neutral background, professional attire"
-      date_of_birth:
-        type: string
-        description: "Format: DD.MM.YYYY (e.g., '15.03.1990'). German convention; legally optional under AGG but widely expected"
-      nationality:
-        type: string
-        description: "Nationality (Staatsangehörigkeit). Important for non-German applicants — pair with work_permit if non-EU"
-      work_permit:
-        type: string
-        description: "Work authorization for non-EU citizens, e.g. 'EU Blue Card', 'Niederlassungserlaubnis', 'Chancenkarte'"
+        description: "GitHub URL — for tech roles, more important than degree per Saudi hiring norms"
       relocation:
         type: string
-        description: "Relocation statement, e.g. 'Open to immediate relocation to Berlin'"
+        description: "Iqama/visa statement for expats, e.g. 'Iqama: Transferable — valid 04/2027' or 'Open to relocation — employment visa sponsorship required'"
+      photo_path:
+        type: string
+        description: "Path to professional headshot photo. Photos are expected for most Saudi Arabia roles — formal attire, neutral background, passport-style"
+      nationality:
+        type: string
+        description: "Nationality — expected/practical necessity due to Nitaqat/Saudization compliance. Saudi nationals: 'Saudi National'. Expats: state nationality with residency status"
+      date_of_birth:
+        type: string
+        description: "Date of birth in DD/MM/YYYY format — expected in Saudi CVs. Include for all applications"
+      marital_status:
+        type: string
+        description: "Marital status — expected in Saudi Arabia. Options: Single, Married, Divorced. Being married with dependents signals stability for expat hires"
 
   summary:
     type: string
-    description: Professional summary / Kurzprofil (2-4 factual sentences, 3-5 lines)
+    description: Professional summary paragraph (3-5 lines). Reference Vision 2030 alignment where genuinely applicable.
 
   skills:
     type: array
@@ -65,7 +66,7 @@ properties:
       properties:
         category:
           type: string
-          description: "Skill category name, e.g. 'Programming & Scripting'. Use IT-Kenntnisse not EDV-Kenntnisse"
+          description: "Skill category name. Saudi market buckets: 'Technical Skills', 'Programming Languages', 'Frameworks & Libraries', 'Cloud & DevOps', 'Databases', 'Software & Tools', 'Cybersecurity'"
         items:
           type: array
           minItems: 1
@@ -82,7 +83,7 @@ properties:
           type: string
         level:
           type: string
-          description: "CEFR level with German descriptor, e.g. 'Verhandlungssicher (C1)', 'Fließend (B2)', 'Muttersprache'"
+          description: "Self-descriptive level: Native, Fluent, Professional Working Proficiency, Conversational, Basic. Arabic should always be listed even at basic level. Note MSA vs Gulf Arabic if relevant."
 
   experience:
     type: array
@@ -98,7 +99,7 @@ properties:
           type: string
         hq:
           type: string
-          description: "Company HQ location, e.g. 'Munich, Germany'"
+          description: "Company HQ location, e.g. 'Dhahran, Saudi Arabia'"
         location:
           type: string
           description: "Candidate's working location"
@@ -107,13 +108,13 @@ properties:
           enum: ["", Remote, On-site, Hybrid]
         company_description:
           type: string
-          description: "One-line factual company descriptor for lesser-known companies"
+          description: "One-line factual company descriptor. Omit for globally known brands (Aramco, SABIC, McKinsey)"
         date_start:
           type: string
-          description: "Format: MM/YYYY (e.g., 03/2020). German numeric month format"
+          description: "Format: Mon YYYY (3-letter month, Gregorian calendar only, e.g. 'Sep 2024'). Do not use Hijri calendar"
         date_end:
           type: string
-          description: "Format: MM/YYYY (e.g., 11/2023) or 'Present'"
+          description: "Format: Mon YYYY (e.g. 'Mar 2026') or 'Present'. Gregorian calendar only"
         bullets:
           type: array
           minItems: 1
@@ -135,19 +136,14 @@ properties:
           type: string
         date_start:
           type: string
-          description: "Format: MM/YYYY"
         date_end:
           type: string
-          description: "Format: MM/YYYY"
         status:
           type: string
           description: "e.g. 'In Progress' — only if applicable"
         gpa:
           type: string
-          description: "German scale 1.0-5.0 (1.0=best). Include only if 2.5 or better. For foreign degrees, optionally convert via Modified Bavarian Formula"
-        thesis:
-          type: string
-          description: "Thesis topic (Thema der Abschlussarbeit) — include only if relevant to the target role"
+          description: "Include if 3.5/5.0 or higher (Saudi universities use 5.0 scale; KFUPM uses 4.0). State scale explicitly, e.g. '4.5/5.0'. For internationally ranked institutions, optionally add QS rank"
 
   certifications:
     type: array
@@ -160,11 +156,15 @@ properties:
           type: string
         issuer:
           type: string
-          description: "Issuing body. IHK and TÜV certifications carry particular weight in Germany"
         date:
           type: string
-          description: "Format: MM/YYYY (e.g., '03/2023')"
+          description: "Month and year, e.g. 'April 2026'"
         url:
           type: string
           format: uri
           description: "Verification URL — omit if not available"
+
+  interests:
+    type: array
+    items: { type: string }
+    description: "Optional section. Community and volunteer activities are positively viewed in Saudi Arabia. Keep brief — include only if relevant or demonstrates community engagement"

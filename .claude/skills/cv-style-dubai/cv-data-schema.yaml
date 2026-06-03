@@ -1,0 +1,198 @@
+# JSON Schema (in YAML) for cv-data.yaml — Dubai Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+# UAE-specific additions: photo_path, nationality, visa_status, notice_period,
+# date_of_birth (optional), marital_status (optional), driving_license (optional)
+
+type: object
+required: [header, summary, skills, experience, education]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email, nationality, visa_status]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      titles:
+        type: array
+        items: { type: string }
+        description: "Professional headline/role titles, e.g. ['Analytics Engineer', 'Data Engineer']"
+      location:
+        type: string
+        description: "City-level only: 'Dubai, UAE' or 'Relocating to Dubai, June 2026'"
+      nationality:
+        type: string
+        description: "Required in UAE CVs for visa/Emiratization compliance. e.g. 'British National' or 'Pakistani National'"
+      visa_status:
+        type: string
+        description: "Required in UAE CVs. e.g. 'Employment Visa · Available in 30 days' or 'Visit Visa · Available Immediately · Open to Sponsorship' or 'Golden Visa · Available Immediately'"
+      date_of_birth:
+        type: string
+        description: "Optional: include for traditional/local UAE companies. Format: DD/MM/YYYY. Omit for MNC-targeting applications."
+      marital_status:
+        type: string
+        description: "Optional: include for traditional/local UAE companies (e.g. 'Married', 'Single'). Omit for MNCs and tech companies."
+      driving_license:
+        type: string
+        description: "Optional: 'UAE Driving License' — include if held. Widely expected for many roles in Dubai per GulfTalent."
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+        description: Include for engineering, data, and tech roles
+      photo_path:
+        type: string
+        description: "Path to professional headshot photo. Expected for most UAE applications — required for customer-facing roles. Professional headshot, business attire, neutral background, modest dress. Omit only for senior executive or explicit MNC roles where photo is not requested."
+
+  summary:
+    type: string
+    description: Professional summary paragraph (3-5 lines). Implied first person — no 'I' or 'my'. Achievement-oriented with AED-denominated or %-quantified metrics.
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category name. UAE standard buckets: 'Technical Skills', 'Tools & Platforms', 'Domain Expertise', 'Core Competencies'. Max 4 buckets."
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "CEFR level (A1–C2) or LinkedIn-style descriptor: Native, Fluent, Professional Working, Conversational. Adding IELTS/TOEFL in parentheses adds credibility for English: 'C1 (IELTS 7.5)'. Arabic proficiency is a key differentiator in UAE."
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location, e.g. 'Dubai, UAE' or 'Munich, Germany'"
+        location:
+          type: string
+          description: "Candidate's working location"
+        work_model:
+          type: string
+          enum: ["", Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: "One-line factual descriptor for employers not widely known in UAE. Per GulfTalent recommendation. e.g. 'Germany-based SaaS platform (Series C, 400 employees, DACH region)'"
+        date_start:
+          type: string
+          description: "Format: Mon YYYY (3-letter month, e.g. Sep 2024). UAE standard per Labeeb.ae."
+        date_end:
+          type: string
+          description: "Format: Mon YYYY (3-letter month) or 'Present'. Use 'Present' for active roles."
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+          description: "Bullet formula: strong action verb + task/scope + quantified result (AED, %, team size, volume). 20-30 words per bullet. 4-6 bullets for current role, 2-3 for older roles."
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+        institution:
+          type: string
+        location:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "Include if 3.5/4.0 or above (or Distinction/First Class). Always state scale: '3.7/4.0'. Omit if below 3.0."
+        attestation:
+          type: string
+          description: "Optional: '(MOHESR attested)' — for regulated professions (healthcare/DHA, education/KHDA, engineering, law) where attestation is required by UAE licensing authorities."
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year, e.g. 'April 2026'"
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — include where available. RERA license number should be noted in the name field."
+
+  projects:
+    type: array
+    description: "Optional — include for tech/engineering roles. Gate: each project must map to a JD Signal List item."
+    items:
+      type: object
+      required: [name, bullets]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: "Brief technology/domain description, e.g. 'Python, Apache Kafka, AWS Lambda — real-time event processing'"
+        bullets:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items: { type: string }
+
+  interests:
+    type: array
+    description: "Optional — include for culture-fit signaling. Keep neutral/professional. Format: simple string list, rendered inline."
+    items:
+      type: string

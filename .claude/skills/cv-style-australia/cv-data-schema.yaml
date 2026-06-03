@@ -1,0 +1,180 @@
+# JSON Schema (in YAML) for cv-data.yaml — Australia Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, summary, skills, experience, education]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      titles:
+        type: array
+        items: { type: string }
+        description: "Role titles, e.g. ['Analytics Engineer', 'Data Engineer']"
+      location:
+        type: string
+        description: "Suburb and state only — e.g. 'South Yarra, VIC' or 'Newtown, NSW'. No full street address (privacy standard)."
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      linkedin:
+        type: string
+      github:
+        type: string
+      work_rights:
+        type: string
+        description: "Work rights statement for non-citizens — e.g. 'Australian Permanent Resident — full working rights' or 'Subclass 482 TSS Visa — full working rights'. Omit if Australian citizen."
+      relocation:
+        type: string
+        description: "Relocation or availability statement — e.g. 'Available to relocate to Sydney' or 'Available to relocate to Melbourne immediately'."
+
+  summary:
+    type: string
+    description: "Professional summary paragraph (3–5 lines, 50–100 words). Direct, evidence-led, implied first person. No superlatives — let quantified achievements carry the tone."
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category name. Australian standard buckets: 'Programming & Scripting', 'Cloud & Infrastructure', 'Data & Analytics', 'Databases & Storage', 'DevOps & Tooling', 'Professional Skills'. Adjust to role domain."
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "IELTS band score preferred for English — e.g. 'IELTS 7.5 (Full Professional Proficiency)' or 'Native'. CEFR acceptable for other languages."
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location — e.g. 'Melbourne, Australia'. Include country for overseas companies."
+        location:
+          type: string
+          description: "Candidate's working location — e.g. 'Sydney, NSW'"
+        work_model:
+          type: string
+          enum: ["", Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: "One-line factual company descriptor. Include for employers unknown to Australian recruiters — e.g. 'A $50M B2B SaaS startup providing supply chain analytics to retail clients.' Omit for major global brands."
+        date_start:
+          type: string
+          description: "Format: Mon YYYY — e.g. 'Mar 2021'"
+        date_end:
+          type: string
+          description: "Format: Mon YYYY — e.g. 'Nov 2023' or 'Present'"
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+        institution:
+          type: string
+        location:
+          type: string
+          description: "City, Country — country is mandatory for all non-Australian institutions"
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "Include WAM (e.g. 'WAM: 74.2') or GPA (e.g. 'GPA: 6.1/7.0') only if graduated within 5 years and result is strong (WAM ≥70%, GPA ≥5.5/7.0). Omit for experienced professionals."
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          description: "Certification name — e.g. 'White Card (Construction Induction)', 'AHPRA Registration', 'Working with Children Check'"
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year issued — e.g. 'April 2026'. For licences with expiry, use: 'Issued Jan 2022, Expires Jan 2025'."
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — omit if not available"
+
+  volunteer_work:
+    type: array
+    items:
+      type: object
+      required: [title, organisation]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: "Role or contribution title — e.g. 'Data Volunteer'"
+        organisation:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        bullets:
+          type: array
+          items: { type: string }
+
+  referees:
+    type: string
+    description: "Default: 'Referees available upon request.' For academic/government applications where referee details are expected, list as: 'Name, Title, Organisation, Phone, Email' — one referee per line. Always obtain permission before listing."

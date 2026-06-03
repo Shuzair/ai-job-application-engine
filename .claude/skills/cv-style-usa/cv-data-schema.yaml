@@ -115,7 +115,7 @@ properties:
     type: array
     items:
       type: object
-      required: [name, description, bullets]
+      required: [name, description]
       additionalProperties: false
       properties:
         name:
@@ -180,3 +180,6 @@ properties:
           type: string
           format: uri
           description: "Verification URL — include for AWS, GCP, Azure certs"
+        bullet:
+          type: string
+          description: "One-line description of what the certification covers or demonstrates"

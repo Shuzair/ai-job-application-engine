@@ -1,0 +1,88 @@
+# CV Format Configuration — Saudi Arabia Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+
+page:
+  size: A4  # A4 (210×297mm) is universal in Saudi Arabia. Letter format is not used.
+  margins:
+    top: 1.8  # cm — Suggested range: 1.8–2.5cm. menajobs.me cites 2cm; conservative/government roles benefit from 2.5cm
+    bottom: 1.8  # cm — Suggested range: 1.8–2.5cm. Matches top margin
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. No Saudi-specific standard; 2cm is the sourced norm
+    right: 1.5  # cm — Suggested range: 1.5–2.0cm. Can be slightly smaller than left
+
+header:
+  name_font_size: 16  # pt — Suggested range: 16–22pt. Bold prominent name is standard; 18pt consistent with GCC template norms
+  name_color: "#1F3864"  # Popular options: "#1F3864" (dark navy — finance/government), "#006C35" (Saudi national green — culturally resonant for local companies), "#2C3E50" (charcoal — universal), "#000000" (black — government/Aramco)
+  name_case: upper  # Options: upper, title, as-is. Bold uppercase is standard in Saudi CVs per GCC market norms
+  name_bold: true  # Options: true, false. Bold is universal across all Saudi CV guides
+  show_titles: true  # Options: true, false. Professional headline below name is standard in Saudi CVs — "Target Job Title" is the second header element after name (per menajobs.me)
+  titles_font_size: 9  # pt — Suggested range: 9–11pt. Secondary headline text; smaller than name
+  contact_font_size: 9  # pt — Suggested range: 9–10pt. Standard secondary text
+  links_font_size: 9  # pt — Suggested range: 9–10pt. Same size as contact info
+  show_relocation: true  # Options: true, false. Relocation/Iqama statements are essential for expat applications; standard for all Saudi-bound CVs
+  relocation_font_size: 9  # pt — Suggested range: 9–10pt. Matches contact/links size
+  relocation_bold: true  # Options: true, false. Bold draws attention to Iqama status or relocation availability
+  photo:
+    enabled: false  # Photos are expected for most roles in Saudi Arabia — dominant consensus across Tier 2 sources. Disable only for tech/multinational ATS-optimised submissions where ATS may reject photos
+    width: 2.5  # cm — Suggested range: 2.5–3.5cm. Standard passport-style photo width
+    height: 3.0  # cm — Suggested range: 3.0–4.0cm. Portrait orientation
+    shape: rectangle  # Options: rectangle, rounded-rectangle, circle. Rectangle is most formal for Saudi market
+    position: top-right  # Standard GCC convention: photo in top-right corner of header
+    border: false  # Clean borderless look is standard
+
+# SECTIONS — Saudi Arabia follows: Summary → Skills → Certifications → Experience → Education → Languages
+# Certifications placed before Languages: sector credentials carry higher ATS weight in SAP SuccessFactors/Taleo parsing
+# "interests" is optional — include when community/volunteer activities are relevant (positively viewed in Saudi market)
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+  headings:
+    summary: "Professional Summary"   # الملخص المهني
+    skills: "Skills"                   # المهارات
+    experience: "Professional Experience"  # الخبرة المهنية
+    education: "Education"             # التعليم
+    certifications: "Certifications"   # الشهادات والدورات
+    languages: "Languages"             # اللغات
+    interests: "Interests"             # الهوايات والاهتمامات — optional; community/volunteer activities are positively viewed
+  heading_case: upper  # Options: upper, title, as-is. Uppercase section headings are standard in Saudi professional CVs
+  heading_bold: true  # Options: true, false. Bold headings universal across all Saudi CV templates
+  heading_underline: true  # Options: true (horizontal rule below heading), false. Ruled headings are standard in Saudi CVs
+  heading_size: 11  # pt — Suggested range: 11–14pt. 12pt is consistent with Saudi CV template norms (section headings 14–16pt per some sources; 12pt for a more conservative look)
+  section_types:
+    interests: inline  # Brief inline list — community activities and hobbies joined by separator
+
+typography:
+  heading_font: Arial  # Most frequently recommended font for Saudi Arabia CVs. Popular alternatives: Calibri, Times New Roman, Helvetica. Arial is most ATS-safe; Times New Roman preferred for formal/traditional sectors
+  body_font: Arial  # Should match heading font. Popular: Arial (ATS-safe, universally recommended), Calibri (modern professional), Times New Roman (traditional), Helvetica (clean modern)
+  body_size: 10  # pt — Suggested range: 10–12pt. 11pt is the most commonly cited optimal for Saudi CVs (menajobs.me, jobera.com); 10pt for dense content, 12pt for senior roles
+  line_spacing: 1.1  # Suggested range: 1.0–1.15. No Saudi-specific standard; 1.15 provides the "clean layout" and "ample white space" recommended across all Saudi CV guides
+
+skills:
+  separator: " · "  # Options: " · " (middle dot), " | " (pipe), ", " (comma). Middle dot is professional and ATS-safe
+
+languages:
+  separator: " · "  # Separator between language entries
+
+experience:
+  show_company_description: true  # Options: true, false. Saudi norm: include brief company context for less well-known organisations. Global brands (Aramco, SABIC, McKinsey) do not need a description. Per menajobs.me
+  max_bullets_per_role: 6  # Suggested range: 5–7 for recent roles. menajobs.me cites 5–7 bullets for recent positions; use 6 as the practical cap
+
+colors:
+  primary: "#1F3864"  # Popular options: "#1F3864" (dark navy — preferred for conservative/finance/government roles), "#006C35" (Saudi national green — culturally resonant, explicitly cited by menajobs.me), "#2E74B5" (steel blue — modern/tech sectors), "#2C3E50" (charcoal — universal)
+  body: "#000000"  # Body text — black is universal; required for Aramco/government applications
+  link: "#1F3864"  # Match primary color for visual consistency
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 40  # Suggested range: 40–60. Saudi CVs include a 2–4 line professional summary; 40 words ensures substance
+  summary_max_words: 100  # Suggested range: 80–120. Saudi summaries are comprehensive; 100 words aligns with 3–4 line norm
+  max_bullet_words: 18  # Suggested range: 15–20. No Saudi-specific word limit cited; CAR method (Challenge–Action–Result) bullets typically run 12–18 words
+  max_bullets_recent: 6  # Suggested range: 5–7. Per menajobs.me: 5–7 bullets for recent roles
+  max_bullets_old: 3  # Suggested range: 2–4. Older roles should be briefer; consistent with GCC norms
+  max_pages: 2  # Options: 1, 2, 3. Saudi norm: 2 pages for mid-career professionals (dominant consensus). Fresh graduates: 1–2 pages. Senior executives 10+ years: 3 pages acceptable. Aramco/government roles: longer accepted

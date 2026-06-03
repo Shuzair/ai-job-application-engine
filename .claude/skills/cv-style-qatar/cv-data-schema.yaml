@@ -1,0 +1,191 @@
+# JSON Schema (in YAML) for cv-data.yaml — Qatar Style
+# Validates structured CV data produced by the cv-agent.
+# Each style has its own complete schema. No inheritance.
+
+type: object
+required: [header, summary, skills, experience, education]
+additionalProperties:
+  type: array
+  items:
+    type: string
+
+properties:
+  header:
+    type: object
+    required: [name, email]
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Full name of the candidate
+      photo_path:
+        type: string
+        description: "Relative path to the candidate's professional headshot (e.g., 'photo.jpg'). Expected for most Qatar sectors (local employers, oil & gas, hospitality, finance, healthcare, government). Optional for multinational/QFC companies."
+      titles:
+        type: array
+        items: { type: string }
+        description: "Role titles, e.g. ['Senior Data Engineer', 'Analytics Lead']"
+      location:
+        type: string
+        description: "Current city and country (e.g., 'Doha, Qatar' or 'Lahore, Pakistan')"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+        description: "Include +974 local Qatar number if available (preferred by Qatar employers); otherwise home country number with country code"
+      linkedin:
+        type: string
+      github:
+        type: string
+      date_of_birth:
+        type: string
+        description: "Date of birth in DD/MM/YYYY format (e.g., '15/06/1990'). Expected by local, semi-government, and government Qatar employers. Optional for QFC/multinational employers."
+      nationality:
+        type: string
+        description: "Candidate's nationality (e.g., 'British', 'Indian', 'Pakistani', 'Qatari'). Required — Qatar employers need this for visa sponsorship assessment and Qatarization compliance."
+      marital_status:
+        type: string
+        description: "e.g. 'Married', 'Single'. Include for local/semi-government/government employers. Optional for multinationals and QFC-registered companies."
+      qid_status:
+        type: string
+        description: "Qatar ID and visa status — include if residing in Qatar. Examples: 'Valid QID – NOC available', 'Valid QID – transferable visa'. Signals employer-friendly transfer situation."
+      notice_period:
+        type: string
+        description: "e.g. 'Available immediately', 'Notice period: 30 days'. Include if already based in Qatar — Gulf recruiters look for this."
+      relocation:
+        type: string
+        description: "Relocation statement for applicants outside Qatar (e.g., 'Currently based in Lahore, Pakistan — open to immediate relocation to Qatar')"
+
+  summary:
+    type: string
+    description: "Professional summary paragraph (3-5 lines). Implied first person (no pronouns). Formal, achievement-oriented tone. British English spelling."
+
+  skills:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [category, items]
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          description: "Skill category — up to 5 buckets: 'Technical Skills / Core Competencies', 'Software & IT Proficiency', 'Management & Leadership', 'Industry-Specific Skills', 'Certifications & Professional Qualifications'. Omit empty buckets."
+        items:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  languages:
+    type: array
+    items:
+      type: object
+      required: [language, level]
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+        level:
+          type: string
+          description: "IELTS/TOEFL preferred for Qatar employers (e.g., 'C1 (IELTS 7.5)', 'Native', 'B2 (DELF)'). CEFR accepted at multinationals. Arabic: use 'Native', 'Professional proficiency', or 'Conversational'."
+
+  experience:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [title, company, date_start, date_end, bullets]
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        hq:
+          type: string
+          description: "Company HQ location, e.g. 'Doha, Qatar' or 'London, UK'"
+        location:
+          type: string
+          description: "Candidate's working location"
+        work_model:
+          type: string
+          enum: ["", Remote, On-site, Hybrid]
+        company_description:
+          type: string
+          description: "One-line company descriptor — include for lesser-known organisations; omit for major Gulf brands (QatarEnergy, Qatar Airways, Qatargas, Ooredoo, HSBC, Shell, Exxon)"
+        date_start:
+          type: string
+          description: "Format: Mon YYYY (3-letter British month abbreviation, e.g. 'Jan 2022')"
+        date_end:
+          type: string
+          description: "Format: Mon YYYY (e.g. 'Mar 2024') or 'Present' for current role"
+        bullets:
+          type: array
+          minItems: 1
+          items: { type: string }
+
+  education:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [degree, institution]
+      additionalProperties: false
+      properties:
+        degree:
+          type: string
+        institution:
+          type: string
+        location:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        status:
+          type: string
+          description: "e.g. 'In Progress' — only if applicable"
+        gpa:
+          type: string
+          description: "Include if 3.0/4.0 or above; note the scale (e.g., '3.7/4.0'). Omit for experienced professionals (5+ years). Qatar University uses a 4.0 scale."
+
+  certifications:
+    type: array
+    items:
+      type: object
+      required: [name, issuer, date]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        issuer:
+          type: string
+        date:
+          type: string
+          description: "Month and year, e.g. 'April 2026'"
+        url:
+          type: string
+          format: uri
+          description: "Verification URL — omit if not available"
+
+  references:
+    type: array
+    description: "Professional references. List 1-2 if available, or leave empty and include 'References available upon request' as a text note in the CV. Gulf CVs include references more commonly than Western resumes."
+    items:
+      type: object
+      required: [name, title]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          description: "Reference's full name"
+        title:
+          type: string
+          description: "Reference's job title"
+        organisation:
+          type: string
+          description: "Reference's organisation"
+        contact:
+          type: string
+          description: "Phone number or email address for the reference"

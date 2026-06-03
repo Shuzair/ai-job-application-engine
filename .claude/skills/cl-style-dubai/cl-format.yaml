@@ -1,0 +1,63 @@
+# Cover Letter Format Configuration — Dubai Style
+# Controls all visual/layout aspects of the rendered cover letter.
+# Each style has its own complete format config. No inheritance.
+# Designed to visually match the CV (same header, fonts, colors).
+
+page:
+  size: A4  # A4 is the UAE standard — must match CV. US Letter is understood but not preferred. Sources: Labeeb.ae, GulfTalent.
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV top margin. UAE standard; no country-specific regulation like DIN 5008, so 2.0cm is a clean professional default.
+    bottom: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV bottom margin.
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. Must match CV left margin.
+    right: 1.8  # cm — Suggested range: 1.5–2.0cm. Must match CV right margin (slightly narrower than left).
+
+header:
+  name_font_size: 18  # pt — Must match CV name_font_size. Suggested range: 16–20pt. Visual consistency between CV and cover letter header is expected.
+  name_color: "#1F3864"  # Must match CV primary color — dark navy. Popular UAE alternatives: "#2C3E50" (charcoal blue), "#2E4057" (steel blue-grey), "#2E74B5" (steel blue), "#000000" (black).
+  name_case: upper  # Must match CV name_case. Options: upper, title, as-is. Uppercase is UAE professional standard.
+  name_bold: true  # Must match CV name_bold. Bold name is standard.
+  show_title: true  # Must match CV show_titles. Professional headline below name provides immediate context.
+  title_font_size: 11  # pt — Must match CV titles_font_size. Suggested range: 10–12pt.
+  contact_font_size: 10  # pt — Must match CV contact_font_size. Suggested range: 9–10pt.
+  links_font_size: 10  # pt — Must match CV links_font_size. Suggested range: 9–10pt.
+  show_relocation: true  # Must match CV show_relocation. Visa status and availability are functionally required in UAE applications.
+  relocation_font_size: 10  # pt — Must match CV relocation_font_size.
+  relocation_bold: true  # Must match CV relocation_bold. Bold availability line is critical for UAE recruiter scanning.
+
+date:
+  alignment: left  # UAE business letters follow UK/international letter conventions — date is placed top-left, below the header block, before the recipient address block. Sources: Labeeb.ae cover letter format guide; no UAE-specific standard mandates right-alignment.
+
+body:
+  paragraph_spacing_after: 120  # twips — Suggested range: 100–160 twips (≈5–8pt). 120 twips (≈6pt) is a clean, professional paragraph gap that reads well on A4. For more airy layout: 140 twips. For denser packing: 100 twips. UAE cover letters are concise (one page) so moderate spacing is preferred over very tight spacing.
+
+# UAE cover letter sign-off conventions per Labeeb.ae and Robert Walters UAE:
+# - "Kind regards," is the standard professional close across all sectors
+# - "Sincerely," / "Yours sincerely," for DIFC/ADGM banking-grade formal letters
+# - Avoid apologetic closings — "Thank you for considering my application" signals subordinate positioning (per Labeeb.ae)
+sign_off:
+  closing_text: "Kind regards,"  # Standard UAE professional close. Alternatives by sector: "Sincerely," (finance/DIFC), "Yours sincerely," (government/formal). Avoid: "Warm regards," (too casual for traditional companies), "Cheers," (inappropriate).
+  name_bold: true
+  name_color: "#1F3864"  # Must match CV primary color for visual consistency.
+
+typography:
+  heading_font: Calibri  # Must match CV heading_font. Calibri is the top ATS-safe font for UAE per Labeeb.ae. Popular alternatives: Arial, Tahoma, Helvetica, Cambria, Times New Roman. Avoid Montserrat, Lato, Google Fonts — fail UAE government ATS parsers.
+  body_font: Calibri  # Must match CV body_font. Calibri is universally recommended for UAE ATS compatibility.
+  body_size: 11  # pt — Must match CV body_size. Suggested range: 10–12pt. 11pt is the recommended balance of readability and fit for a one-page UAE cover letter.
+  line_spacing: 1.15  # Must match CV line_spacing. Labeeb.ae explicitly recommends 1.15 as the optimal ATS-safe line spacing for UAE job applications. Range: 1.0–1.5.
+
+colors:
+  primary: "#1F3864"  # Must match CV primary color — dark navy. For visual consistency across CV and cover letter header.
+  body: "#000000"  # Black body text — mandatory for full ATS compatibility.
+  link: "#1F3864"  # Links match primary color.
+
+# Validation limits for validate_output.py
+# UAE cover letters: 4 paragraphs standard (per Labeeb.ae framework), 200-350 words.
+# Paragraph 1: opening hook (visa + availability + company signal)
+# Paragraph 2: quantified fit (AED/%-denominated achievements)
+# Paragraph 3: UAE market fit (regulatory awareness, GCC experience, multicultural team)
+# Paragraph 4: confident close with call to action
+validation:
+  min_paragraphs: 3  # Minimum 3 paragraphs — the 4-paragraph structure is standard but a condensed 3-paragraph version is acceptable for entry-level applications.
+  max_paragraphs: 5  # Maximum 5 paragraphs — UAE letters are concise. A 5th paragraph is permissible for senior roles with complex context but rare.
+  min_total_words: 180  # Minimum 180 words — entry-level letters can be concise. Below 180 risks appearing dismissive.
+  max_total_words: 350  # Maximum 350 words — UAE recruiters prefer brevity. Senior letters cap at 350. Labeeb.ae range: 200–380 words; 350 is a conservative, widely-applicable cap.

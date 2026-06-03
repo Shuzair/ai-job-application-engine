@@ -19,13 +19,12 @@ Read `candidate.md` before writing any CV content. Every claim, skill, and metri
 Before writing anything, analyze the job posting and extract:
 
 - The **top 3 technologies** mentioned most prominently
-- The **core responsibility** from the first 2-3 requirement bullets
+- The **core responsibility** from the first 2-3 requirement bullets (Aufgaben/Anforderungen)
 - **Must-haves vs nice-to-haves**: required/essential vs preferred/bonus
 - **Cultural signals**: team structure, work style, company culture indicators
 - Whether the posting mentions relocation support or visa sponsorship
-- **Language requirement**: German or English posting — determines language of the Anschreiben
-
-Compile a **JD Signal List**: the top 8–12 skills, tools, domains, and role keywords from the posting. Every section below references this list to gate content.
+- **Language requirements**: Is the posting in German or English? This determines the CV language — match the posting language
+- **JD Signal List**: Create a flat list of every named technology, methodology, domain term, and soft-skill keyword from the posting. This list is referenced by Skills, Certifications, Experience, and Interests sections as a relevance filter
 
 ---
 
@@ -36,7 +35,7 @@ These rules define HOW to collect and filter data from candidate.md for each sec
 ### Skills — Relevance-First Filtering
 
 1. **Collect**: Read ALL skills from `candidate.md`
-2. **Match**: Keep skills that appear in the JD (exact or synonym match). Reference your JD Signal List.
+2. **Match**: Keep skills that appear in the JD (exact or synonym match). Reference your JD Signal List — a skill must map to a named signal
 3. **Expand**: If the JD mentions a skill the candidate lacks exactly but has a closely related or similar skill, include that similar skill (e.g., JD says "Redshift" → candidate has "Snowflake" → include Snowflake)
 4. **Discard**: Remove all remaining skills that have no relevance to the JD or company's domain
 5. **Distribute**: Organize the surviving skills into the category buckets defined below. If a bucket ends up empty after filtering, omit it entirely
@@ -44,22 +43,22 @@ These rules define HOW to collect and filter data from candidate.md for each sec
 ### Certifications — Strict Relevance Gate
 
 1. **Collect**: Read ALL certifications from `candidate.md`
-2. **Filter**: Keep ONLY certifications relevant to the job description — map each certification to a named signal from your JD Signal List. If you cannot map it, discard it.
-3. **Discard**: Remove all certifications with no relevance to the target role. Do not include them just to fill space.
+2. **Filter**: Map each certification to a named signal from the JD Signal List. Keep ONLY certifications where the technology, domain, or methodology connects to a JD signal
+3. **Discard**: Remove all certifications with no relevance to the target role. Do not include them just to fill space. IHK and TÜV certifications carry particular weight in Germany — prioritize these if relevant
 
 ### Experience — Maximum Context, Then Rank
 
 1. **Collect**: Read ALL experience details from `candidate.md` — roles, projects, technologies, metrics, achievements, context
 2. **Analyze**: Rank each piece of experience by relevance to the JD. Prioritize: matching technologies, matching responsibilities, matching scale/domain
-3. **Shape**: Write bullet points using terminology and keywords from the JD. Mirror the JD's technical vocabulary in the bullets. Reference your JD Signal List when choosing which achievements to include.
-4. **Prioritize**: Place the most JD-relevant bullets first within each role. Cut the least relevant bullets when space is tight.
+3. **Shape**: Write bullet points using terminology and keywords from the JD. If the JD says "Daten-Pipelines," use that phrase — not a synonym. Mirror the JD's technical vocabulary (German or English as posted) in the bullets
+4. **Prioritize**: Place the most JD-relevant bullets first within each role. Cut the least relevant bullets when space is tight
 5. **Format**: Follow the bullet writing rules defined in the style section below (word count, action verbs, tone)
 
 ### Summary — Candidate-Meets-JD Synthesis
 
 1. **Read**: Study the full candidate profile — experience arc, strongest skills, key achievements, career trajectory
-2. **Synthesize**: Write an optimal summary that positions the candidate for THIS specific role
-3. **Mirror**: Use the job title and key terms from the JD. If the JD says "Senior Data Engineer," the summary should echo that framing.
+2. **Synthesize**: Write an optimal summary that positions the candidate for THIS specific role. The summary should read as if this candidate is a natural fit for the job
+3. **Mirror**: Use the job title and key terms from the JD. If the JD says "Senior Data Engineer," the summary should echo that framing
 4. **Quantify**: Include the single most impressive metric from candidate.md that aligns with the role
 5. **Format**: Follow the structure and tone rules defined in the style section below
 
@@ -69,147 +68,136 @@ These rules define HOW to collect and filter data from candidate.md for each sec
 
 Generate these sections in this exact order.
 
-### 1. Header
+### 1. Header (Persönliche Daten)
 
-Include: full name, current city and country, phone with international dialing code (+49 or current country code), professional email, LinkedIn URL, XING profile URL (relevant for German market, especially traditional sectors), GitHub (if relevant to the role).
+Include: full name, location (city and country), email, phone, LinkedIn URL, GitHub (if relevant to the role).
 
-**Personal data fields (Persönliche Daten) — German employers expect:**
-- **Photo (Bewerbungsfoto)**: Include a professional headshot path in the `photo_path` field. ~82% of German recruiters still expect one. Placement is top-right corner. Requirements: neutral background, business attire, direct gaze, studio quality. Photo is legally optional under AGG but culturally expected — especially for traditional companies (automotive, finance, engineering). For Berlin startup/international roles, still common but slightly relaxed. Per Tier 2 research (gluckglobal.com, fintiba.com).
-- **Date of birth (Geburtsdatum)**: Include in format `DD.MM.YYYY` (e.g., 15.03.1990). Also include place of birth (Geburtsort). Still expected by the majority of German employers despite AGG making it legally optional. Per Tier 2 research (novoresume.com, airesume.guru).
-- **Nationality (Staatsangehörigkeit)**: Include. Important for non-EU applicants so recruiters can assess work permit status early.
-- **Marital status**: Omit by default for tech and modern company applications. Include only if the company is highly traditional (automotive, civil service).
-- **Full address**: Street, postal code, city is the German norm. For international applicants not yet in Germany: city + country + relocation statement.
+**Photo**: German CVs are expected to include a professional headshot (Bewerbungsfoto). Despite the AGG (Allgemeines Gleichbehandlungsgesetz, 2006) making photos legally optional, ~82% of German recruiters still expect one. Include `photo_path` in the data if the candidate has a professional photo available.
 
-Add a relocation statement on one line if applying from abroad: "Open to immediate relocation to Germany" or "Currently based in [City, Country] — available for relocation."
+**Date of birth**: Include in format DD.MM.YYYY (e.g., `15.03.1990`). Standard German convention. Birthplace (city) may also be included.
 
-Do NOT include: visa status (address in cover letter), health information, religion, ethnicity, political affiliation. These are protected categories under AGG (Allgemeines Gleichbehandlungsgesetz).
+**Nationality**: Always include, especially for non-German applicants. Pair with work permit information for non-EU citizens.
 
-### 2. Professional Summary
+**Work permit**: For non-EU citizens, include the permit type and authorization status (e.g., "EU Blue Card", "Niederlassungserlaubnis", "Chancenkarte"). EU/EEA citizens do not need to state this.
 
-Follow the Summary data collection philosophy above, then format as exactly 4 components in 3–5 lines total:
+**Marital status**: Omit — increasingly outdated and unnecessary for modern German applications.
+
+**Relocation**: Add one line about relocation readiness if applying from outside Germany (e.g., "Open to immediate relocation to Berlin").
+
+### 2. Professional Summary (Profil / Kurzprofil)
+
+Follow the Summary data collection philosophy above, then format as exactly 4 components in 3-5 lines total:
 
 1. **Who you are**: Mirror the job title from the posting. State years of experience and domain.
-2. **What you do best**: Name 3–5 technologies matching the JD's must-haves.
+2. **What you do best**: Name 3-5 technologies matching the JD's must-haves.
 3. **Differentiator**: One quantified achievement most relevant to this role.
 4. **Availability**: Relocation readiness or availability statement if applicable.
 
-**German tone rules for the summary:**
-- Formal and factual. No buzzwords: avoid "passionate," "driven," "results-oriented," "dynamic."
-- Implied first person only — no "I" pronouns. Write "Senior Data Engineer with 7 years of experience," not "I am a Senior Data Engineer."
-- Quantify concretely: "reduced pipeline latency by 40%" not "improved performance significantly."
-- 40–90 words maximum. German recruiters value brevity and substance over narrative.
-- Good example: "Senior Data Engineer with 8 years of experience in cloud-native data platforms (AWS, dbt, Snowflake). Built pipelines processing 2B+ events/day; reduced ingestion latency by 35%. Open to immediate relocation to Munich."
-- Bad example: "I am a passionate and results-driven data professional who loves tackling complex challenges."
+**Tone**: Formal, direct, and factual. No "passionate," "dynamic," or "results-driven" — German recruiters consider these filler words. State your value plainly with evidence. Implied first person — never write "I" or "Ich." Keep it to 2-4 factual sentences. Example construction: "Senior Software Engineer with 8 years of experience in distributed systems and cloud infrastructure (AWS, Kubernetes). Expertise in Go and Ruby on Rails. Reduced deployment time by 40% through CI/CD pipeline optimization at [Company]."
 
-### 3. Skills
+### 3. Skills (Kenntnisse / IT-Kenntnisse)
 
-Follow the Skills data collection philosophy above (collect → match → expand → discard → distribute). Reference your JD Signal List: include only skills that map to a named signal. Omit empty buckets.
+Follow the Skills data collection philosophy above (collect → match → expand → discard → distribute).
 
-Distribute surviving skills into up to 6 category buckets:
+Distribute surviving skills into up to 5 category buckets (omit empty buckets). German job market terminology for tech roles:
 
-1. **Programmiersprachen & Scripting** (Programming Languages & Scripting) — e.g., Python, SQL, Scala, Java, Bash
-2. **Datenbanken & Datenspeicher** (Databases & Data Storage) — e.g., PostgreSQL, Snowflake, BigQuery, Redshift, MongoDB
-3. **Cloud & Infrastruktur** (Cloud & Infrastructure) — e.g., AWS, Azure, GCP, Terraform, Kubernetes, Docker
-4. **Datenverarbeitung & Frameworks** (Data Processing & Frameworks) — e.g., dbt, Apache Spark, Airflow, Kafka, Pandas
-5. **Tools & Methoden** (Tools & Methods) — e.g., Git, JIRA, Scrum, CI/CD, Grafana, Power BI
-6. **Softskills** (Soft Skills) — use sparingly; only if concrete and credible; German employers are sceptical of generic claims
+- **Programming & Scripting** (Programmiersprachen): programming languages, scripting languages
+- **Cloud & Infrastructure** (Cloud-Infrastruktur): cloud platforms, infrastructure tools, containerization
+- **Data & Databases** (Datenbanken & Datenverarbeitung): databases, data processing frameworks, ETL tools
+- **Frameworks & Libraries** (Frameworks & Bibliotheken): web frameworks, data science libraries, testing frameworks
+- **DevOps & Tools** (DevOps & Werkzeuge): CI/CD, monitoring, version control, project management tools
 
-Separator: middle dot " · " between items. Do NOT use proficiency ratings, bar charts, or stars — they are not standard in German tech CVs and break ATS parsing.
+Maximum 5 buckets. Avoid graphical skill bars or star ratings — they are not ATS-readable and considered informal in German professional culture. Use text-only skill lists with middle dot separators.
 
-### 4. Professional Experience
+Do NOT use the outdated term "EDV-Kenntnisse" (Elektronische Datenverarbeitung) unless the JD uses it explicitly for ATS matching. Use "IT-Kenntnisse" or "Technische Kenntnisse" instead.
+
+### 4. Professional Experience (Berufserfahrung)
 
 Follow the Experience data collection philosophy above (collect all → rank by JD relevance → shape with JD terminology → prioritize).
 
-**Date format**: MM.YYYY — European format for date ranges (e.g., `03.2021 – 08.2025`). For current roles: `06.2023 – Present`. Use en-dash (–) for ranges, not hyphen (-). Per Tier 2 research (StepStone, fintiba.com).
+**Date format**: MM/YYYY for date ranges (e.g., `03/2020 – 11/2023`). Current role: `04/2024 – Present`. Do NOT use "Mar 2020" or "March 2020" format — use numeric months.
 
-**Bullet writing rules:**
-- Start each bullet with a strong action verb: *Developed, Implemented, Optimized, Led, Designed, Reduced, Increased, Introduced, Automated, Coordinated, Built, Migrated, Deployed, Architected*
-- Past tense for past roles; present tense for current role.
-- Maximum 20 words per bullet. German preference: concrete, specific, results-first.
-- Prioritize quantified achievements: "Reduced API latency by 40% through query optimization" over "Responsible for API optimization."
-- Implied first person only. No "I" — bullets read as direct statements.
-- Avoid narrative language: "was tasked with," "worked on," "helped to." Start with the action.
-- Mirror exact JD keywords in the bullet phrasing where factually correct.
+**Company format**: Company name + city. For lesser-known companies, add a brief parenthetical descriptor (industry, size, stage): e.g., `Acme GmbH, Berlin (B2B SaaS, ~120 employees)`.
 
-**Bullets per role:**
-- Recent roles (last 5 years): 3–5 bullets
-- Older roles (5+ years ago): 1–2 bullets
+**Bullet writing rules**:
+- Open with a past-tense action verb (implied first person — no "I"/"Ich"): "Developed," "Led," "Optimized," "Designed," "Implemented"
+- Maximum 20 words per bullet — aim for 1-2 lines of precise, quantified impact
+- Every bullet must include a measurable outcome where possible (percentages, Euro amounts, headcount, timeframes)
+- Avoid superlatives ("best-in-class," "world-class") and promotional language ("spearheaded," "passionate about")
+- Mirror exact JD terminology in bullets for ATS matching
 
-**Company description**: Include a one-line descriptor in parentheses for non-famous companies: "(FinTech startup, 200 employees, Berlin)" or "(Global automotive supplier, ~10,000 employees)." Omit for universally known companies (SAP, BMW, Siemens, Deutsche Bank, Bosch, Volkswagen).
+**Bullets per role**:
+- Most recent role: 4–5 bullets
+- Previous roles (2–5 years ago): 3–4 bullets
+- Older roles (5+ years ago): 2–3 bullets, sometimes one-line summary
 
-### 5. Education
+**Multiple roles at same company**: List as separate entries with distinct date ranges under the same company header. Each role gets its own bullets.
 
-**Include Abitur (German high school equivalent)**: German employers expect the full education chain from Abitur (or equivalent) onward. List institution, city, year of completion, and final grade if 2.5 or better (1.0 scale).
+**Employment gaps**: Any gap over 2-3 months should be briefly explained (parental leave, further education, etc.). Unexplained gaps are a red flag for German recruiters.
 
-**German grading system (1.0–5.0 scale):**
-- 1.0–1.5: sehr gut (excellent)
-- 1.6–2.5: gut (good)
-- 2.6–3.5: befriedigend (satisfactory)
-- 3.6–4.0: ausreichend (passing)
-- Include grade only if 2.5 or better. Note: higher number = worse grade (opposite of percentage systems).
+### 5. Education (Ausbildung)
 
-**Degree equivalence:**
-- Diplom / Magister = Master-level qualification (pre-Bologna 5-year degree); list as Master-level
-- Ausbildung = vocational training; highly respected in Germany; include if relevant
-- International degrees: list as-is; German recruiters are familiar with Bologna-era Bachelor/Master
+List in reverse chronological order: degree, institution, location, dates.
 
-**Thesis**: Include Master/Diplom thesis title if relevant to the target role. Format: "Masterarbeit: [Title]" or "Thesis: [Title]" below the degree name. Bachelor thesis: include only if directly relevant to the role.
+**German grading system**: Germany uses an inverted 1.0–5.0 scale (1.0 = best). Include final grade (Gesamtnote) only if 2.5 or better. For experienced professionals (3+ years), omit grades entirely — professional track record takes precedence.
 
-**High school**: Always include for German market — list institution, city, year, and qualification name (Abitur, IB, A-levels, etc.).
+**Foreign degrees**: List as normally titled, then add German equivalent context if helpful (e.g., "Bachelor of Science in Computer Science"). The Modified Bavarian Formula converts foreign grades to the German scale.
 
-### 6. Certifications
+**Thesis**: Include thesis topic (Thema der Abschlussarbeit) only if directly relevant to the target role. Especially valuable for academic, research, or technical positions.
 
-Follow the Certifications data collection philosophy above (keep only JD-relevant, discard the rest). Map each certification to a named signal from your JD Signal List; discard if you cannot.
+**Abitur / High school**: German convention expects to see the complete education chain. For experienced professionals, retain as a single condensed line (school name, location, year) but do not elaborate. Can be omitted if space is very tight on a 2-page CV.
 
-**Highly valued certifications in the German job market:**
-- Cloud: AWS Certified Solutions Architect / Developer / Data Engineer, Azure certifications, Google Cloud Professional Data Engineer
-- Data: dbt Certified, Databricks certifications (Spark, ML)
-- SAP: Any SAP module certification carries premium value in German enterprise (SAP HQ: Walldorf, Germany; SAP is ubiquitous in German corporate stack)
-- DevOps/Infra: CKA/CKAD (Kubernetes), Terraform Associate, Docker Certified Associate
-- Project management: PMP, PRINCE2, Scrum (PSM/CSM), SAFe
-- IT Service: ITIL Foundation
-- Security: ISO 27001, CISSP, CompTIA Security+
-- Testing: ISTQB
-- Language certifications: TestDaF, DSH, Goethe-Zertifikat (German), IELTS/TOEFL (English) — include if JD has language requirements
+**Date format**: MM/YYYY for date ranges, matching the experience section format.
 
-**Format**: Certification name, Issuer, Month Year (e.g., "AWS Certified Solutions Architect – Associate, Amazon Web Services, April 2026").
+### 6. Certifications (Zertifikate / Weiterbildungen)
 
-### 7. Languages
+Follow the Certifications data collection philosophy above (keep only JD-relevant, discard the rest). Map each certification to a named signal from the JD Signal List — discard if you cannot map it.
 
-Use CEFR levels with German labels for clarity on German CVs:
+**German-specific certifications that carry weight**:
+- IHK (Industrie- und Handelskammer) certificates — nationally recognized vocational qualifications
+- TÜV certifications (TÜV Rheinland, TÜV SÜD) — safety, quality management, data protection
+- SCC certificates — occupational health and safety
 
-| CEFR | German Label | Meaning |
-|------|-------------|---------|
-| Native | Muttersprache | Native speaker |
-| C2 | Verhandlungssicher | Business/negotiation fluent |
-| C1 | Fließend | Fluent |
-| B2 | Gute Kenntnisse | Good working knowledge |
-| B1/A2 | Grundkenntnisse | Basic knowledge |
+**Format**: Certification name, issuing body, date (MM/YYYY). Include verification URL if available.
 
-**Format**: "German — Fließend (C1)" or "English — Muttersprache (Native)"
+### 7. Languages (Sprachkenntnisse)
 
-**Why this section matters**: German is required or strongly preferred for most non-Berlin/non-international roles. B2+ German is a strong positive signal even for English-posted roles. Always include official test results if available (TestDaF, Goethe, DSH for German; IELTS/TOEFL for English). Per Tier 2 research (StepStone, iamexpat.de).
+List each language with CEFR level AND German descriptor. CEFR is the de facto standard in Germany.
 
-### 8. Interests
+**Format**: `Language: German Descriptor (CEFR Level)` — e.g., `German: Fließend (B2)`, `English: Verhandlungssicher (C1)`
 
-Include 3–5 interests in a single inline line. German employers value the "whole person" (Persönlichkeit) and expect this section — it is a standard German CV element. Per Tier 2 research (gluckglobal.com, novoresume.com).
+**CEFR to German descriptor mapping**:
+- Native → Muttersprache (no CEFR code needed)
+- C2 → Muttersprachler-Niveau
+- C1 → Verhandlungssicher (business fluent)
+- B2 → Fließend (fluent)
+- B1 → Gute Kenntnisse (good working knowledge)
+- A1/A2 → Grundkenntnisse (basic)
 
-**Good interests for German CVs**: Active hobbies (running, cycling, swimming, hiking, climbing), music (instrument), volunteering (Ehrenamt), coaching, open source contributions, hackathons, language learning.
+List native language first, then others from highest to lowest proficiency. German and English should always be listed. Include official test scores if available (e.g., "C1 — IELTS 7.0", "B2 — Goethe-Zertifikat B2").
 
-**Avoid**: "Travel" (too generic), "watching movies/TV," video games (perceived negatively in conservative sectors like automotive, finance, law).
+Avoid graphical skill bars — not ATS-readable and ambiguous.
 
-For tech roles: include GitHub projects or open source contributions only if the project directly demonstrates a skill from your JD Signal List. A technically impressive project that maps to no named JD signal should be omitted.
+### 8. Interests (Hobbys / Interessen)
+
+Optional section — include ONLY if interests demonstrate a transferable competency relevant to the role or reveal distinctive character traits.
+
+Reference your JD Signal List. Include an interest only if it connects to a skill, domain, or cultural value from the JD or target company. Examples: competitive sports → resilience/discipline, team sports → collaboration, open-source contributions → technical community engagement.
+
+Exclude generic interests (travel, cooking, music, reading) unless they are distinctive or role-relevant. For senior professionals, this section can be omitted entirely to save space.
+
+Format: 3–5 brief phrases, displayed inline with separators.
 
 ---
 
 ## Critical Rules
 
-- **ATS compliance**: Standard characters only. Avoid tables, columns, graphics, skill rating bars, icons. These break German ATS parsing. German ATS (used at large companies) parse section headings — use standard headings.
+- **ATS compliance**: Use standard characters. Avoid tables, columns, graphics, headers/footers. German ATS platforms (Personio, SAP SuccessFactors, Softgarden, Workday) are widespread even at Mittelstand companies. Use standard section headings for parser compatibility.
 - **Factual integrity**: Never fabricate experience, skills, or metrics not in candidate.md.
-- **Page limit**: Maximum 2 pages. Junior (<3 years experience): 1 page. Mid/senior: 2 pages. Trim order if exceeding: oldest role bullets → weakest interest → bullet word count → project context. Never cut certifications, education, or languages.
-- **Language**: English for English-posted/international roles. German for German-posted roles (if candidate's German is B2+). Berlin/startup: English broadly accepted.
-- **DIN 5008**: German business correspondence standard. Key rules: left-aligned text (block format), no paragraph indentation, consistent spacing. The cv-format.yaml reflects DIN 5008 margin guidance (left 2.5cm, right 2.0cm). Per Tier 1 (DIN standard), Tier 2 (joblers.net, tutkit.com).
-- **AGG compliance**: Do NOT include religion, political affiliation, union membership, health conditions, or ethnicity. Photo, DOB, and nationality are voluntarily included — culturally expected but legally optional.
-- **Lebenslauf signature line**: Traditional German CVs close with city, date, and a handwritten/digital signature ("Frankfurt, 29.05.2026"). This is declining in digital submissions — omit from YAML data.
+- **Page limit**: Maximum 2 pages. Trim order if exceeding: oldest role bullets → interests section → company descriptions → bullet word count. Never cut certifications, education, or languages.
 - Use en-dash for date ranges, middle dot for skill separators.
-- **No "Ich" as first word** anywhere in the document. German professional writing convention.
+- **Tone**: Formal, direct, factual, and modest. Not promotional. German CVs are factual documents, not marketing materials. Avoid superlatives, creative language, and Anglicisms like "spearheaded" or "passionate."
+- **Pronouns**: Implied first person throughout. Never use "I"/"Ich" or third person.
+- **Language**: Match the language of the job posting. If the posting is in German, write the CV in German (except section content which may be technical English). If in English, write in English.
+- **AGG awareness**: The Allgemeines Gleichbehandlungsgesetz (2006) makes photo, DOB, nationality, and marital status legally optional. However, German market convention still expects photo, DOB, and nationality. Include them by default. Omit marital status.
+- **DIN 5008 reference**: While DIN 5008 strictly governs business letters (Anschreiben), German CVs follow the same margin and formatting principles for consistency.

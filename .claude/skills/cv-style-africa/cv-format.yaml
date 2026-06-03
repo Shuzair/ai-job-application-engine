@@ -1,0 +1,90 @@
+# CV Format Configuration — Africa Style
+# Controls all visual/layout aspects of the rendered CV document.
+# Each style has its own complete format config. No inheritance.
+# The rendering script (scripts/render.py) reads this file deterministically.
+# Baseline covers English-language African markets: South Africa, Nigeria, Kenya, Ghana, Rwanda, Ethiopia.
+
+page:
+  size: A4  # A4 is universal across all African markets — no country uses US Letter for CVs.
+  margins:
+    top: 2.0  # cm — Suggested range: 2.0–2.5cm. South African university guides (UCT, UNISA) specify 2.5cm; 2.0cm is compact but acceptable.
+    bottom: 2.0  # cm — Suggested range: 1.5–2.5cm. Typically matches top margin.
+    left: 2.0  # cm — Suggested range: 2.0–2.5cm. No African equivalent of DIN 5008; 2.0cm is the practical standard.
+    right: 2.0  # cm — Suggested range: 1.5–2.0cm. Can be slightly smaller than left to aid readability.
+
+header:
+  name_font_size: 18  # pt — Suggested range: 16–22pt. Nigerian and Kenyan guides recommend larger name sizing (18–22pt); South Africa 16–18pt. 18pt balances visibility and space.
+  name_color: "#003366"  # Deep navy — most widely used professional accent across African markets. Alternatives: "#1A5276" (dark teal/East Africa), "#2C3E50" (charcoal/modern), "#7B241C" (burgundy/SA & Ghana traditional), "#000000" (black/government roles)
+  name_case: upper  # All-caps name is standard in Nigerian and Kenyan CV formats. Options: upper, title, as-is
+  name_bold: true  # Bold name is universal across all markets. Options: true, false
+  show_titles: true  # Professional headline below name — common in South African and Kenyan modern CV formats. Options: true, false
+  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary text below name.
+  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard across all markets.
+  links_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact info size.
+  show_relocation: true  # Include relocation note for cross-border applications. Options: true, false
+  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact line.
+  relocation_bold: true  # Bold highlights availability signal. Options: true, false
+
+# Section order follows English-language African CV convention:
+# summary → skills → certifications → experience → education → languages → optional sections → referees
+# "Career History" is the South African term; "Work Experience" is common in Nigeria/Kenya.
+# "Referees" (not "References") is the African-English term used across all markets.
+sections:
+  order:
+    - summary
+    - skills
+    - certifications
+    - experience
+    - education
+    - languages
+    - volunteer_work
+    - hobbies
+    - referees
+  headings:
+    summary: "Professional Summary"  # "Career Objective" used in traditional Ethiopian/older Kenyan formats; use "Professional Summary" for modern applications
+    skills: "Skills"
+    experience: "Career History"  # South African convention; "Work Experience" or "Professional Experience" are acceptable alternatives in Nigeria/Kenya
+    education: "Education"  # "Academic Background" is an acceptable alternative in Ghana and Kenya
+    certifications: "Certifications"
+    languages: "Languages"
+    volunteer_work: "Volunteer Work"  # Valued in NGO-heavy markets — Kenya, Rwanda, South Africa
+    hobbies: "Hobbies & Interests"  # Still common in traditional Nigerian, Ghanaian, and Kenyan CV formats
+    referees: "Referees"  # African-English term — always "Referees", never "References"
+  heading_case: upper  # UPPERCASE section headings are standard across African CV formats. Options: upper, title, as-is
+  heading_bold: true  # Bold headings are universal. Options: true, false
+  heading_underline: true  # Horizontal rule below headings is common in South African and Kenyan styles. Options: true, false
+  heading_size: 12  # pt — Suggested range: 11–13pt. Bold 12pt is the most common African section heading size.
+  section_types:
+    volunteer_work: list  # Each volunteer entry as a structured block
+    hobbies: inline  # Hobbies listed inline with separator (e.g., "Photography · Hiking · Mentoring")
+    referees: list  # Each referee as a structured entry, or "Referees available on request" as a single line
+
+typography:
+  heading_font: Calibri  # Most commonly recommended font across SA, Nigeria, Kenya, Ghana guides. Alternatives: Arial (ATS-safe), Times New Roman (traditional/government), Georgia, Cambria
+  body_font: Calibri  # Matches heading font. Alternatives: Arial, Times New Roman (traditional, 12pt), Georgia
+  body_size: 11  # pt — Suggested range: 10–12pt. 11pt is the sweet spot recommended by CVJury SA, AtomCareer Kenya, Resumeble Nigeria. Use 12pt for Times New Roman in traditional/government roles.
+  line_spacing: 1.15  # Suggested range: 1.0–1.15. 1.15 improves screen readability; single (1.0) is acceptable for space-constrained CVs.
+
+skills:
+  separator: " · "  # Middle dot separator is standard in modern African CVs. Options: " · " (middle dot), " | " (pipe), ", " (comma)
+
+languages:
+  separator: " · "  # Separator between language entries
+
+experience:
+  show_company_description: true  # One-line employer descriptor is important when companies may not be recognised across markets. Options: true, false
+  max_bullets_per_role: 5  # Suggested range: 4–6. 4–5 bullets for recent/current roles; 2–3 for older roles. Per Robert Walters Africa and Jobberman Nigeria.
+
+colors:
+  primary: "#003366"  # Deep navy — most common professional accent across African markets. Alternatives: "#1A5276" (dark teal, East African templates), "#0E6655" (deep green), "#2C3E50" (charcoal/modern), "#7B241C" (burgundy/traditional SA & Ghana)
+  body: "#000000"  # Black body text is universal
+  link: "#003366"  # Matches primary color
+
+# Validation limits for validate_output.py
+validation:
+  summary_min_words: 35  # Suggested range: 30–50. African summaries are concise — 3–4 lines is the norm per CVJury SA and Resumeble Nigeria.
+  summary_max_words: 80  # Suggested range: 60–100. Keep summary tight; over 80 words becomes a profile essay.
+  max_bullet_words: 20  # Suggested range: 15–25. "Maximum 2 lines per bullet" per Robert Walters Africa and Jobberman Nigeria guides.
+  max_bullets_recent: 5  # Suggested range: 4–6. 4–5 bullets for current/recent roles is the regional standard.
+  max_bullets_old: 3  # Suggested range: 2–3. Older roles should be brief.
+  max_pages: 2  # Standard for experienced professionals. Graduates (under 3 yrs): 1 page. Senior (10+ yrs): up to 3 pages.

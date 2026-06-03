@@ -12,110 +12,103 @@ This style covers cover letter writing rules for Germany job applications. Visua
 
 Read `candidate.md` before writing. Every claim must be traceable to that file. Read `research.md` from the application folder for company details.
 
-The Anschreiben is always a separate document from the Lebenslauf. It is the first document in the German Bewerbungsmappe (application package). ~50% of German HR professionals reject applications with a missing or poor cover letter. Per Tier 2 research (Bundesagentur für Arbeit survey 2024, liveingermany.de).
-
 ---
 
-## Structure: 4–5 Paragraphs, 250–400 Words Total
+## Structure: 3–4 Paragraphs, 200–350 Words Total
 
-One A4 page maximum. Do not exceed 400 words. The Anschreiben is a Motivationsschreiben — it should complement, not repeat, the CV.
+The German Anschreiben must fit on **strictly one A4 page** — no exceptions. Two pages is a serious formatting error. Word count for the body text (excluding header/address/date): 150–250 words. Total including all elements: 200–350 words.
 
-### Paragraph 1 — Opening Hook (2–3 sentences)
+### Paragraph 1 — Opening / Einleitung (3–4 sentences)
 
-State the exact role you are applying for and where you found the posting. Open with a specific, concrete reason for interest in this company — reference something genuine from research.md (product, technology, mission, recent news). Name the position clearly.
+State the exact position title and where you found it (job board, company website, referral). Provide one concrete, specific reason why this company interests you — reference something from research.md (a product launch, a technical challenge, a market position). No generic praise ("I was excited to see your posting").
 
-**Critical German rule**: Do NOT open the letter with "Ich" (the word for "I"). It is considered grammatically weak and poor professional style in German business writing. Open with the role, with context, or with a substantive framing statement instead.
+German convention: if the posting provides a reference number (Kennziffer/Referenznummer), include it in the subject line (Betreff), not the body text.
 
-Good opening (German): "Als erfahrener Data Engineer mit Spezialisierung auf AWS und dbt bewerbe ich mich auf die ausgeschriebene Stelle als Senior Data Engineer."
-Good opening (English): "With 8 years of experience building cloud-native data platforms, I am applying for the Senior Data Engineer position advertised on LinkedIn."
-Bad: "Ich bewerbe mich auf..." (starts with Ich — restructure)
-Bad: "I am writing to express my interest in..." (generic template)
+### Paragraph 2 — Why I'm a Good Fit / Qualifikation (4–6 sentences)
 
-### Paragraph 2 — Why I'm a Good Fit (4–6 sentences)
+Connect 2–3 specific achievements from candidate.md to the JD's requirements (Anforderungen). Use quantified metrics as evidence — "increased pipeline throughput by 35%" is stronger than "improved data processing." Match the JD's terminology exactly for ATS compatibility.
 
-Connect 2–3 specific, quantified achievements from candidate.md directly to the JD requirements. Use the JD's exact terminology where possible. Prove you can do the job, not just that you want it.
+German norm: be direct and evidence-based. State your value plainly. "I bring 5 years of experience in distributed systems and reduced deployment failures by 60% at [Company]" — not "I am passionate about building scalable systems."
 
-**German quantification norm**: Concrete numbers are highly valued — "reduced pipeline latency by 40%," "led a team of 8 engineers," "delivered a system processing 50M events/day." Avoid vague qualifiers ("significantly," "greatly," "various"). Per Tier 2 research (StepStone, novoresume.com).
+### Paragraph 3 — Why This Company / Motivation (3–4 sentences)
 
-### Paragraph 3 — Why This Company (2–4 sentences)
+Demonstrate genuine knowledge of the company from research.md. Explain why the candidate wants to work there specifically — product, mission, technical challenges, team culture. Connect your background to their current needs. Mention relocation readiness if applicable.
 
-Demonstrate genuine research into the company from research.md. Explain why you specifically want to work for this company, not just any company in the sector. Reference a specific product, technology, recent initiative, or company value. For international applicants: state relocation readiness here if not already addressed.
+### Paragraph 4 — Close / Schluss (2–3 sentences)
 
-### Paragraph 4 — Close (2–3 sentences)
+Express confident interest in discussing the role further. Confirm availability for an interview. Thank them for consideration. Keep it brief — one or two sentences is sufficient.
 
-Express formal availability for an interview. Thank them professionally. State your notice period or earliest start date if relevant. Keep it brief.
-
-### Paragraph 5 (Optional — only if necessary)
-
-For applications where significant context is needed: career changes, employment gaps, work permit status, or language note (e.g., "I am currently at B2 German and enrolled in intensive C1 courses"). Keep factual and forward-looking. If none of this applies, use only 4 paragraphs.
+German convention: do NOT state salary expectations unless the posting explicitly requests it (Gehaltsvorstellung). Do NOT mention earliest start date unless asked.
 
 ---
 
 ## Addressing and Sign-off
 
-**Salutation — named contact strongly preferred:**
-- Named male contact: "Sehr geehrter Herr [Nachname],"
-- Named female contact: "Sehr geehrte Frau [Nachname],"
-- Unknown contact: "Sehr geehrte Damen und Herren,"
-- Research the recruiter name from the job posting, LinkedIn, or company website before defaulting to the generic form. Named salutation is significantly more effective. Per Tier 2 research (liveingermany.de, settle-in-berlin.com).
+### Salutation (Anrede)
 
-**Language for the Anschreiben:**
-- Write in German if the job posting is in German and candidate's German is B2+.
-- Write in English if: the posting is in English, the company is international/multinational, or English is explicitly required.
-- Berlin startup scene: English broadly accepted and often preferred.
-- Munich, Frankfurt, Hamburg traditional corporates: German strongly preferred.
-- If candidate's German is below B2: write in English; a brief note is optional ("I look forward to strengthening my German, currently at B1").
-- Per Tier 2 research (iamexpat.de, simplegermany.com).
+Use formal address throughout — always "Sie," never "du."
 
-**Sign-off phrases — use based on language and formality level:**
+| Situation | Salutation |
+|---|---|
+| Contact name known (woman) | "Dear Ms [Surname]," / German: "Sehr geehrte Frau [Nachname]," |
+| Contact name known (man) | "Dear Mr [Surname]," / German: "Sehr geehrter Herr [Nachname]," |
+| Contact has Dr./Prof. title | "Dear Dr [Surname]," / German: "Sehr geehrter Herr Dr. [Nachname]," |
+| Name unknown | "Dear Hiring Team," / German: "Sehr geehrte Damen und Herren," |
 
-| Context | Sign-off |
-|---------|---------|
-| German — standard (all sectors) | Mit freundlichen Grüßen, |
-| German — slightly warmer (tech/startup) | Mit herzlichen Grüßen, |
-| German — most formal (banking, law) | Hochachtungsvoll, |
-| English — standard | Kind regards, |
-| English — warm | With warm regards, |
+Using a named greeting signals effort and is strongly preferred over generic address. If possible, research the hiring manager's name on LinkedIn or the company website.
 
-After the sign-off phrase: 2–3 blank lines for handwritten or digital signature, then typed full name. Per DIN 5008.
+### Sign-off
+
+English letters: "Kind regards," followed by candidate's full name.
+
+German letters: "Mit freundlichen Grüßen" — NO comma after the phrase (per DIN 5008 convention, unlike the salutation). Follow with candidate's full name.
+
+Other German options (rarely used): "Hochachtungsvoll" (very formal, archaic), "Herzliche Grüße" (informal, only for established relationships).
 
 ---
 
 ## Tone Rules
 
-- **Formal and direct**. No contractions. No humour. No casual phrases.
-- **Factual over emotional**: "Built X processing Y events/day" not "I am passionate about data engineering."
-- **Employer-benefit focus**: Write entirely in terms of what you bring to the employer, not what you want to gain.
-- **No personality claims without evidence**: Do not write "I am a fast learner," "highly motivated," or "team player" without concrete proof woven into the sentence.
-- **No "Ich" as first word** of any paragraph or the letter itself (German letters). Restructure the sentence.
-- **Industry tone calibration:**
-  - Finance / law / automotive: most formal; strict DIN 5008 style; German preferred
-  - Tech / startup / international: professional but slightly less rigid; concrete achievements still required
-  - Berlin roles: English accepted; tone can be direct and slightly less ceremonial
+**Formal, direct, and evidence-based.** The German Anschreiben is a formal business document governed by DIN 5008 conventions.
+
+- **Formal and polite**: "Sie" throughout, no contractions, no slang, no humor
+- **Direct and precise**: Short, clear sentences. Avoid flowery language or long subordinate clauses
+- **Evidence-based**: "Reduced deployment failures by 60%" beats "I am passionate about DevOps"
+- **Confident but not arrogant**: "I am confident that my experience in X directly addresses your need for Y" — not "I think I might be able to help"
+- **Not humble to a fault**: German norms expect you to state your value directly with supporting evidence
+- **Not creative**: Save creativity for creative industry roles only. No humor, wordplay, or unconventional openings
+
+**Words/phrases to avoid**: "passionate," "dynamic," "results-driven," "go-getter," "team player" (without evidence), "I would love to," "I am excited to." These are considered Anglicisms or empty filler.
+
+**Words/phrases that work**: "I bring," "My experience in X demonstrates," "At [Company], I achieved," "I am confident that," "This aligns with my background in."
+
+**Sector calibration**:
+- Law, banking, public sector, manufacturing: strict formal
+- Tech startups, creative agencies, Berlin-based companies: slightly warmer tone acceptable, still professional
 
 ---
 
 ## What NOT to Include
 
-- Salary expectations (address only if explicitly requested in the job posting)
-- Visa or sponsorship status in the CV — if work permit must be mentioned, address it briefly and positively in the closing paragraph ("I hold a valid EU residence permit" or "I am eligible for an EU Blue Card")
-- Personal information: age, marital status, children, health, religion, ethnicity
-- Photos (photos go in the CV/Lebenslauf only, never the cover letter)
-- References or Arbeitszeugnis details (these are attached separately in the Bewerbungsmappe)
-- Humor or informal language
-- Generic template phrases ("I am writing to express my interest in...")
-- Verbatim repetition of CV content — the letter must add motivation, narrative, and context
-
-**AGG note**: Do not include information protected under Germany's anti-discrimination law: religion, ethnicity, disability, sexual orientation, pregnancy, or union membership. Per Tier 1 (antidiskriminierungsstelle.de).
+- Salary expectations (discuss at interview, unless Gehaltsvorstellung is explicitly requested in the posting)
+- Visa or sponsorship details (address work authorization in the CV header, not the cover letter)
+- AGG-protected information: age, marital status, number of children, religion, nationality (these belong in the CV header per convention, not the cover letter body)
+- Repeating CV information verbatim — the letter adds narrative context, not a duty list
+- Photographs in the letter body
+- Humor, wit, or creative flourishes
+- Bold, italic, or underline formatting in body text (subject line is the exception)
+- Negative comments about current or past employers
+- Informal language or contractions
 
 ---
 
 ## Critical Rules
 
-- **One page maximum**. 250–400 words. If it does not fit on one A4 page at 11pt with DIN 5008 margins, cut it.
-- **Date format**: "Frankfurt, 29. Mai 2026" (city, day. Month YYYY written out in German) or "Berlin, 29.05.2026" (city, DD.MM.YYYY). City before date is the German standard. Date is right-aligned per DIN 5008. Per Tier 1 (DIN 5008), Tier 2 (joblers.net).
-- **DIN 5008 layout**: Left-aligned block format. No paragraph indentation. One blank line between paragraphs. Subject line ("Bewerbung als [Role]") in bold before the salutation is optional but standard in formal German letters.
+- **ATS-safe characters**: Plain text, no special formatting in body. German ATS platforms parse cover letters for additional keyword matching.
 - **Factual integrity**: Every claim traceable to candidate.md.
-- **No "Ich" opening**: Never start the letter or any paragraph with "Ich" in German-language letters.
-- **Keywords**: Naturally integrate key JD terms without keyword stuffing.
-- **Anschreiben is always required**: Unless the job posting explicitly states it is optional, include it.
+- **Word count**: Enforce the total word limit strictly — the letter MUST fit on one A4 page.
+- **Keywords**: Naturally integrate JD keywords (from Aufgaben and Anforderungen sections) without keyword stuffing.
+- **Language**: Match the language of the job posting. If the posting is in German, write the Anschreiben in German. If in English, write in English. If the posting is bilingual, default to German.
+- **DIN 5008 compliance**: Follow DIN 5008 layout conventions — right-aligned date with city, formal salutation, proper paragraph spacing, no comma after sign-off phrase.
+- **Subject line (Betreff)**: Include a bold subject line with the exact job title and reference number if provided. Example: "Bewerbung als Senior Software Engineer — Ref. DE-2026-0142"
+- **Anschreiben is almost always expected**: A 2024 Bundesagentur für Arbeit survey found nearly half of German HR professionals have rejected applications for lacking a cover letter. Always include unless the posting explicitly states otherwise.
