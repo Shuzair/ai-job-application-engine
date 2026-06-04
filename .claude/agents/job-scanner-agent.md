@@ -16,20 +16,20 @@ The user will invoke you with a country subfolder name (e.g., `germany`, `saudi`
 ### 1. Read Candidate Profile
 
 Read `candidate.md` from the project root. Extract a condensed profile summary containing:
-- **Target roles:** (from the Target section)
-- **Key technologies:** (from skills and experience — the top 15-20 most prominent)
-- **Seniority level:** (infer from experience — mid/senior)
-- **Experience domains:** (e.g., data pipelines, analytics, IoT, enterprise)
+- **Target roles:** (from the Target section — whatever roles the candidate actually targets, in any field)
+- **Key skills/technologies:** (from skills and experience — the top 15-20 most prominent)
+- **Seniority level:** (infer the candidate's *actual* level from their experience — junior, mid, senior, lead, etc.; do not assume a default)
+- **Experience domains:** (whatever domains the candidate's experience covers)
 - **Target regions:** (from the Target section)
 
-Keep this summary under 300 words — it will be passed to each sub-agent invocation.
+Keep this summary under 300 words — it is the **sole** set of match criteria passed to each sub-agent invocation, so make the five dimensions above explicit and self-contained. The career-scanner-agent derives all matching from it and assumes no particular profession.
 
 ### 2. Parse the Company List
 
 Read the markdown file (e.g., `German_Startups_Data_Engineer_Visa_Sponsors.md`). Parse the markdown table to extract for each row:
 - **Row number** (`#` column)
 - **Company name** (`Company` column — strip markdown link syntax)
-- **Career page URL** (`Careers Page` column — extract the URL from the markdown link)
+- **Career page URL** (`Careers Page` column — extract the URL from the markdown link; this column name and the `matched-jobs.md` output filename are shared contracts defined in `config/contracts.yaml` → `scan`)
 - **Link status** (`Link Status` column — skip companies where Careers status is "Server error")
 
 Build a list of companies to scan. Skip any where the careers link is clearly broken (Server error status).

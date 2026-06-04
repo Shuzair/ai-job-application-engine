@@ -25,47 +25,12 @@ Output: JSON to stdout with {valid, errors[], warnings[]}
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
 import yaml
 
 from validate_schema import validate
-
-
-# ── Tech keyword list for JD coverage checks ─────────────────────────────────
-
-TECH_KEYWORDS = {
-    # Languages
-    "python", "sql", "java", "scala", "go", "rust", "typescript", "javascript",
-    "r", "bash", "shell", "c++", "c#", "kotlin", "ruby", "php", "swift",
-    # Data tools
-    "spark", "pyspark", "hadoop", "hive", "presto", "trino", "flink",
-    "kafka", "airflow", "dagster", "prefect", "luigi", "nifi",
-    "dbt", "fivetran", "talend", "informatica", "stitch", "airbyte",
-    # Databases / warehouses
-    "snowflake", "bigquery", "redshift", "databricks", "delta lake",
-    "postgresql", "postgres", "mysql", "mongodb", "dynamodb", "redis",
-    "cassandra", "elasticsearch", "clickhouse", "greenplum",
-    # Cloud
-    "aws", "gcp", "azure", "lambda", "glue", "s3", "ec2", "ecs", "eks",
-    "step functions", "cloud functions", "dataflow", "dataproc",
-    # BI / visualization
-    "tableau", "power bi", "looker", "metabase", "superset", "grafana",
-    # DevOps / infra
-    "docker", "kubernetes", "terraform", "helm", "ci/cd", "github actions",
-    "jenkins", "gitlab", "git",
-    # Data concepts
-    "etl", "elt", "data modeling", "data warehouse", "data lake",
-    "data mesh", "data governance", "data quality", "data pipeline",
-    "machine learning", "ml", "deep learning", "nlp", "llm",
-    "feature engineering", "a/b testing",
-    # Frameworks
-    "react", "django", "flask", "fastapi", "spring", "node.js",
-    # Formats / protocols
-    "json", "parquet", "avro", "protobuf", "rest", "graphql", "grpc",
-}
 
 
 def _word_count(text: str) -> int:
@@ -185,40 +150,49 @@ def _check_header_consistency(cv_data: dict, cl_data: dict) -> list:
 
 
 def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
-    """Check if JD tech keywords appear in CV. Returns warnings only."""
+    """Warn about candidate skills the JD asks for that aren't surfaced in the
+    CV prose (summary + experience bullets). Warnings only.
+
+    The vocabulary is derived from the candidate's OWN documented skills
+    (cv-data, sourced from candidate.md) rather than a hardcoded keyword list,
+    so this check is profession-agnostic — it works the same for a data
+    engineer, a nurse, or a lawyer.
+    """
     if not jd_text:
         return []
 
-    warnings = []
     jd_lower = jd_text.lower()
 
-    # Find tech keywords in JD
-    jd_keywords = set()
-    for kw in TECH_KEYWORDS:
-        if kw in jd_lower:
-            jd_keywords.add(kw)
+    # Vocabulary = the candidate's documented skill terms.
+    skill_terms = set()
+    for skill_cat in cv_data.get("skills", []):
+        for item in skill_cat.get("items", []):
+            term = str(item).strip().lower()
+            if len(term) >= 2:
+                skill_terms.add(term)
 
-    if not jd_keywords:
+    if not skill_terms:
         return []
 
-    # Build CV text corpus
-    cv_parts = [
-        cv_data.get("summary", ""),
-    ]
+    # CV prose a recruiter reads first: summary + experience bullets
+    # (the skills list itself is excluded on purpose — we want these surfaced
+    # in the narrative, not just enumerated).
+    prose_parts = [cv_data.get("summary", "")]
     for role in cv_data.get("experience", []):
-        cv_parts.extend(role.get("bullets", []))
-    for skill_cat in cv_data.get("skills", []):
-        cv_parts.extend(skill_cat.get("items", []))
-    cv_text = " ".join(cv_parts).lower()
+        prose_parts.extend(role.get("bullets", []))
+    prose = " ".join(prose_parts).lower()
 
-    # Find missing keywords
-    missing = sorted(kw for kw in jd_keywords if kw not in cv_text)
-    if missing:
-        warnings.append(
-            f"[keywords] JD tech terms not found in CV: {', '.join(missing)}"
-        )
+    not_surfaced = sorted(
+        term for term in skill_terms
+        if term in jd_lower and term not in prose
+    )
 
-    return warnings
+    if not_surfaced:
+        return [
+            "[keywords] Skills you list that the JD asks for but aren't "
+            f"surfaced in your summary/bullets: {', '.join(not_surfaced)}"
+        ]
+    return []
 
 
 def validate_output(
