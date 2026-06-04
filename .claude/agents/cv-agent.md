@@ -30,6 +30,8 @@ Read these files in this order:
 1. `candidate.md` — the candidate's complete professional history
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
+4. The loaded CV style skill's `SKILL.md` — content rules, tone, and regional norms
+5. **The loaded CV style skill's `cv-data-schema.yaml`** (same folder as the SKILL.md) — this is REQUIRED reading, not optional. Before writing any YAML, confirm from the schema: the exact required fields, which optional/custom sections this style allows (e.g. `interests`, `references`, `projects`, `photo_path`), the exact shape of each section (string vs array vs array-of-objects), allowed enum values, and the style's documented date format (e.g. Germany uses `MM/YYYY`). **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only and may not match the loaded style.**
 
 Note the **Personal Narrative** section in candidate.md — use relevant stories to inform the tone and framing of the Professional Summary.
 
@@ -45,7 +47,7 @@ This list is your filter for every section that follows. If an item from candida
 
 Follow the loaded CV style skill for content decisions: what sections to include, bullet writing rules, tone, and regional norms.
 
-**IMPORTANT — Style skill takes precedence over this schema:** The YAML example below shows the baseline structure. The loaded style skill may define different formats for specific sections (e.g., projects as flat strings instead of structured objects, interests as arrays instead of text). When the style skill specifies a format, use that format — not the example below. Also check the style skill's data schema file (in the same skill folder as the SKILL.md, named `cv-data-schema.yaml`) for exact YAML types per section.
+**IMPORTANT — the style's schema (read in Step 1) takes precedence over this example:** The YAML below shows only the baseline structure. The loaded style may require different sections or shapes (e.g. projects as flat strings vs structured objects, interests as arrays vs text, an extra `photo_path`, or a different date format). Match the `cv-data-schema.yaml` you read in Step 1 exactly — include every required field, include only the custom sections that schema permits, and use its declared types and date format. Do not emit a field the schema forbids, and do not omit one it requires.
 
 Output a YAML file. The core sections follow this structure:
 
