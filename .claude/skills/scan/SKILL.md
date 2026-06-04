@@ -24,6 +24,8 @@ Where `<country>` is a subfolder name under `generic-cv/` (e.g., `germany`, `sau
 2. Check that `generic-cv/<country>/` exists. If not, list available country folders under `generic-cv/` and ask the user to pick one.
 3. Find the markdown file(s) in `generic-cv/<country>/` containing a company table (look for files with a markdown table that has a "Careers Page" column). If multiple files exist, let the user know and process all of them.
 
+> The required column header (`Careers Page`) and the output filename (`matched-jobs.md`) are shared contracts defined in `config/contracts.yaml` → `scan` (`careers_page_column` / `matched_jobs_filename`). The job-scanner-agent relies on the same values.
+
 ### 2. Delegate to job-scanner-agent
 
 Invoke the `job-scanner-agent` subagent with this information:

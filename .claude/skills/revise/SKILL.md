@@ -109,6 +109,8 @@ Then proceed to Step 7.
 
 Format edits create or update a **per-application override file** in the application folder. This override is deep-merged on top of the base style config at render time. The global style files are never modified.
 
+> **Override filenames are a shared contract.** The exact names (`cv-format-override.yaml` / `cl-format-override.yaml`) are defined in `config/contracts.yaml` under `override_files` and are read back by `scripts/render.py` and `/format`. If they ever change, change them there — do not diverge from that source.
+
 1. Read the base format config from the resolved style path:
    - If revising `cv`: read the file at `cv_config` path from Step 4
    - If revising `cl`: read the file at `cl_config` path from Step 4

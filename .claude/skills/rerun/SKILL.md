@@ -59,7 +59,7 @@ python scripts/run.py scripts/parse_input.py --input <folder_path>/input.md
 python scripts/run.py scripts/resolve_style.py --location "<location>" [--style "<style>"]
 ```
 
-Store the parsed input values and resolved style paths. Also check whether research was skipped (check if `research.md` contains "Research was skipped" or "Not Available").
+Store the parsed input values and resolved style paths. Also check whether research was skipped (check if `research.md` contains the skipped-research placeholder). The exact detection strings — `"Research was skipped for this application."` and the title `"Not Available"` — are the shared contract defined in `config/contracts.yaml` → `research_placeholders` (`skipped` / `skipped_title`). They are written by `/apply`; if they change, change them in `config/contracts.yaml` and keep this detector in sync.
 
 ## Step 4: Delegate to Agent
 

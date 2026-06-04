@@ -1,0 +1,35 @@
+# Cross-Component Contracts
+# ---------------------------------------------------------------------------
+# Canonical "magic strings" shared BETWEEN components (one writes them, another
+# reads/detects them). Keeping them here means a rename happens in ONE place
+# instead of silently desyncing a producer from its consumer.
+#
+# Python scripts read these via scripts/contracts.py.
+# AI-driven skills/agents (markdown — they cannot import) MUST mirror these
+# exact values and reference this file as the source of truth.
+#
+# If you change a value here, update its mirrored literal in the skill/agent
+# markdown noted beside each entry.
+
+# Per-application format override files.
+# Written by: .claude/skills/revise/SKILL.md
+# Read by:    scripts/render.py, .claude/skills/format/SKILL.md
+override_files:
+  cv_format_override: cv-format-override.yaml
+  cl_format_override: cl-format-override.yaml
+
+# Placeholder strings emitted into research.md.
+# Written by: .claude/skills/apply/SKILL.md (skipped), .claude/skills/company-research/SKILL.md (no-data)
+# Detected by: .claude/skills/rerun/SKILL.md (uses `skipped` + `skipped_title` to know research is absent)
+research_placeholders:
+  skipped: "Research was skipped for this application."
+  skipped_title: "Not Available"
+  no_tech_stack: "No public tech stack information found."
+  no_recent_news: "No recent news found in search results."
+  no_engineering_culture: "No public engineering culture information found."
+
+# Career-page scanning conventions.
+# Used by: .claude/skills/scan/SKILL.md, .claude/agents/job-scanner-agent.md
+scan:
+  careers_page_column: "Careers Page"   # required column header in company-list tables
+  matched_jobs_filename: matched-jobs.md  # output written into generic-cv/<country>/

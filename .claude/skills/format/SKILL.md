@@ -114,7 +114,7 @@ Include the results in your report.
 
 Tell the user:
 - Style resolved (e.g., "Using cv-style-europe / cl-style-europe")
-- Whether a per-application format override was applied (if `cv-format-override.yaml` or `cl-format-override.yaml` exists in the folder)
+- Whether a per-application format override was applied (override filenames `cv-format-override.yaml` / `cl-format-override.yaml` are the shared contract defined in `config/contracts.yaml` → `override_files`)
 - Files created (list all generated files with paths)
 - Post-render validation results (content checks and stats)
 - Whether PDF conversion succeeded or was skipped
