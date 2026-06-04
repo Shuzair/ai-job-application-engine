@@ -104,8 +104,8 @@ If PDF conversion fails, the docx files are still generated successfully.
 After rendering, run the post-render validator to confirm all YAML content made it into the docx:
 
 ```bash
-python scripts/run.py .claude/skills/format/scripts/validate.py <target_folder>/cv.docx <target_folder>/cv-data.yaml "CV"
-python scripts/run.py .claude/skills/format/scripts/validate.py <target_folder>/cover-letter.docx <target_folder>/cl-data.yaml "Cover Letter"
+python scripts/run.py scripts/render_validate.py <target_folder>/cv.docx <target_folder>/cv-data.yaml "CV"
+python scripts/run.py scripts/render_validate.py <target_folder>/cover-letter.docx <target_folder>/cl-data.yaml "Cover Letter"
 ```
 
 Include the results in your report.
