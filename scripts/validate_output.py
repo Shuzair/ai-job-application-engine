@@ -25,6 +25,7 @@ Output: JSON to stdout with {valid, errors[], warnings[]}
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -36,6 +37,15 @@ from validate_schema import validate
 def _word_count(text: str) -> int:
     """Count words in a text string."""
     return len(text.split())
+
+
+def _mentions(term: str, text: str) -> bool:
+    """True if *term* appears in *text* as a standalone token rather than inside
+    a larger alphanumeric word — so "sql" does NOT match inside "mysql", and
+    "go" does NOT match inside "category". Both args should already be lowercased.
+    Handles terms with regex-special characters (c++, c#, node.js, ci/cd)."""
+    pattern = r"(?<![a-z0-9])" + re.escape(term) + r"(?![a-z0-9])"
+    return re.search(pattern, text) is not None
 
 
 def _load_yaml(path: Path) -> dict:
@@ -184,7 +194,7 @@ def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
 
     not_surfaced = sorted(
         term for term in skill_terms
-        if term in jd_lower and term not in prose
+        if _mentions(term, jd_lower) and not _mentions(term, prose)
     )
 
     if not_surfaced:

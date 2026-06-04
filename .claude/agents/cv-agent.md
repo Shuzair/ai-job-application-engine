@@ -30,8 +30,7 @@ Read these files in this order:
 1. `candidate.md` — the candidate's complete professional history
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
-4. The loaded CV style skill's `SKILL.md` — content rules, tone, and regional norms
-5. **The loaded CV style skill's `cv-data-schema.yaml`** (same folder as the SKILL.md) — this is REQUIRED reading, not optional. Before writing any YAML, confirm from the schema: the exact required fields, which optional/custom sections this style allows (e.g. `interests`, `references`, `projects`, `photo_path`), the exact shape of each section (string vs array vs array-of-objects), allowed enum values, and the style's documented date format (e.g. Germany uses `MM/YYYY`). **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only and may not match the loaded style.**
+4. **The loaded CV style skill's `cv-data-schema.yaml`** (in the same folder as the SKILL.md you loaded in Step 0) — REQUIRED reading, not optional. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before writing any YAML, confirm from the schema (and the SKILL.md from Step 0): the exact required fields, which optional/custom sections this style allows (e.g. `interests`, `references`, `projects`, `photo_path`), the exact shape of each section (string vs array vs array-of-objects), allowed enum values, and the style's documented date format (e.g. Germany uses `MM/YYYY`). **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only and may not match the loaded style.**
 
 Note the **Personal Narrative** section in candidate.md — use relevant stories to inform the tone and framing of the Professional Summary.
 

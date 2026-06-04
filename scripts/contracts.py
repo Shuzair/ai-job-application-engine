@@ -21,9 +21,20 @@ CONTRACTS_PATH = PROJECT_ROOT / "config" / "contracts.yaml"
 
 
 def load_contracts(path: Path = CONTRACTS_PATH) -> dict:
-    """Load and return the raw contracts mapping."""
-    with open(path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
+    """Load and return the raw contracts mapping.
+
+    Raises a clear error if the file is missing — it is required, since it
+    defines the shared strings other components depend on.
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    except FileNotFoundError as e:
+        raise RuntimeError(
+            f"Required contracts file not found: {path}\n"
+            "It defines cross-component shared strings (override filenames, "
+            "research placeholders, scan conventions). Restore config/contracts.yaml."
+        ) from e
 
 
 _C = load_contracts()

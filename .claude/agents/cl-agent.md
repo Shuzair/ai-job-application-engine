@@ -31,8 +31,7 @@ Read these files in this order:
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
 4. `cv-data.yaml` from the application folder — the already-generated CV data
-5. The loaded CL style skill's `SKILL.md` — content structure, tone, and regional norms
-6. **The loaded CL style skill's `cl-data-schema.yaml`** (same folder as the SKILL.md) — REQUIRED reading. Before drafting, confirm from the schema and SKILL.md: the required fields, the paragraph count and word limits, the salutation/closing conventions, and the sign-off shape. **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only.**
+5. **The loaded CL style skill's `cl-data-schema.yaml`** (in the same folder as the SKILL.md you loaded in Step 0) — REQUIRED reading. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before drafting, confirm from the schema (and the SKILL.md from Step 0): the required fields, the paragraph count and word limits, the salutation/closing conventions, and the sign-off shape. **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only.**
 
 ### 2. Analyze for Consistency and Complementarity
 
