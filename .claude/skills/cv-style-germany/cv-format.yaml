@@ -7,25 +7,25 @@
 page:
   size: A4  # Germany uses A4 exclusively (210×297mm). Options: A4, Letter
   margins:
-    top: 2.0  # cm — Per DIN 5008 Form A. Suggested range: 2.0–2.7cm
-    bottom: 2.0  # cm — Suggested range: 1.5–2.0cm. No DIN lower bound specified
-    left: 2.5  # cm — Per DIN 5008 standard (25mm). Wider left margin accommodates binding/folder punches
-    right: 2.0  # cm — Per DIN 5008 standard (20mm). Suggested range: 1.5–2.0cm
+    top: 1.5  # cm — Per DIN 5008 Form A. Suggested range: 2.0–2.7cm
+    bottom: 1.5  # cm — Suggested range: 1.5–2.0cm. No DIN lower bound specified
+    left: 1.5  # cm — Per DIN 5008 standard (25mm). Wider left margin accommodates binding/folder punches
+    right: 1.5  # cm — Per DIN 5008 standard (20mm). Suggested range: 1.5–2.0cm
 
 header:
-  name_font_size: 18  # pt — Suggested range: 18–24pt. Must be the largest element on the page
+  name_font_size: 16  # pt — Suggested range: 18–24pt. Must be the largest element on the page
   name_color: "#003366"  # Navy blue — most popular in Germany; conveys trustworthiness. Popular: #003366 (navy), #005F73 (dark teal), #36454F (charcoal), #4A6FA5 (slate blue)
   name_case: upper  # German convention accepts uppercase. Options: upper, title, as-is. Some templates use uppercase surname only (e.g., "Max MÜLLER")
   name_bold: true  # Universally standard in Germany. Options: true, false
   show_titles: true  # Professional headline (Berufsbezeichnung) below name is increasingly standard. Options: true, false
-  titles_font_size: 10  # pt — Suggested range: 9–11pt. Secondary text, smaller than name
-  contact_font_size: 10  # pt — Suggested range: 9–10pt. Standard secondary text
-  links_font_size: 10  # pt — Suggested range: 9–10pt. LinkedIn preferred over XING in 2025-2026
-  show_relocation: true  # Relocation statements expected when applying from abroad. Options: true, false
-  relocation_font_size: 10  # pt — Suggested range: 9–10pt. Matches contact/links size
+  titles_font_size: 9  # pt — Suggested range: 9–11pt. Secondary text, smaller than name
+  contact_font_size: 9  # pt — Suggested range: 9–10pt. Standard secondary text
+  links_font_size: 9  # pt — Suggested range: 9–10pt. LinkedIn preferred over XING in 2025-2026
+  show_relocation: false  # Relocation statements expected when applying from abroad. Options: true, false
+  relocation_font_size: 9  # pt — Suggested range: 9–10pt. Matches contact/links size
   relocation_bold: true  # Bold draws attention to availability/relocation readiness. Options: true, false
   photo:
-    enabled: true  # Photos expected in Germany despite AGG (2006). ~82% of recruiters expect one. Options: true, false
+    enabled: false  # Photos expected in Germany despite AGG (2006). ~82% of recruiters expect one. Options: true, false
     width_cm: 4.5  # cm — Standard German Bewerbungsfoto: 4.5×6cm passport-style
     height_cm: 6.0  # cm — Professional studio shot, head and shoulders, neutral background
     position: top-right  # Placement: top-right corner of page 1. Options: top-right, top-left
@@ -52,21 +52,21 @@ sections:
   heading_case: upper  # German CVs commonly use uppercase headings. Options: upper, title, as-is
   heading_bold: true  # Always bold in Germany. Options: true, false
   heading_underline: true  # Thin horizontal rule below heading is very common in German templates. Options: true, false
-  heading_size: 12  # pt — Suggested range: 11–14pt. Clearly larger than body, smaller than name
+  heading_size: 11  # pt — Suggested range: 11–14pt. Clearly larger than body, smaller than name
   section_types:
-    interests: inline  # Hobbys displayed as inline items with separator
+    interests: list  # Interests displayed as bullet points
 
 typography:
   heading_font: Calibri  # Sans-serif preferred in Germany. Popular: Calibri, Arial, Helvetica, Roboto, Garamond (serif for traditional/academic)
   body_font: Calibri  # Must match or pair with heading font. Popular: Calibri, Arial, Helvetica, Roboto
-  body_size: 11  # pt — German standard: 11pt. Suggested range: 10–12pt. Never below 10pt (recruiters print CVs)
-  line_spacing: 1.15  # German standard for body text. Suggested range: 1.05–1.15. Avoid 1.0 (cramped) or 1.5 (wastes space)
+  body_size: 10  # pt — German standard: 11pt. Suggested range: 10–12pt. Never below 10pt (recruiters print CVs)
+  line_spacing: 1.05  # German standard for body text. Suggested range: 1.05–1.15. Avoid 1.0 (cramped) or 1.5 (wastes space)
 
 skills:
-  separator: " · "  # Middle dot is standard in German CVs. Options: " · " (middle dot), " | " (pipe), ", " (comma)
+  separator: " | "  # Middle dot is standard in German CVs. Options: " · " (middle dot), " | " (pipe), ", " (comma)
 
 languages:
-  separator: " · "  # Matches skills separator for visual consistency
+  separator: " | "  # Matches skills separator for visual consistency
 
 experience:
   show_company_description: true  # Brief descriptor for lesser-known companies is standard. Options: true, false
