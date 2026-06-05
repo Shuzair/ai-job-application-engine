@@ -107,10 +107,12 @@ def render_cv_doc(data_dir, cv_config_path, cv_schema_path, output_dir, gen_pdf)
     if not data_path.exists():
         print(f"Error: {data_path} not found"); sys.exit(1)
 
+    from contracts import CV_FORMAT_OVERRIDE
+
     data = load_yaml(data_path)
     config = load_yaml(cv_config_path)
 
-    override_path = data_dir / "cv-format-override.yaml"
+    override_path = data_dir / CV_FORMAT_OVERRIDE
     if override_path.exists():
         override = load_yaml(override_path)
         if override:
@@ -135,10 +137,12 @@ def render_cl_doc(data_dir, cl_config_path, cl_schema_path, output_dir, gen_pdf)
     if not data_path.exists():
         print(f"Error: {data_path} not found"); sys.exit(1)
 
+    from contracts import CL_FORMAT_OVERRIDE
+
     data = load_yaml(data_path)
     config = load_yaml(cl_config_path)
 
-    override_path = data_dir / "cl-format-override.yaml"
+    override_path = data_dir / CL_FORMAT_OVERRIDE
     if override_path.exists():
         override = load_yaml(override_path)
         if override:

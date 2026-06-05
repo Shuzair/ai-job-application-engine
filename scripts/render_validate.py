@@ -4,11 +4,11 @@ Post-render validation: checks that content from the YAML data file
 actually made it into the generated docx document.
 
 Usage:
-    python3 validate.py <docx_path> <yaml_path> <label>
+    python scripts/run.py scripts/render_validate.py <docx_path> <yaml_path> <label>
 
 Example:
-    python3 validate.py folder/cv.docx folder/cv-data.yaml "CV"
-    python3 validate.py folder/cover-letter.docx folder/cl-data.yaml "Cover Letter"
+    python scripts/run.py scripts/render_validate.py folder/cv.docx folder/cv-data.yaml "CV"
+    python scripts/run.py scripts/render_validate.py folder/cover-letter.docx folder/cl-data.yaml "Cover Letter"
 """
 
 import sys

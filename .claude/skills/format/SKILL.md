@@ -104,8 +104,8 @@ If PDF conversion fails, the docx files are still generated successfully.
 After rendering, run the post-render validator to confirm all YAML content made it into the docx:
 
 ```bash
-python scripts/run.py .claude/skills/format/scripts/validate.py <target_folder>/cv.docx <target_folder>/cv-data.yaml "CV"
-python scripts/run.py .claude/skills/format/scripts/validate.py <target_folder>/cover-letter.docx <target_folder>/cl-data.yaml "Cover Letter"
+python scripts/run.py scripts/render_validate.py <target_folder>/cv.docx <target_folder>/cv-data.yaml "CV"
+python scripts/run.py scripts/render_validate.py <target_folder>/cover-letter.docx <target_folder>/cl-data.yaml "Cover Letter"
 ```
 
 Include the results in your report.
@@ -114,7 +114,7 @@ Include the results in your report.
 
 Tell the user:
 - Style resolved (e.g., "Using cv-style-europe / cl-style-europe")
-- Whether a per-application format override was applied (if `cv-format-override.yaml` or `cl-format-override.yaml` exists in the folder)
+- Whether a per-application format override was applied (override filenames `cv-format-override.yaml` / `cl-format-override.yaml` are the shared contract defined in `config/contracts.yaml` → `override_files`)
 - Files created (list all generated files with paths)
 - Post-render validation results (content checks and stats)
 - Whether PDF conversion succeeded or was skipped

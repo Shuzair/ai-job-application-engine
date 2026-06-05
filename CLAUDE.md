@@ -18,11 +18,14 @@ job-applications/input.md             ← fill per application
 job-applications/output/              ← versioned folders per application
 config/
   style-resolution.yaml               ← country→region mapping for style skill selection
+  contracts.yaml                      ← single source of truth for cross-component "magic strings"
 scripts/
   render.py                           ← CLI entry point for rendering
   render_cv.py                        ← deterministic CV docx generator
   render_cl.py                        ← deterministic cover letter docx generator
+  render_validate.py                  ← post-render content checker (verifies YAML content reached the docx)
   validate_schema.py                  ← YAML schema validation utility
+  contracts.py                        ← typed loader for config/contracts.yaml
   parse_input.py                      ← parses input.md into structured JSON (both main and snapshot formats)
   resolve_style.py                    ← resolves CV/CL style via 4-step cascade (deterministic)
   prepare_folder.py                   ← creates versioned output folder + writes input snapshot
@@ -42,10 +45,7 @@ requirements.txt                      ← Python dependencies
 .claude/skills/cl-style-default/       ← default CL style (SKILL.md + cl-format.yaml + cl-data-schema.yaml)
 .claude/skills/cv-style-europe/       ← European CV style (SKILL.md + cv-format.yaml + cv-data-schema.yaml)
 .claude/skills/cl-style-europe/       ← European CL style (SKILL.md + cl-format.yaml + cl-data-schema.yaml)
-.claude/skills/cv-format-default/     ← (legacy — superseded)
-.claude/skills/cl-format-default/     ← (legacy — superseded)
 .claude/skills/company-research/      ← company research workflow
-.claude/skills/format/scripts/        ← post-render validation script
 .claude/skills/rerun/                 ← /rerun skill (re-run single agent)
 .claude/skills/profile/               ← /profile skill (manage candidate.md)
 .claude/skills/revise/                ← /revise skill (targeted data edits)

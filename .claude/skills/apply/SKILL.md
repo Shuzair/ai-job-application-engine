@@ -74,7 +74,7 @@ Decide whether to run company research based on two signals:
 - Company field is filled
 - The user did not request skipping research
 
-If skipping research, create a minimal `research.md` in the folder:
+If skipping research, create a minimal `research.md` in the folder. The title (`Not Available`) and the first sentence (`Research was skipped for this application.`) are a shared contract — `/rerun` detects them to know research is absent. They are defined in `config/contracts.yaml` → `research_placeholders` (`skipped_title` / `skipped`); use them verbatim.
 
 ```markdown
 # Company Research: Not Available

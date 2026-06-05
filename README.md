@@ -90,12 +90,15 @@ Each style has its own complete format config. No inheritance — each is a full
 ├── candidate.md                          ← your profile (swap per person)
 ├── requirements.txt                      ← Python dependencies
 ├── config/
-│   └── style-resolution.yaml             ← country→region mapping for style skill selection
+│   ├── style-resolution.yaml             ← country→region mapping for style skill selection
+│   └── contracts.yaml                    ← single source of truth for cross-component "magic strings"
 ├── scripts/
 │   ├── render.py                         ← CLI entry point for rendering
 │   ├── render_cv.py                      ← deterministic CV docx generator
 │   ├── render_cl.py                      ← deterministic cover letter docx generator
+│   ├── render_validate.py                ← post-render content checker (YAML content reached the docx)
 │   ├── validate_schema.py                ← YAML schema validation utility
+│   ├── contracts.py                      ← typed loader for config/contracts.yaml
 │   ├── parse_input.py                    ← parses input.md into structured JSON
 │   ├── resolve_style.py                  ← resolves CV/CL style via 4-step cascade
 │   ├── prepare_folder.py                 ← creates versioned output folder + writes snapshot
@@ -136,12 +139,9 @@ Each style has its own complete format config. No inheritance — each is a full
 │       │   ├── SKILL.md                  ← content/writing rules
 │       │   ├── cl-format.yaml            ← visual formatting config
 │       │   └── cl-data-schema.yaml       ← data validation schema
-│       ├── cv-format-default/SKILL.md    ← (legacy — superseded)
-│       ├── cl-format-default/SKILL.md    ← (legacy — superseded)
 │       ├── company-research/SKILL.md     ← company research workflow
 │       ├── scan/SKILL.md                 ← /scan command (career page scanning)
-│       ├── style/SKILL.md                ← /style command (create new country/region styles)
-│       └── format/scripts/validate.py    ← post-render content checker
+│       └── style/SKILL.md                ← /style command (create new country/region styles)
 ├── job-applications/
 │   ├── input.md                          ← fill this per application
 │   └── output/                           ← versioned folders per application

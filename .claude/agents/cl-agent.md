@@ -31,6 +31,7 @@ Read these files in this order:
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
 4. `cv-data.yaml` from the application folder — the already-generated CV data
+5. **The loaded CL style skill's `cl-data-schema.yaml`** (in the same folder as the SKILL.md you loaded in Step 0) — REQUIRED reading. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before drafting, confirm from the schema (and the SKILL.md from Step 0): the required fields, the paragraph count and word limits, the salutation/closing conventions, and the sign-off shape. **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only.**
 
 ### 2. Analyze for Consistency and Complementarity
 
@@ -40,14 +41,14 @@ The cover letter must complement the CV, not repeat it. After reading cv-data.ya
 - Identify 2-3 achievements from candidate.md that are NOT already prominent in the CV, or frame CV highlights from a different angle
 - The CV shows WHAT was done. The cover letter explains WHY it matters to this company.
 - Use research.md to connect the candidate's experience to the company's specific challenges
-- **If research was skipped** (research.md contains "Not Available"): skip company-specific connections and focus on JD requirements
+- **If research was skipped** (research.md contains the skipped-research placeholder — see `config/contracts.yaml` → `research_placeholders`): skip company-specific connections and focus on JD requirements
 - Check the **Personal Narrative** section in candidate.md for authentic personal stories. Use these to add a genuine human angle.
 
 ### 3. Generate cl-data.yaml
 
 Follow the loaded cover letter style skill for content structure, tone, and regional norms.
 
-**IMPORTANT — Style skill takes precedence over this schema:** The YAML example below shows the baseline structure. The loaded style skill may define different paragraph counts, word limits, or section formats. When the style skill specifies a format, use that format — not the example below. Also check the style skill's data schema file (in the same skill folder, named `cl-data-schema.yaml`) for exact YAML types.
+**IMPORTANT — the style's schema (read in Step 1) takes precedence over this example:** The YAML below shows only the baseline structure. The loaded style may define different paragraph counts, word limits, salutation/closing conventions, or sign-off shape. Match the `cl-data-schema.yaml` and SKILL.md you read in Step 1 exactly — not the example below.
 
 Output a YAML file. The core sections follow this structure:
 

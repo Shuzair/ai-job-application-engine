@@ -46,6 +46,8 @@ Extract: work culture signals, remote/hybrid policies, diversity initiatives, co
 
 ## Output Format
 
+> The "nothing found" placeholder strings below (no tech stack / no recent news / no engineering culture) are a shared contract defined in `config/contracts.yaml` → `research_placeholders`. Use them verbatim; if they change, change them there.
+
 Write the research to a file called `research.md` with this structure:
 
 ```markdown
