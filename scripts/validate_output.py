@@ -4,7 +4,8 @@
 errors (structure — the documents cannot be rendered until fixed):
   - JSON Schema validation (via validate_schema.py)
   - Header consistency: name match between CV and CL
-limits (the style's validation block in cv-format.yaml / cl-format.yaml):
+  - CV skill category listed twice
+limits (CV_LIMITS / CL_LIMITS below):
   - CV summary word count (min/max)
   - CV bullet word count per bullet
   - CV bullet count per role (most recent / previous / older)
@@ -54,19 +55,36 @@ def _load_yaml(path: Path) -> dict:
         return yaml.safe_load(f) or {}
 
 
-def _get_validation_config(config: dict) -> dict:
-    """Extract validation block from format config with defaults."""
-    return config.get("validation", {})
+# Netherlands content limits. They keep the CV to two A4 pages and the letter
+# to one; render.py checks the real page counts on the PDF.
+CV_LIMITS = {
+    "summary_min_words": 40,
+    "summary_max_words": 80,
+    "max_bullet_words": 18,
+    "max_bullets_recent": 5,     # most recent role
+    "max_bullets_previous": 4,   # second role
+    "max_bullets_old": 3,        # every older role
+}
+CL_LIMITS = {
+    "min_paragraphs": 4,
+    "max_paragraphs": 5,
+    "min_total_words": 200,
+    "max_total_words": 350,
+}
 
 
-def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str) -> tuple:
+def _validate_cv(cv_data: dict, cv_schema_path: str) -> tuple:
     """Validate CV data. Returns (errors, limits)."""
     errors = []
     limits = []
-    val = _get_validation_config(cv_config)
+    val = CV_LIMITS
 
     schema_errors = validate(cv_data, cv_schema_path)
     errors.extend(f"[schema] {e}" for e in schema_errors)
+
+    categories = [g.get("category") for g in cv_data.get("skills", []) if isinstance(g, dict)]
+    for dup in sorted({c for c in categories if categories.count(c) > 1}):
+        errors.append(f"[cv] Skill category listed twice: {dup} (merge the items into one entry)")
 
     # Summary word count
     summary = cv_data.get("summary", "")
@@ -112,11 +130,11 @@ def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str) -> tuple:
     return errors, limits
 
 
-def _validate_cl(cl_data: dict, cl_config: dict, cl_schema_path: str) -> tuple:
+def _validate_cl(cl_data: dict, cl_schema_path: str) -> tuple:
     """Validate CL data. Returns (errors, limits)."""
     errors = []
     limits = []
-    val = _get_validation_config(cl_config)
+    val = CL_LIMITS
 
     schema_errors = validate(cl_data, cl_schema_path)
     errors.extend(f"[schema] {e}" for e in schema_errors)
@@ -228,9 +246,7 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
             all_errors.append(f"[cv] File not found: {cv_file}")
         else:
             cv_data = _load_yaml(cv_file)
-            errs, lims = _validate_cv(
-                cv_data, _load_yaml(contracts.CV_CONFIG), str(contracts.CV_SCHEMA)
-            )
+            errs, lims = _validate_cv(cv_data, str(contracts.CV_SCHEMA))
             all_errors.extend(errs)
             all_limits.extend(lims)
 
@@ -240,9 +256,7 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
             all_errors.append(f"[cl] File not found: {cl_file}")
         else:
             cl_data = _load_yaml(cl_file)
-            errs, lims = _validate_cl(
-                cl_data, _load_yaml(contracts.CL_CONFIG), str(contracts.CL_SCHEMA)
-            )
+            errs, lims = _validate_cl(cl_data, str(contracts.CL_SCHEMA))
             all_errors.extend(errs)
             all_limits.extend(lims)
 

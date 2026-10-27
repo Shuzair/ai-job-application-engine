@@ -8,7 +8,7 @@ user-invocable: false
 
 # Netherlands Cover Letter Style
 
-This style covers cover letter writing rules for Netherlands job applications. Visual formatting is controlled by the style's `cl-format.yaml` in this folder.
+This style covers cover letter writing rules for Netherlands job applications. The layout is fixed — `scripts/nl_template.py` renders every letter the same way, with the same header as the CV. You write the text only.
 
 Read `candidate.md` before writing. Every claim must be traceable to that file. Read `research.md` from the application folder for company details.
 

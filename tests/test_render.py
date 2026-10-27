@@ -1,5 +1,5 @@
 """Render a full Netherlands CV + cover letter to docx (no Word needed: no PDF,
-no opening) and check what reaches the page."""
+no opening) and check what reaches the page, in the fixed layout."""
 import copy
 
 import pytest
@@ -7,6 +7,7 @@ import yaml
 from docx import Document
 from docx.oxml.ns import qn
 
+import nl_template
 import render
 import validate_output as vo
 
@@ -22,7 +23,10 @@ CV = {
         "relocation": "Open to relocation to the Netherlands",
     },
     "summary": " ".join(["Data engineer building batch and streaming pipelines on AWS."] * 6),
-    "skills": [{"category": "Programming & Scripting", "items": ["Python", "SQL"]}],
+    "skills": [
+        {"category": "Cloud & DevOps", "items": ["Docker", "AWS"]},
+        {"category": "Programming", "items": ["Python", "SQL"]},
+    ],
     "experience": [
         {
             "title": "Data Engineer", "company": "Acme", "location": "Remote",
@@ -92,12 +96,41 @@ def test_schema_gate_blocks_fields_the_style_forbids(tmp_path):
     assert not (folder / "cv.docx").exists()
 
 
-def test_override_is_merged(tmp_path):
+def test_cv_sections_and_skill_categories_follow_the_fixed_order(tmp_path):
     folder = _folder(tmp_path)
-    (folder / "cv-format-override.yaml").write_text("typography:\n  body_size: 9\n", encoding="utf-8")
-    config = render.load_config("cv", folder)
-    assert config["typography"]["body_size"] == 9
-    assert config["typography"]["body_font"] == "Calibri"
+    render.render_folder(folder, only="cv", pdf=False, open_docs=False)
+    text = _text(folder / "cv.docx")
+    order = ["PROFESSIONAL SUMMARY", "TECHNICAL SKILLS", "PROFESSIONAL EXPERIENCE",
+             "PROJECTS", "EDUCATION", "LANGUAGES", "INTERESTS"]
+    assert [text.index(h) for h in order] == sorted(text.index(h) for h in order)
+    # Programming comes first even though the data lists Cloud & DevOps first.
+    assert text.index("Programming: Python · SQL") < text.index("Cloud & DevOps: Docker · AWS")
+
+
+def test_schema_categories_match_the_template():
+    schema = yaml.safe_load(render.contracts.CV_SCHEMA.read_text(encoding="utf-8"))
+    enum = schema["properties"]["skills"]["items"]["properties"]["category"]["enum"]
+    assert enum == nl_template.SKILL_CATEGORIES
+    assert set(schema["properties"]) == {key for key, _ in nl_template.CV_SECTIONS} | {"header"}
+
+
+@pytest.mark.parametrize("change, match", [
+    (lambda cv: cv.update(volunteer_work=["Coached juniors"]), "volunteer_work"),
+    (lambda cv: cv["skills"].append({"category": "Soft Skills", "items": ["Talking"]}), "Soft Skills"),
+])
+def test_schema_gate_blocks_anything_outside_the_fixed_format(tmp_path, change, match):
+    cv = copy.deepcopy(CV)
+    change(cv)
+    folder = _folder(tmp_path, cv=cv)
+    with pytest.raises(render.RenderError, match=match):
+        render.render_folder(folder, only="cv", pdf=False, open_docs=False)
+
+
+def test_validator_rejects_a_repeated_skill_category(tmp_path):
+    cv = copy.deepcopy(CV)
+    cv["skills"].append({"category": "Programming", "items": ["Bash"]})
+    result = vo.validate_output("cv", str(_folder(tmp_path, cv=cv)))
+    assert any("listed twice: Programming" in e for e in result["errors"])
 
 
 def test_validator_reads_jd_and_passes_clean_data(tmp_path):

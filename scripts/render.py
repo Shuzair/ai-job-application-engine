@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Render an application folder's CV and cover letter: YAML data → docx → pdf.
 
-Uses the Netherlands style config and schema (config/contracts.yaml → style),
-deep-merged with the folder's cv/cl-format-override.yaml if present.
+The layout is fixed (scripts/nl_template.py); the data is checked against
+the Netherlands schemas (config/contracts.yaml → style).
 
 For each document: validate the data against the schema, close the docx in
 Word if it is open, write the docx, check every YAML value reached it, then
@@ -30,17 +30,15 @@ DOCS = {
         "label": "CV",
         "data": "cv-data.yaml",
         "docx": "cv.docx",
-        "config": contracts.CV_CONFIG,
         "schema": contracts.CV_SCHEMA,
-        "override": contracts.CV_FORMAT_OVERRIDE,
+        "max_pages": 2,
     },
     "cl": {
         "label": "Cover Letter",
         "data": "cl-data.yaml",
         "docx": "cover-letter.docx",
-        "config": contracts.CL_CONFIG,
         "schema": contracts.CL_SCHEMA,
-        "override": contracts.CL_FORMAT_OVERRIDE,
+        "max_pages": 1,
     },
 }
 
@@ -54,32 +52,10 @@ def load_yaml(path):
         return yaml.safe_load(f)
 
 
-def deep_merge(base: dict, override: dict) -> dict:
-    result = base.copy()
-    for key, value in override.items():
-        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-            result[key] = deep_merge(result[key], value)
-        else:
-            result[key] = value
-    return result
-
-
-def load_config(kind: str, data_dir: Path) -> dict:
-    """Base style config for *kind*, with the folder's override merged on top."""
-    spec = DOCS[kind]
-    config = load_yaml(spec["config"])
-    override_path = data_dir / spec["override"]
-    if override_path.exists():
-        override = load_yaml(override_path)
-        if override:
-            config = deep_merge(config, override)
-            print(f"  Applied override: {override_path.name}")
-    return config
-
-
-def _render_docx(kind: str, data_dir: Path) -> tuple:
-    """Validate, render and content-check one document. Returns (docx_path, config)."""
+def _render_docx(kind: str, data_dir: Path) -> Path:
+    """Validate, render and content-check one document. Returns the docx path."""
     from validate_schema import validate
+    import nl_template
     import render_validate
     from word import close_in_word
 
@@ -90,7 +66,6 @@ def _render_docx(kind: str, data_dir: Path) -> tuple:
         raise RenderError(f"{data_path.name} not found in {data_dir}")
 
     data = load_yaml(data_path)
-    config = load_config(kind, data_dir)
 
     errors = validate(data, str(spec["schema"]))
     if errors:
@@ -101,19 +76,16 @@ def _render_docx(kind: str, data_dir: Path) -> tuple:
         for name in close_in_word([docx_path]):
             print(f"  Closed in Word: {Path(name).name}")
 
-    if kind == "cv":
-        from render_cv import render_cv as render
-    else:
-        from render_cl import render_cl as render
+    render = nl_template.render_cv if kind == "cv" else nl_template.render_cl
     try:
-        render(data, config, str(docx_path))
+        render(data, str(docx_path))
     except PermissionError:
         raise RenderError(f"{docx_path.name} is open in another program. Close it and run again.")
     print(f"  Wrote {docx_path.name}")
 
     if not render_validate.validate(str(docx_path), str(data_path), spec["label"]):
         raise RenderError(f"{docx_path.name} is missing content from {data_path.name} (see the check above)")
-    return docx_path, config
+    return docx_path
 
 
 def render_folder(folder, only=None, pdf=True, open_docs=True) -> dict:
@@ -126,11 +98,11 @@ def render_folder(folder, only=None, pdf=True, open_docs=True) -> dict:
     rendered = []
     for kind in kinds:
         print(f"\n[{DOCS[kind]['label']}]")
-        docx_path, config = _render_docx(kind, data_dir)
+        docx_path = _render_docx(kind, data_dir)
         rendered.append({
             "kind": kind,
             "docx": str(docx_path),
-            "max_pages": config.get("validation", {}).get("max_pages"),
+            "max_pages": DOCS[kind]["max_pages"],
         })
 
     warnings = []

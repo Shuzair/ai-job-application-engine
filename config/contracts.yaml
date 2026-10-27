@@ -18,13 +18,6 @@ style:
   cv_skill: cv-style-netherlands
   cl_skill: cl-style-netherlands
 
-# Per-application format override files.
-# Written by: .claude/skills/revise/SKILL.md
-# Read by:    scripts/render.py
-override_files:
-  cv_format_override: cv-format-override.yaml
-  cl_format_override: cl-format-override.yaml
-
 # Placeholder strings emitted into research.md.
 # Written by: .claude/skills/apply/SKILL.md (skipped), .claude/skills/company-research/SKILL.md (no-data)
 # Detected by: .claude/agents/cl-agent.md (uses `skipped` to know research is absent)

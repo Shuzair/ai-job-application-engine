@@ -1,13 +1,12 @@
 # JSON Schema (in YAML) for cv-data.yaml — Netherlands Style
 # Validates structured CV data produced by the cv-agent.
-# Each style has its own complete schema. No inheritance.
+# The layout is fixed (scripts/nl_template.py): these are the only sections,
+# rendered in this order: summary, skills, experience, projects, education,
+# certifications, languages, interests.
 
 type: object
 required: [header, summary, skills, experience, education]
-additionalProperties:
-  type: array
-  items:
-    type: string
+additionalProperties: false
 
 properties:
   header:
@@ -53,7 +52,14 @@ properties:
       properties:
         category:
           type: string
-          description: "Skill category — e.g. 'Programming & Scripting', 'Cloud & Infrastructure', 'Data & Analytics', 'DevOps & Tools', 'Databases', 'Core Competencies'"
+          description: "One of the fixed categories, each used at most once; rendered in this order. Mirrors SKILL_CATEGORIES in scripts/nl_template.py."
+          enum:
+            - Programming
+            - Data Warehousing & Databases
+            - Pipelines & Orchestration
+            - Data Modelling & BI
+            - Cloud & DevOps
+            - AI & LLMs
         items:
           type: array
           minItems: 1
@@ -95,7 +101,7 @@ properties:
           enum: ["", Remote, On-site, Hybrid]
         company_description:
           type: string
-          description: "One-line context note for lesser-known companies — not standard in Dutch CVs but acceptable for obscure employers"
+          description: "One-line factual descriptor of the company (what it does, scale), shown in italics under the role. Dutch recruiters rarely know the candidate's employers abroad."
         date_start:
           type: string
           description: "Format: Mon YYYY (3-letter month, e.g. Sep 2024) — standard Dutch CV date format"

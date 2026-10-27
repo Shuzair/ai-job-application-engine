@@ -12,7 +12,8 @@ Tailored CV and cover letter for a job in the Netherlands, from one job posting.
 ## What it does
 
 - Researches the company (skipped for agency postings with no company name).
-- Writes the CV and cover letter in English to Dutch norms: direct, factual, quantified; A4, CV max 2 pages, letter max 1 page and 250–350 words.
+- Writes the CV and cover letter in English to Dutch norms: direct, factual, quantified; CV max 2 pages, letter max 1 page and 250–350 words.
+- Uses one fixed layout for every application (`scripts/nl_template.py`), built for an international data / analytics engineer: A4, Calibri, one column, summary → technical skills → experience → projects → education → certifications → languages → interests. Only the text changes per job.
 - Never puts nationality, visa or sponsorship in the documents; relocation readiness only.
 - Flags a posting written in Dutch, which usually means Dutch is required.
 - Checks the data against the schema and the style limits, checks every value reached the docx, and checks the PDF page count.

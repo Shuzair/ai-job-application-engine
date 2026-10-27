@@ -22,7 +22,7 @@ Load the `cv-style-netherlands` skill using the Skill tool and apply its rules t
 
 The style skill is a complete, self-contained set of rules — follow it as-is.
 
-**Important:** Visual formatting (fonts, margins, colors, layout) is NOT your responsibility. You produce structured YAML data. A separate rendering script handles all visual formatting from config files.
+**Important:** The layout is fixed (`scripts/nl_template.py`): fonts, margins, section order, headings and skill categories are the same for every CV. You only write the text, as structured YAML in the fixed shape below.
 
 ### 1. Read All Context
 
@@ -69,12 +69,12 @@ summary: |
   3-5 line professional summary paragraph. Rewrite specifically for this role.
   Use implied first person. Be factual, direct, quantified — European tone.
 
-skills:
-  - category: "Programming & Scripting"
+skills:                           # fixed category names only, each at most once
+  - category: "Programming"
     items: ["SQL", "Python", "PySpark"]
-  - category: "Databases & Warehousing"
-    items: ["Snowflake", "PostgreSQL"]
-  # ... more categories
+  - category: "Data Warehousing & Databases"
+    items: ["Snowflake", "BigQuery", "PostgreSQL"]
+  # also: "Pipelines & Orchestration", "Data Modelling & BI", "Cloud & DevOps", "AI & LLMs"
 
 languages:
   - language: "English"

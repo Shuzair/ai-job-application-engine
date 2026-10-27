@@ -1,6 +1,6 @@
 # JSON Schema (in YAML) for cl-data.yaml — Netherlands Style
 # Validates structured cover letter data produced by the cl-agent.
-# Each style has its own complete schema. No inheritance.
+# The layout is fixed (scripts/nl_template.py); only these fields are rendered.
 
 type: object
 required: [header, date, salutation, paragraphs, sign_off]

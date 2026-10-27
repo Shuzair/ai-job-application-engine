@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Typed access to config/contracts.yaml — the single source of truth for
-cross-component "magic strings" (style paths, override filenames, research.md
-placeholders).
+cross-component "magic strings" (style folders, research.md placeholders).
 
 Import as a sibling module from any script in scripts/:
 
-    from contracts import CV_FORMAT_OVERRIDE, RESEARCH_SKIPPED
+    from contracts import CV_SCHEMA, RESEARCH_SKIPPED
 
 Auto-locates the project root (parent of scripts/), so it works regardless of
 the current working directory.
@@ -32,8 +31,8 @@ def load_contracts(path: Path = CONTRACTS_PATH) -> dict:
     except FileNotFoundError as e:
         raise RuntimeError(
             f"Required contracts file not found: {path}\n"
-            "It defines cross-component shared strings (style paths, override "
-            "filenames, research placeholders). Restore config/contracts.yaml."
+            "It defines cross-component shared strings (style folders, "
+            "research placeholders). Restore config/contracts.yaml."
         ) from e
 
 
@@ -43,14 +42,8 @@ _C = load_contracts()
 SKILLS_DIR = PROJECT_ROOT / ".claude" / "skills"
 CV_STYLE_SKILL = _C["style"]["cv_skill"]
 CL_STYLE_SKILL = _C["style"]["cl_skill"]
-CV_CONFIG = SKILLS_DIR / CV_STYLE_SKILL / "cv-format.yaml"
 CV_SCHEMA = SKILLS_DIR / CV_STYLE_SKILL / "cv-data-schema.yaml"
-CL_CONFIG = SKILLS_DIR / CL_STYLE_SKILL / "cl-format.yaml"
 CL_SCHEMA = SKILLS_DIR / CL_STYLE_SKILL / "cl-data-schema.yaml"
-
-# ── Override files ──────────────────────────────────────────────────────────
-CV_FORMAT_OVERRIDE = _C["override_files"]["cv_format_override"]
-CL_FORMAT_OVERRIDE = _C["override_files"]["cl_format_override"]
 
 # ── research.md placeholders ────────────────────────────────────────────────
 RESEARCH_SKIPPED = _C["research_placeholders"]["skipped"]

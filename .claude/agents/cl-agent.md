@@ -23,7 +23,7 @@ Load the `cl-style-netherlands` skill using the Skill tool and apply its rules t
 
 The style skill is a complete, self-contained set of rules — follow it as-is.
 
-**Important:** Visual formatting (fonts, margins, colors, layout) is NOT your responsibility. You produce structured YAML data. A separate rendering script handles all visual formatting from config files.
+**Important:** The layout is fixed (`scripts/nl_template.py`), with the same header as the CV. You only write the text, as structured YAML in the shape below.
 
 ### 1. Read All Context
 

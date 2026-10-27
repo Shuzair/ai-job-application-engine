@@ -8,7 +8,7 @@ user-invocable: false
 
 # Netherlands CV Style
 
-This style covers CV writing rules for Netherlands job applications. It does NOT cover visual formatting — that is controlled by the style's `cv-format.yaml` in this folder.
+This style covers CV writing rules for Netherlands job applications, for an international data / analytics engineer. The layout is fixed — `scripts/nl_template.py` renders every CV the same way (A4, Calibri 11 pt, one column, fixed section order and skill categories). You write the text; you never choose fonts, sizes, order or headings.
 
 Read `candidate.md` before writing any CV content. Every claim, skill, and metric must be traceable to that file. Never fabricate.
 
@@ -31,7 +31,7 @@ Build a **JD Signal List** — a ranked list of the top 8–12 skills, tools, do
 
 ## Data Collection Philosophy
 
-These rules define HOW to collect and filter data from candidate.md for each section. They are fixed across all styles — only the presentation rules (bucket names, bullet format, tone) vary by country.
+These rules define HOW to collect and filter data from candidate.md for each section.
 
 ### Skills — Relevance-First Filtering
 
@@ -67,7 +67,7 @@ These rules define HOW to collect and filter data from candidate.md for each sec
 
 ## CV Sections
 
-The rendered order is set by `cv-format.yaml`: summary, experience, projects, education, skills, certifications, languages, interests. Generate the data for each section below.
+The rendered order is fixed: header, summary, skills, experience, projects, education, certifications, languages, interests. Skills come right after the summary so a Dutch recruiter sees the stack before employers they may not know. `cv-data-schema.yaml` allows no other sections. Generate the data for each section below.
 
 ### 1. Header
 
@@ -102,16 +102,16 @@ Follow the Summary data collection philosophy above, then format as exactly 4 co
 
 Follow the Skills data collection philosophy above (collect → match → expand → discard → distribute). Reference your JD Signal List to confirm each retained skill addresses a named signal.
 
-Distribute surviving skills into up to 6 category buckets (omit empty buckets):
+Distribute surviving skills into the fixed categories — use these exact names, each at most once (omit a category with nothing in it). They render in this order whatever order you write them:
 
-1. **Programming & Scripting** — languages (Python, SQL, Scala, Java, etc.)
-2. **Cloud & Infrastructure** — cloud platforms (AWS, GCP, Azure, Kubernetes, Terraform, etc.)
-3. **Data & Analytics** — data tools, warehouses, BI, ML frameworks (Spark, dbt, Snowflake, Airflow, etc.)
-4. **DevOps & Tools** — CI/CD, monitoring, version control (Docker, GitHub Actions, Datadog, etc.)
-5. **Databases** — relational and NoSQL databases (PostgreSQL, MongoDB, Redis, etc.)
-6. **Core Competencies** — soft skills and methodologies (Agile/Scrum, Team Leadership, PRINCE2, etc.)
+1. **Programming** — Python, SQL, PySpark, Bash
+2. **Data Warehousing & Databases** — Snowflake, BigQuery, Databricks, PostgreSQL, DuckDB, Elasticsearch
+3. **Pipelines & Orchestration** — Airflow, dbt, Fivetran, ETL/ELT, batch and incremental loading
+4. **Data Modelling & BI** — dimensional modelling, Tableau, Power BI, data quality
+5. **Cloud & DevOps** — AWS, GCP, Docker, GitHub Actions, CI/CD
+6. **AI & LLMs** — LLM pipelines, Gemini, Claude, Vertex AI
 
-Note: English bucket names are standard for English-language CVs targeting Dutch employers. Dutch equivalents: "Technische Vaardigheden", "Competenties", "Soft Skills" (English loanterm fully adopted in NL).
+The examples show where things go; list only what candidate.md shows and the JD calls for. Within a category, put the JD's must-haves first. No soft-skills category — show those in the bullets.
 
 ### 4. Professional Experience
 
@@ -127,8 +127,9 @@ Follow the Experience data collection philosophy above (collect all → rank by 
 - Mirror JD Signal List terminology exactly. If the JD says "streaming pipelines," use that phrase.
 - No embellishment or superlatives. State the fact and the impact — nothing more.
 - For combining multiple roles at the same company: list each title separately with its own date range and bullets. Do not merge roles into one entry.
+- **Company descriptor** (`company_description`): one factual line per employer — what the company does and its scale. It is printed in italics under the role, because a Dutch recruiter rarely knows employers abroad.
 
-**Bullets per role** (by position in the experience list; `validate_output.py` checks these against `cv-format.yaml` → `validation`):
+**Bullets per role** (by position in the experience list; `validate_output.py` checks these):
 - First (most recent) role: 4–5 bullets
 - Second role: 3–4 bullets
 - Third role and older: 2–3 bullets

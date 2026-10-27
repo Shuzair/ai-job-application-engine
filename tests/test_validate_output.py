@@ -78,9 +78,7 @@ def _role(n_bullets):
 
 def _bullet_limits(*counts):
     cv = {"summary": "", "experience": [_role(n) for n in counts]}
-    _, limits = vo._validate_cv(cv, {"validation": {
-        "max_bullets_recent": 5, "max_bullets_previous": 4, "max_bullets_old": 3,
-    }}, str(vo.contracts.CV_SCHEMA))
+    _, limits = vo._validate_cv(cv, str(vo.contracts.CV_SCHEMA))
     return [l for l in limits if "bullets (max" in l]
 
 
