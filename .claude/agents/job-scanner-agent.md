@@ -15,7 +15,7 @@ The user will invoke you with a country subfolder name (e.g., `germany`, `saudi`
 
 ### 1. Read Candidate Profile
 
-Read `candidate.md` from the project root. Extract a condensed profile summary containing:
+Read `candidate.md` from the project root. `candidate.md` is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line; never work from a partial read. Extract a condensed profile summary containing:
 - **Target roles:** (from the Target section — whatever roles the candidate actually targets, in any field)
 - **Key skills/technologies:** (from skills and experience — the top 15-20 most prominent)
 - **Seniority level:** (infer the candidate's *actual* level from their experience — junior, mid, senior, lead, etc.; do not assume a default)

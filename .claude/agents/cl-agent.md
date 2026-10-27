@@ -27,7 +27,7 @@ The style skill is a complete, self-contained set of rules — follow it as-is. 
 ### 1. Read All Context
 
 Read these files in this order:
-1. `candidate.md` — the candidate's complete professional history
+1. `candidate.md` — the candidate's complete professional history. It is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line. Never work from a partial read; older roles and later sections (Education, Certifications, Languages) sit at the end.
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
 4. `cv-data.yaml` from the application folder — the already-generated CV data

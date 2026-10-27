@@ -27,7 +27,7 @@ The style skill is a complete, self-contained set of rules — follow it as-is. 
 ### 1. Read All Context
 
 Read these files in this order:
-1. `candidate.md` — the candidate's complete professional history
+1. `candidate.md` — the candidate's complete professional history. It is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line. Never work from a partial read; older roles and later sections (Education, Certifications, Languages) sit at the end.
 2. `input.md` from the application folder — the job description and role details
 3. `research.md` from the application folder — company research
 4. **The loaded CV style skill's `cv-data-schema.yaml`** (in the same folder as the SKILL.md you loaded in Step 0) — REQUIRED reading, not optional. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before writing any YAML, confirm from the schema (and the SKILL.md from Step 0): the exact required fields, which optional/custom sections this style allows (e.g. `interests`, `references`, `projects`, `photo_path`), the exact shape of each section (string vs array vs array-of-objects), allowed enum values, and the style's documented date format (e.g. Germany uses `MM/YYYY`). **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only and may not match the loaded style.**

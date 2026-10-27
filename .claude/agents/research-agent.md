@@ -25,7 +25,7 @@ The main agent will tell you:
 
 1. Follow the `company-research` skill instructions exactly
 2. Use web search and web fetch to gather information
-3. If `candidate.md` path was provided, read it to identify tech stack overlaps and include them in the "Relevance to Candidate" section
+3. If `candidate.md` path was provided, read it to identify tech stack overlaps and include them in the "Relevance to Candidate" section. `candidate.md` is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line; never work from a partial read.
 4. Write the research to the specified output path as `research.md`
 
 ## Output
