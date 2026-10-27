@@ -23,7 +23,7 @@ From `$ARGUMENTS`:
 
 ## Step 2: Edit the Text
 
-1. Read the data file (`cv-data.yaml` or `cl-data.yaml`) and the folder's `input.md`. For a CL edit, also read `cv-data.yaml` so the two stay consistent.
+1. Read the data file (`cv-data.yaml` or `cl-data.yaml`), the folder's `input.md` and its `jd-keywords.yaml` (when present). For a CL edit, also read `cv-data.yaml` so the two stay consistent. Keep the keywords: an edit must not drop the only place a must-have keyword the candidate has is shown, and must never add a keyword marked `match: "no"`. Do not regenerate `jd-keywords.yaml`; if the user says a keyword is wrong (e.g. "I do know Kafka"), check candidate.md, update that one entry, and say so.
 2. Read the rules that apply from `.claude/skills/cv-style-netherlands/SKILL.md` or `.claude/skills/cl-style-netherlands/SKILL.md`.
 3. Any new fact must trace to `candidate.md`: grep it for the specific role, project or metric rather than reading the whole file. Never fabricate.
 4. Edit only the fields the feedback names; keep the schema shape (`cv-data-schema.yaml` / `cl-data-schema.yaml` in the same style folder) and valid YAML.

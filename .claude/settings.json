@@ -11,6 +11,7 @@
       "Agent(research-agent)",
       "Agent(cv-agent)",
       "Agent(cl-agent)",
+      "Agent(keyword-agent)",
       "Agent(job-scanner-agent)",
       "Agent(career-scanner-agent)",
       "Bash(python3 *)",

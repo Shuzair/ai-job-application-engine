@@ -8,206 +8,167 @@ user-invocable: false
 
 # Netherlands CV Style
 
-This style covers CV writing rules for Netherlands job applications, for an international data / analytics engineer. The layout is fixed — `scripts/nl_template.py` renders every CV the same way (A4, Calibri 11 pt, one column, fixed section order and skill categories). You write the text; you never choose fonts, sizes, order or headings.
+Rules for writing the CV of an international data / analytics engineer (5–6 years' experience) applying to jobs in the Netherlands.
 
-Read `candidate.md` before writing any CV content. Every claim, skill, and metric must be traceable to that file. Never fabricate.
+The layout is fixed: `scripts/nl_template.py` renders every CV the same way — A4, Calibri 11 pt, one column, no photo, no tables or graphics, fixed section order and skill categories. You write the text only; you never choose fonts, sizes, order or headings.
 
----
+## The Dutch standard in one paragraph
 
-## Pre-work: Decode the Job Posting First
+Dutch recruiters expect a CV of **at most two A4 pages**, in **reverse-chronological** order, written in **short bullets** that are **direct, factual and quantified** — over-selling and vague self-praise count against you. CVs are usually screened by an applicant tracking system (ATS) and then skimmed in well under a minute, so the posting's own keywords must be visible, in the posting's own wording. English is accepted for international roles. Europass is not the Dutch norm; this format is.
 
-Before writing anything, analyze the job posting and extract:
+## Your three inputs
 
-- The **top 3 technologies** mentioned most prominently
-- The **core responsibility** from the first 2-3 requirement bullets
-- **Must-haves vs nice-to-haves**: required/essential vs preferred/bonus
-- **Cultural signals**: team structure, work style, company culture indicators
-- Whether the posting mentions relocation support or visa sponsorship
-- **Language**: note whether the posting is written in Dutch — the orchestrator flags it, since it usually means Dutch is required. The CV is always written in English.
+| File | What it gives you |
+|---|---|
+| `jd-keywords.yaml` (application folder) | What the employer wants: the role's title, family (analytics / data engineer / hybrid) and seniority, and the ranked keywords — each with `match` (yes / analogue / no), the candidate's `use_as` term, `evidence` in candidate.md, and `place` (which sections use it). **This is your keyword list. Do not build your own.** |
+| `candidate.md` | What the candidate has done. The only source of facts. |
+| `research.md` | Context on the company, for the company-descriptor lines and framing. |
 
-Build a **JD Signal List** — a ranked list of the top 8–12 skills, tools, domain terms, and buzzwords from the posting. Reference this list throughout content generation.
+Two rules hold for every section:
 
----
+1. **Every fact traces to candidate.md.** A keyword with `match: "no"` is a gap: never claim it, never list it as a skill (the validator rejects that). For `match: analogue`, write the candidate's own tool (`use_as`), never the posting's.
+2. **Use the posting's exact words** for what the candidate has. If the posting says "data pipelines", write "data pipelines", not "ETL flows".
 
-## Data Collection Philosophy
+## Role emphasis
 
-These rules define HOW to collect and filter data from candidate.md for each section.
+`role.family` in jd-keywords.yaml decides what leads. The layout does not change — only which skills, bullets and projects come first.
 
-### Skills — Relevance-First Filtering
+| | analytics-engineer | data-engineer | hybrid |
+|---|---|---|---|
+| Summary leads with | modelling, dbt, trusted metrics for the business | pipelines, platform, scale and reliability | both, in the posting's order |
+| First skills in each category | dbt, SQL, dimensional modelling, BI tool, data quality tests | Python, orchestration, warehouse/lake, streaming, cloud, IaC | the posting's top-ranked |
+| Bullets come first when they show | data models used by teams, metric definitions, self-service, stakeholder work, test coverage | pipelines built, volume/latency/cost numbers, reliability, migrations, automation | the top-ranked keywords |
+| Projects to prefer | modelling, analytics, dashboards | ingestion, orchestration, infrastructure | either |
 
-1. **Collect**: Read ALL skills from `candidate.md`
-2. **Match**: Keep skills that appear in the JD (exact or synonym match). Reference your JD Signal List.
-3. **Expand**: If the JD mentions a skill the candidate lacks exactly but has a closely related or similar skill, include that similar skill (e.g., JD says "Redshift" → candidate has "Snowflake" → include Snowflake)
-4. **Discard**: Remove all remaining skills that have no relevance to the JD or company's domain
-5. **Distribute**: Organize the surviving skills into the category buckets defined below. If a bucket ends up empty after filtering, omit it entirely
+**Seniority** (`role.seniority`): Dutch postings say junior / medior / senior. With 5–6 years the candidate fits medior and senior.
 
-### Certifications — Strict Relevance Gate
-
-1. **Collect**: Read ALL certifications from `candidate.md`
-2. **Filter**: Keep ONLY certifications relevant to the job description — map each cert to a named signal from the JD Signal List. If you cannot map it to a signal, discard it.
-3. **Discard**: Remove all certifications with no relevance to the target role. Do not include them just to fill space.
-
-### Experience — Maximum Context, Then Rank
-
-1. **Collect**: Read ALL experience details from `candidate.md` — roles, projects, technologies, metrics, achievements, context
-2. **Analyze**: Rank each piece of experience by relevance to the JD. Prioritize: matching technologies, matching responsibilities, matching scale/domain
-3. **Shape**: Write bullet points using terminology and keywords from the JD Signal List. If the JD says "data pipelines," use that phrase — not a synonym. Mirror the JD's technical vocabulary in the bullets
-4. **Prioritize**: Place the most JD-relevant bullets first within each role. Cut the least relevant bullets when space is tight
-5. **Format**: Follow the bullet writing rules defined in the style section below (word count, action verbs, tone)
-
-### Summary — Candidate-Meets-JD Synthesis
-
-1. **Read**: Study the full candidate profile — experience arc, strongest skills, key achievements, career trajectory
-2. **Synthesize**: Write an optimal summary that positions the candidate for THIS specific role. The summary should read as if this candidate is a natural fit for the job
-3. **Mirror**: Use the job title and key terms from the JD Signal List. If the JD says "Senior Data Engineer," the summary should echo that framing
-4. **Quantify**: Include the single most impressive metric from candidate.md that aligns with the role
-5. **Format**: Follow the structure and tone rules defined in the style section below
+- **senior / lead**: show ownership and influence — designed, led, set the standard, mentored, chose the architecture, worked across teams.
+- **medior**: show solid independent delivery — built, shipped, improved, owned a component.
+- Never put a seniority word in a title the candidate did not hold.
 
 ---
 
-## CV Sections
+## Section by section
 
-The rendered order is fixed: header, summary, skills, experience, projects, education, certifications, languages, interests. Skills come right after the summary so a Dutch recruiter sees the stack before employers they may not know. `cv-data-schema.yaml` allows no other sections. Generate the data for each section below.
+For each section: what to take from the posting (via jd-keywords.yaml), what to take from candidate.md, and how to write it.
 
 ### 1. Header
 
-Include: full name, city (not full address), email, phone, LinkedIn URL, GitHub (if relevant to the role).
+**From the posting:** `role.title`.
+**From candidate.md:** name, city, email, phone, LinkedIn, GitHub, relocation readiness (Visa Note), the candidate's actual job titles.
 
-Add one line about relocation readiness if applying from outside the Netherlands.
+**Write:**
+- `titles`: 1–2 titles. The first is the posting's role name **without the seniority word** ("Analytics Engineer" for "Medior Analytics Engineer"), used only if the candidate's real roles support it. Add the candidate's own current title second if it differs ("Analytics Engineer · Data Engineer").
+- `location`: city and country only.
+- `linkedin`: always. `github`: if candidate.md has one and it shows relevant work.
+- `relocation`: one line such as "Open to relocation to the Netherlands" when the candidate is abroad.
 
-**Dutch-specific header rules:**
-- **Photo**: None. A photo is optional in the Netherlands and usually omitted for tech and international employers.
-- **Date of birth**: Omit. Dutch law (WGBLA) prohibits age discrimination; modern guidance consistently says to omit.
-- **Nationality, visa, sponsorship, work permit**: Omit. Follow the Visa Note in candidate.md — relocation readiness may be stated, work authorisation is discussed at interview.
-- **Marital status**: Never include. Dutch law (AWGB) and all major Dutch career guides explicitly say to omit.
-- **BSN (Burgerservicenummer)**: Never include. This sensitive national ID number is not provided until after a job offer; including it on a CV is contrary to Dutch privacy law.
-- **Address**: City only (e.g., "Amsterdam, Netherlands"). Never include full street address.
-- **LinkedIn**: Always include — LinkedIn is used by 69% of Dutch professionals for job searching and is considered a professional standard in the Netherlands.
+**Never include:** photo, date of birth or age, nationality, visa / sponsorship / work-permit status, marital status, religion, full street address, BSN (Dutch citizen service number). Dutch law forbids hiring decisions on age, religion, marital status or origin, and international tech employers do not expect these details; leaving them out costs nothing.
 
-### 2. Professional Summary
+### 2. Summary
 
-Follow the Summary data collection philosophy above, then format as exactly 4 components in 3-4 lines total:
+**From the posting:** `role.title`, `role.family`, `role.seniority`, and the keywords whose `place` includes `summary` (the top 3–4 musts).
+**From candidate.md:** total years of relevant experience, the domains worked in, the single strongest metric that matches a top must, the Personal Narrative for framing.
 
-1. **Who you are**: Mirror the job title from the posting. State years of experience and domain.
-2. **What you do best**: Name 3-4 technologies or skills matching the JD's must-haves from the JD Signal List.
-3. **Differentiator**: One quantified achievement most relevant to this role.
-4. **Availability**: Relocation readiness or availability statement if applicable.
+**Write** 3–4 lines, **40–80 words**, implied first person (no "I"), in four parts:
 
-**Dutch tone for the summary**: Direct and factual. Avoid superlatives and marketing language. Dutch recruiters explicitly penalize over-selling and vague positivity. Use implied first person (no "I" at the start of sentences). State what you have done and what you bring — concisely.
+1. **Who:** the posting's role name, years of experience, domain — "Analytics engineer with 6 years in e-commerce and fintech data".
+2. **Core stack:** 3–4 of the top-ranked keywords the candidate has, in the posting's words (`use_as` for analogues).
+3. **Proof:** one quantified result that backs the top must.
+4. **Availability:** relocation readiness, if abroad.
 
-- Good: "Data engineer with 6 years building real-time pipelines on AWS, reducing processing latency by 40%."
-- Bad: "Passionate and highly motivated data professional with an exceptional track record of delivering cutting-edge solutions."
+- Good: "Analytics engineer with 6 years building dbt and SQL data models on Snowflake for finance and marketing teams. Cut monthly reporting time from 3 days to 4 hours by modelling a single revenue source of truth. Open to relocation to the Netherlands."
+- Bad: "Passionate, results-driven data professional with a proven track record of delivering cutting-edge solutions."
 
-### 3. Skills
+No adjectives about the candidate (passionate, motivated, dynamic, results-driven, expert).
 
-Follow the Skills data collection philosophy above (collect → match → expand → discard → distribute). Reference your JD Signal List to confirm each retained skill addresses a named signal.
+### 3. Technical skills
 
-Distribute surviving skills into the fixed categories — use these exact names, each at most once (omit a category with nothing in it). They render in this order whatever order you write them:
+**From the posting:** every keyword of type `tool` or `skill` with `match` yes or analogue, in rank order.
+**From candidate.md:** the candidate's skills, to confirm each and to add a few closely related ones that support the role.
+
+**Write:** sort into the six fixed categories — exact names, each at most once, empty ones left out. They render in this order whatever order you write them:
 
 1. **Programming** — Python, SQL, PySpark, Bash
-2. **Data Warehousing & Databases** — Snowflake, BigQuery, Databricks, PostgreSQL, DuckDB, Elasticsearch
-3. **Pipelines & Orchestration** — Airflow, dbt, Fivetran, ETL/ELT, batch and incremental loading
-4. **Data Modelling & BI** — dimensional modelling, Tableau, Power BI, data quality
-5. **Cloud & DevOps** — AWS, GCP, Docker, GitHub Actions, CI/CD
-6. **AI & LLMs** — LLM pipelines, Gemini, Claude, Vertex AI
+2. **Data Warehousing & Databases** — Snowflake, BigQuery, Databricks, PostgreSQL, DuckDB
+3. **Pipelines & Orchestration** — Airflow, dbt, Fivetran, ETL/ELT, streaming
+4. **Data Modelling & BI** — dimensional modelling, data quality, Tableau, Power BI, Looker
+5. **Cloud & DevOps** — AWS, GCP, Azure, Docker, Terraform, GitHub Actions, CI/CD
+6. **AI & LLMs** — LLM pipelines, Vertex AI, Claude, Gemini
 
-The examples show where things go; list only what candidate.md shows and the JD calls for. Within a category, put the JD's must-haves first. No soft-skills category — show those in the bullets.
+- Within a category: the posting's must-haves first (by rank), then nice-to-haves, then supporting skills.
+- Use the posting's spelling for what the candidate has ("Google BigQuery" if the posting writes it so).
+- Analogue: list `use_as` (Snowflake), never the posting's term (Redshift).
+- Gap (`match: "no"`): never listed.
+- Supporting skills: only those candidate.md shows and the role plausibly uses; drop unrelated tools. Aim for about 20–30 items in total.
+- No soft skills here — they go in the bullets.
 
-### 4. Professional Experience
+### 4. Work experience
 
-Follow the Experience data collection philosophy above (collect all → rank by JD relevance → shape with JD terminology → prioritize).
+The main section. Reverse-chronological, every role from candidate.md that falls in the last ~10 years.
 
-**Date format**: Mon YYYY (e.g., "Jan 2022 – Mar 2024"). This is the standard Dutch CV date format. Use en-dash between dates.
+**From the posting:** keywords whose `place` includes `experience` — tools, skills, responsibilities, domains, soft skills — and their `evidence` pointers.
+**From candidate.md:** for each role: title, company, dates, location, work model, what the company does, and every achievement with its numbers.
 
-**Bullet writing rules for Dutch CVs:**
-- Max 18 words per bullet. Dutch preference for clarity and directness demands concise, factual bullets.
-- Open with a strong past-tense action verb (built, reduced, migrated, designed, implemented, led, automated).
-- Quantify wherever possible: percentages, numbers, time savings, scale. Dutch recruiters explicitly value quantified achievements.
-- Use implied first person — write "Built a data pipeline" not "I built" and not "Responsible for building."
-- Mirror JD Signal List terminology exactly. If the JD says "streaming pipelines," use that phrase.
-- No embellishment or superlatives. State the fact and the impact — nothing more.
-- For combining multiple roles at the same company: list each title separately with its own date range and bullets. Do not merge roles into one entry.
-- **Company descriptor** (`company_description`): one factual line per employer — what the company does and its scale. It is printed in italics under the role, because a Dutch recruiter rarely knows employers abroad.
+**Write per role:**
+- Fields: `title`, `company`, `hq`, `location`, `work_model` (Remote / On-site / Hybrid), `company_description`, `date_start`, `date_end`.
+- `company_description`: one factual line — what the company does and its scale ("Online grocery delivery platform, 2M customers in 5 countries"). Dutch recruiters rarely know employers abroad; this line tells them.
+- Dates: `Mon YYYY` with an en-dash range in the rendering ("Jan 2022 – Present").
+- Each title at the same company is its own entry with its own dates.
 
-**Bullets per role** (by position in the experience list; `validate_output.py` checks these):
-- First (most recent) role: 4–5 bullets
-- Second role: 3–4 bullets
-- Third role and older: 2–3 bullets
+**Bullets:**
+- Count by position: most recent role 4–5, previous role 3–4, every older role 2–3.
+- Max 18 words each. Start with a past-tense action verb (present tense for a current role is also fine, but be consistent): built, designed, migrated, modelled, automated, reduced, led.
+- Pattern: **action + what (in the posting's words) + tool + result with a number**. "Migrated 40 batch ETL jobs to Airflow on GCP, cutting pipeline failures by 60%."
+- Order inside a role: bullets that prove the highest-ranked musts first.
+- Coverage: every must-have the candidate has should be proven by at least one bullet somewhere — use the `evidence` pointer to find the achievement. Spread keywords naturally; a bullet carries one to three, never a list.
+- Soft skills appear as achievements: "Ran weekly metric reviews with 4 business teams", not "Excellent communicator".
+- Numbers only as candidate.md states them. No number in candidate.md → describe scope instead (teams served, sources integrated, models owned).
+- Avoid: "responsible for", "helped with", "worked on", "various", "etc.", superlatives.
 
-**Good bullet example**: "Reduced ETL pipeline latency by 40% by migrating from batch processing to Apache Kafka streaming."
+### 5. Projects (optional)
 
-**Bad bullet example**: "Was responsible for significantly improving our team's data infrastructure in a very impactful way."
+**From the posting:** keywords whose `place` includes `projects`, and musts the jobs do not prove well.
+**From candidate.md:** side and open-source projects.
 
-### 5. Education
+**Write** 0–2 projects, each: `name`, `url` if public, `description` (one line: what it is + stack), 1–2 bullets (what was built and what it shows). Include a project only if it proves a ranked keyword the experience section does not already prove. With 5–6 years of experience, the jobs carry the CV; projects support it.
 
-**Dutch education system context:**
-- WO (Wetenschappelijk Onderwijs) = Research university degree (equivalent to a UK/US university degree)
-- HBO (Hoger Beroepsonderwijs) = University of Applied Sciences degree (professionally oriented; 240 ECTS)
-- MBO = Vocational qualification (include only if no higher qualification exists)
+### 6. Education
 
-**Format rules:**
-- Include degree level and field, institution name, location, and year (YYYY or MM/YYYY – MM/YYYY).
-- For Dutch degrees, you may note WO/HBO in parentheses after the degree name if applying internationally.
-- **GPA**: Include ONLY if the Dutch score is 8.0+ (cum laude or near-cum laude). The Dutch grading scale is 1–10; a 7.5 is solid but not typically highlighted. Convert non-Dutch grades with a brief note if meaningful (e.g., "GPA 3.8/4.0" or "Cum Laude").
-- For non-Dutch degrees targeting Dutch employers: mention Nuffic recognition or ECTS credits only if the degree origin is unfamiliar in the Netherlands.
-- **High school (VWO/HAVO)**: Omit for experienced professionals (3+ years). Include only for recent graduates or entry-level roles where it fills a gap.
-- **Thesis**: Include title only if it is directly relevant to the role and demonstrates a concrete skill from the JD Signal List.
+**From candidate.md:** degree, institution, location, years.
 
-### 6. Certifications
+**Write:** degree with level and field ("BSc Computer Science"), institution, city and country, years. Leave out secondary school. Add a grade only if it is a distinction (cum laude, or 8.0+ on the Dutch 1–10 scale, or the home-country equivalent). Add the thesis title only if it proves a ranked keyword.
 
-Follow the Certifications data collection philosophy above (keep only JD-relevant, discard the rest — map each to a named JD Signal List item).
+### 7. Certifications
 
-**Format**: Certification name · Issuing body · Month YYYY
+**From the posting:** keywords whose `place` includes `certifications`; the cloud and tools the posting names.
+**From candidate.md:** certifications with issuer, date and verification link.
 
-**Certifications with high value in the Netherlands tech market:**
-- Cloud: AWS (Associate/Professional), Google Cloud Professional, Azure (AZ-900, AZ-104, AZ-204)
-- DevOps/Kubernetes: CKAD, CKA, CKS
-- Project management: PRINCE2 (widely recognized in NL), Scrum Master, SAFe
-- Enterprise architecture: TOGAF
-- Cybersecurity: CISM, CISA (ISACA)
-- Data: dbt Analytics Engineering, Databricks certifications
+**Write** only certifications that support a keyword in the posting — a cloud certification for the posting's cloud, a dbt or Databricks certification for those tools. Format: name, issuer, `Month YYYY`, `url` only if candidate.md gives one. Drop the rest; an unrelated certification is noise.
 
-### 7. Languages
+### 8. Languages
 
-**Proficiency scale**: CEFR (A1–C2) is the standard in the Netherlands. Always include the CEFR level.
+**From the posting:** `role.dutch_required`.
+**From candidate.md:** languages and levels.
 
-**Format**: Language · Level (e.g., Dutch · B2, English · C1 (IELTS 7.0))
+**Write** each language with a CEFR level (A1–C2) or "Native": "English · C1 (IELTS 7.0)". List Dutch whenever candidate.md shows any level, even A1 — Dutch employers value the effort. Never overstate a level, even when `dutch_required` is "yes"; the orchestrator tells the user about that gap.
 
-**Dutch-specific guidance:**
-- Always include Dutch if the candidate has any level (even A1/A2). Dutch employers value effort to learn the language, and many roles increasingly require at least conversational Dutch.
-- English is a co-working language at most Dutch tech companies; C1/C2 is expected for Randstad/international roles.
-- The Netherlands has one of the highest English proficiency rates in the world — native-level English is not a differentiator, but certifications (IELTS, TOEFL) can be included if they add credibility.
+### 9. Interests (optional)
 
-### 8. Projects (optional — include for tech roles)
+**From candidate.md:** hobbies and activities.
 
-Reference your JD Signal List. Include a project only if it directly demonstrates a skill or domain from a named signal. A technically impressive project that addresses no named JD signal should be omitted.
-
-The Dutch tech market (Tech-Careers.nl, Cresuma) explicitly values personal and side projects for tech roles. The Randstad tech ecosystem has a high density of international tech workers who share GitHub portfolios.
-
-**Format per project** (`cv-data-schema.yaml` → `projects`):
-- `name`, plus `url` if the project is public
-- `description`: one line — what it is and the technology stack
-- `bullets`: 1–2 — what you built and what it demonstrates
-
-### 9. Interests (optional but recommended)
-
-Include a brief interests section. Dutch employers explicitly value seeing the "whole person" and work-life balance is a core Dutch cultural value. A brief interests section signals cultural fit — not unprofessionalism.
-
-Keep it to 3–5 items, inline (comma or dot separated). Gate lightly: omit only if space is critically tight.
-
-- Good: "Distance running · Open-source contributions · Photography · Board games"
-- Preferred types: team sports (show teamwork), creative activities (personality), community involvement (social values)
-- Avoid: passive activities (watching TV, browsing Reddit)
+**Write** 3–5 short items on one line, only from candidate.md. Prefer active ones (sport, making things, community work). Leave the section out first when space is tight.
 
 ---
 
-## Critical Rules
+## Fitting two pages
 
-- **Language**: Always English. English is standard for tech/Randstad/international roles, and the candidate does not speak Dutch (candidate.md → Languages). A posting written in Dutch is flagged to the user, not answered in Dutch.
-- **Dutch directness**: Factual, precise, no embellishment. Over-selling is culturally off-putting to Dutch recruiters. State facts and impacts — never inflate.
-- **ATS compliance**: Use standard characters. Avoid tables, columns, graphics, headers/footers. Dutch market uses Workday, SAP SuccessFactors, Greenhouse (multinationals) and Recruitee, Homerun, Bullhorn (Dutch-specific).
-- **Factual integrity**: Never fabricate experience, skills, or metrics not in candidate.md.
-- **Page limit**: Maximum 2 pages — `render.py` checks the exported PDF. Trim order if exceeding: oldest role bullets → interests → project context → bullet word count. Never cut certifications, education, or languages.
-- **Anti-discrimination compliance**: Per Dutch AWGB and WGBLA legislation — never include marital status, religion, or BSN. Omit DOB and photo.
-- **LinkedIn**: Always include the LinkedIn URL — it is a professional standard in the Netherlands and expected by Dutch recruiters.
-- Use en-dash for date ranges (–), middle dot (·) for skill separators.
+`render.py` checks the PDF. If over two pages, trim in this order: oldest role's bullets (to 2) → interests → projects → the weakest bullet in each role → bullet length. Never cut education, certifications that match the posting, languages, or a bullet that is the only proof of a must-have.
+
+## Final check before writing the YAML
+
+- Every must-have keyword with `match` yes or analogue appears in the skills section (tools/skills) **and** in at least one bullet or the summary — `validate_output.py` warns about any that do not.
+- No gap keyword appears as a skill — `validate_output.py` rejects it.
+- Every number and claim traces to candidate.md.
+- No photo, date of birth, nationality, visa or sponsorship anywhere.
+- Plain characters; en-dash (–) for date ranges.

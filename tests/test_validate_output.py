@@ -87,3 +87,151 @@ def test_bullet_limit_depends_on_role_position():
     assert _bullet_limits(6, 4, 3) == ["[cv] T @ C: 6 bullets (max 5 for most recent role)"]
     assert _bullet_limits(5, 5, 3) == ["[cv] T @ C: 5 bullets (max 4 for previous role)"]
     assert _bullet_limits(5, 4, 4) == ["[cv] T @ C: 4 bullets (max 3 for older role)"]
+
+
+# ── jd-keywords.yaml coverage ────────────────────────────────────────────────
+
+import yaml
+
+DE_CV = {
+    "header": {"name": "Sam Doe", "email": "sam@example.com"},
+    "summary": "Analytics engineer with 6 years building dbt models on Snowflake.",
+    "skills": [
+        {"category": "Programming", "items": ["SQL", "Python"]},
+        {"category": "Data Warehousing & Databases", "items": ["Snowflake"]},
+        {"category": "Pipelines & Orchestration", "items": ["dbt", "Airflow"]},
+    ],
+    "experience": [
+        {
+            "title": "Analytics Engineer", "company": "Acme",
+            "date_start": "Jan 2022", "date_end": "Present",
+            "bullets": ["Built 120 dbt models in SQL on Snowflake."],
+        }
+    ],
+    "education": [{"degree": "BSc CS", "institution": "Uni"}],
+}
+
+
+def _kw(term, match="yes", priority="must", type_="tool", place=None, **extra):
+    kw = {"term": term, "type": type_, "priority": priority, "rank": 1, "match": match}
+    if match in ("yes", "analogue"):
+        kw["evidence"] = "candidate.md"
+    if place is not None:
+        kw["place"] = place
+    kw.update(extra)
+    return kw
+
+
+def _coverage(*keywords, cv=DE_CV):
+    return vo._check_keyword_coverage(cv, {"keywords": list(keywords)})
+
+
+def test_coverage_silent_when_musts_are_covered():
+    errs, warns = _coverage(
+        _kw("dbt", place=["summary", "skills", "experience"]),
+        _kw("SQL", place=["skills", "experience"]),
+    )
+    assert errs == [] and warns == []
+
+
+def test_coverage_warns_when_must_missing_from_prose():
+    # Airflow is a listed skill but no bullet or summary shows it.
+    _, warns = _coverage(_kw("Airflow", place=["skills", "experience"]))
+    assert any("not shown" in w and "airflow" in w for w in warns)
+
+
+def test_coverage_warns_when_must_missing_from_skills():
+    _, warns = _coverage(_kw("Python", place=["skills"]),
+                         _kw("Kafka", place=["skills", "experience"]))
+    assert any("skills section" in w and "kafka" in w for w in warns)
+    assert not any("python" in w for w in warns if "skills section" in w)
+
+
+def test_coverage_warns_when_summary_placement_missed():
+    _, warns = _coverage(_kw("SQL", place=["summary", "skills"]))
+    assert any("summary lacks" in w and "sql" in w for w in warns)
+
+
+def test_analogue_is_checked_by_the_candidates_term():
+    # Posting asks for Redshift; the candidate's analogue Snowflake is shown.
+    errs, warns = _coverage(_kw("Redshift", match="analogue", use_as="Snowflake",
+                                place=["skills", "experience"]))
+    assert errs == [] and warns == []
+
+
+def test_gap_listed_as_skill_is_an_error():
+    errs, _ = _coverage(_kw("Airflow", match="no"))
+    assert errs and "airflow" in errs[0].lower()
+
+
+def test_gap_not_listed_is_fine_and_nice_to_haves_are_not_required():
+    errs, warns = _coverage(_kw("Looker", match="no"),
+                            _kw("Kafka", priority="nice", place=["skills"]))
+    assert errs == [] and warns == []
+
+
+def test_free_text_types_are_not_matched_literally():
+    errs, warns = _coverage(_kw("stakeholder management", type_="soft-skill",
+                                place=["experience", "cover-letter"]))
+    assert errs == [] and warns == []
+
+
+def test_aliases_count_as_the_keyword():
+    _, warns = _coverage(_kw("data build tool", aliases=["dbt"], place=["skills", "experience"]))
+    assert warns == []
+
+
+VALID_KEYWORDS = {
+    "role": {"title": "Medior Analytics Engineer", "family": "analytics-engineer",
+             "seniority": "medior", "posting_language": "English", "dutch_required": "no"},
+    "keywords": [
+        _kw("dbt", place=["summary", "skills", "experience"]),
+        _kw("Redshift", match="analogue", use_as="Snowflake", place=["skills"]),
+        _kw("Looker", match="no", priority="nice"),
+    ],
+}
+
+
+def _write(folder, name, data):
+    (folder / name).write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+
+def test_keywords_schema_accepts_valid_file(tmp_path):
+    _write(tmp_path, "jd-keywords.yaml", VALID_KEYWORDS)
+    result = vo.validate_output("keywords", str(tmp_path))
+    assert result["valid"], result["errors"]
+
+
+def test_keywords_schema_requires_evidence_and_use_as(tmp_path):
+    bad = yaml.safe_load(yaml.safe_dump(VALID_KEYWORDS))
+    del bad["keywords"][0]["evidence"]           # yes without evidence
+    del bad["keywords"][1]["use_as"]             # analogue without use_as
+    _write(tmp_path, "jd-keywords.yaml", bad)
+    errors = vo.validate_output("keywords", str(tmp_path))["errors"]
+    assert any("evidence" in e for e in errors)
+    assert any("use_as" in e for e in errors)
+
+
+def test_keywords_unquoted_yes_fails_schema(tmp_path):
+    # Unquoted `match: yes` loads as a boolean — the skill says to quote it.
+    (tmp_path / "jd-keywords.yaml").write_text(
+        "role: {title: T, family: data-engineer, seniority: senior, posting_language: English}\n"
+        "keywords:\n  - {term: SQL, type: tool, priority: must, rank: 1, match: yes, evidence: x}\n",
+        encoding="utf-8",
+    )
+    assert not vo.validate_output("keywords", str(tmp_path))["valid"]
+
+
+def test_keywords_type_requires_the_file(tmp_path):
+    result = vo.validate_output("keywords", str(tmp_path))
+    assert not result["valid"] and "not found" in result["errors"][0]
+
+
+def test_cv_validation_uses_keyword_file_when_present(tmp_path):
+    _write(tmp_path, "cv-data.yaml", DE_CV)
+    kws = yaml.safe_load(yaml.safe_dump(VALID_KEYWORDS))
+    kws["keywords"].append(_kw("Airflow", match="no"))
+    _write(tmp_path, "jd-keywords.yaml", kws)
+    result = vo.validate_output("cv", str(tmp_path))
+    assert not result["valid"]
+    assert any("airflow" in e.lower() for e in result["errors"])

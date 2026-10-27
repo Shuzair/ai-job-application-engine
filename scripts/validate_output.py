@@ -5,6 +5,8 @@ errors (structure — the documents cannot be rendered until fixed):
   - JSON Schema validation (via validate_schema.py)
   - Header consistency: name match between CV and CL
   - CV skill category listed twice
+  - jd-keywords.yaml schema
+  - a JD keyword marked as a gap (match: no) listed as a CV skill
 limits (CV_LIMITS / CL_LIMITS below):
   - CV summary word count (min/max)
   - CV bullet word count per bullet
@@ -12,10 +14,12 @@ limits (CV_LIMITS / CL_LIMITS below):
   - CL total word count (min/max)
   - CL paragraph count (min/max)
 warnings:
-  - JD keyword coverage (JD read from the folder's input.md)
+  - JD keyword coverage: with jd-keywords.yaml, every must-have tool/skill the
+    candidate has must reach the skills section and the summary/bullets;
+    without it, falls back to the JD text in the folder's input.md
 
 Usage:
-    python scripts/run.py scripts/validate_output.py <folder> [--type cv|cl|both]
+    python scripts/run.py scripts/validate_output.py <folder> [--type cv|cl|both|keywords]
 
 Output: JSON to stdout with {valid, errors[], limits[], warnings[]}; exit 1 if errors.
 """
@@ -219,12 +223,98 @@ def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
     return []
 
 
+# Keyword types the coverage check matches literally. Responsibilities, domains
+# and soft skills are phrased freely in bullets, so a literal check would be noise.
+_LITERAL_TYPES = ("tool", "skill")
+
+
+def _keyword_names(kw: dict) -> list:
+    """The words the CV should carry for a keyword, lowercased: the candidate's
+    own term for an analogue; otherwise the posting's term, its aliases and
+    the candidate's wording."""
+    if kw.get("match") == "analogue":
+        names = [kw.get("use_as", "")]
+    else:
+        names = [kw.get("term", ""), kw.get("use_as", ""), *kw.get("aliases", [])]
+    return [n.strip().lower() for n in names if n and n.strip()]
+
+
+def _check_keyword_coverage(cv_data: dict, kw_data: dict) -> tuple:
+    """Check the CV against jd-keywords.yaml. Returns (errors, warnings).
+
+    errors:   a gap (match: no) listed in the skills section — a skill the
+              candidate does not have.
+    warnings: a must-have tool/skill the candidate has (yes or analogue) that is
+              missing from the skills section, from the summary/bullets/projects,
+              or from the summary when the keyword file places it there.
+    """
+    errors, warnings = [], []
+
+    skill_text = " | ".join(
+        str(item) for g in cv_data.get("skills", []) for item in g.get("items", [])
+    ).lower()
+    summary = str(cv_data.get("summary", "")).lower()
+    prose_parts = [summary]
+    for role in cv_data.get("experience", []):
+        prose_parts.extend(role.get("bullets", []))
+    for project in cv_data.get("projects", []):
+        prose_parts.append(project.get("description", ""))
+        prose_parts.extend(project.get("bullets", []))
+    prose = " ".join(str(p) for p in prose_parts).lower()
+
+    def found(names, text):
+        return any(_mentions(n, text) for n in names)
+
+    missing_skills, missing_prose, missing_summary = [], [], []
+    for kw in kw_data.get("keywords", []):
+        if kw.get("type") not in _LITERAL_TYPES:
+            continue
+        match = kw.get("match")
+        if match == "no":
+            gap = kw.get("term", "").strip().lower()
+            if gap and _mentions(gap, skill_text):
+                errors.append(
+                    f"[keywords] '{kw['term']}' is a gap in jd-keywords.yaml (match: no) "
+                    "but is listed as a skill — remove it or list the candidate's analogue"
+                )
+            continue
+        if kw.get("priority") != "must":
+            continue
+        names = _keyword_names(kw)
+        label = names[0] if names else kw.get("term", "?")
+        place = kw.get("place") or []
+        if "skills" in place and not found(names, skill_text):
+            missing_skills.append(label)
+        if not found(names, prose):
+            missing_prose.append(label)
+        if "summary" in place and not found(names, summary):
+            missing_summary.append(label)
+
+    if missing_skills:
+        warnings.append(
+            "[keywords] Must-have keywords the candidate has, missing from the "
+            f"skills section: {', '.join(missing_skills)}"
+        )
+    if missing_prose:
+        warnings.append(
+            "[keywords] Must-have keywords the candidate has, not shown in the "
+            f"summary, bullets or projects: {', '.join(missing_prose)}"
+        )
+    if missing_summary:
+        warnings.append(
+            "[keywords] Keywords jd-keywords.yaml places in the summary but the "
+            f"summary lacks: {', '.join(missing_summary)}"
+        )
+    return errors, warnings
+
+
 def validate_output(doc_type: str, data_dir: str) -> dict:
     """Validate CV and/or CL data files in an application folder.
 
     Args:
-        doc_type: "cv", "cl", or "both"
-        data_dir: Path to the application folder (cv-data.yaml, cl-data.yaml, input.md)
+        doc_type: "cv", "cl", "both", or "keywords" (jd-keywords.yaml only)
+        data_dir: Path to the application folder (cv-data.yaml, cl-data.yaml,
+            jd-keywords.yaml, input.md)
 
     Returns:
         Dictionary with valid (bool), errors, limits and warnings (lists)
@@ -239,6 +329,18 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
 
     cv_data = {}
     cl_data = {}
+
+    # jd-keywords.yaml: required for --type keywords, checked whenever present.
+    kw_file = data_path / contracts.KEYWORDS_FILE
+    kw_data = {}
+    if kw_file.exists():
+        kw_data = _load_yaml(kw_file)
+        kw_errors = validate(kw_data, str(contracts.KEYWORDS_SCHEMA))
+        all_errors.extend(f"[schema:keywords] {e}" for e in kw_errors)
+        if kw_errors:
+            kw_data = {}
+    elif doc_type == "keywords":
+        all_errors.append(f"[keywords] File not found: {kw_file}")
 
     if do_cv:
         cv_file = data_path / "cv-data.yaml"
@@ -266,12 +368,17 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
         cl_data = _load_yaml(data_path / "cl-data.yaml")
     if not cv_data:
         cv_data = _load_yaml(data_path / "cv-data.yaml")
-    if cv_data and cl_data:
+    if cv_data and cl_data and doc_type != "keywords":
         all_errors.extend(_check_header_consistency(cv_data, cl_data))
 
-    # JD keyword coverage
+    # JD keyword coverage: from jd-keywords.yaml when there is one, otherwise
+    # from the JD text (folders made before the keyword agent existed).
     input_md = data_path / "input.md"
-    if do_cv and cv_data and input_md.exists():
+    if do_cv and cv_data and kw_data:
+        errs, warns = _check_keyword_coverage(cv_data, kw_data)
+        all_errors.extend(errs)
+        all_warnings.extend(warns)
+    elif do_cv and cv_data and input_md.exists():
         jd_text = parse_input(str(input_md))["job_description"]
         all_warnings.extend(_check_jd_keywords(cv_data, jd_text))
 
@@ -289,8 +396,8 @@ def main():
     )
     parser.add_argument("folder", help="Application folder containing the data YAML files")
     parser.add_argument(
-        "--type", default="both", choices=["cv", "cl", "both"],
-        help="What to validate: cv, cl, or both (default)"
+        "--type", default="both", choices=["cv", "cl", "both", "keywords"],
+        help="What to validate: cv, cl, both (default), or keywords (jd-keywords.yaml only)"
     )
     args = parser.parse_args()
 

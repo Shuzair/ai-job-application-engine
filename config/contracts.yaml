@@ -18,6 +18,15 @@ style:
   cv_skill: cv-style-netherlands
   cl_skill: cl-style-netherlands
 
+# JD keyword extraction: the skill folder (holds jd-keywords-schema.yaml) and
+# the file the keyword-agent writes in each application folder.
+# Read by:    scripts/validate_output.py
+# Mirrored in: .claude/skills/apply, .claude/skills/revise, .claude/skills/jd-keywords,
+#              .claude/agents/keyword-agent.md, .claude/agents/cv-agent.md, .claude/agents/cl-agent.md
+keywords:
+  skill: jd-keywords
+  file: jd-keywords.yaml
+
 # Placeholder strings emitted into research.md.
 # Written by: .claude/skills/apply/SKILL.md (skipped), .claude/skills/company-research/SKILL.md (no-data)
 # Detected by: .claude/agents/cl-agent.md (uses `skipped` to know research is absent)

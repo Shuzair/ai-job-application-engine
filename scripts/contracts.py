@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Typed access to config/contracts.yaml — the single source of truth for
-cross-component "magic strings" (style folders, research.md placeholders).
+cross-component "magic strings" (style folders, keyword file, research.md placeholders).
 
 Import as a sibling module from any script in scripts/:
 
@@ -44,6 +44,11 @@ CV_STYLE_SKILL = _C["style"]["cv_skill"]
 CL_STYLE_SKILL = _C["style"]["cl_skill"]
 CV_SCHEMA = SKILLS_DIR / CV_STYLE_SKILL / "cv-data-schema.yaml"
 CL_SCHEMA = SKILLS_DIR / CL_STYLE_SKILL / "cl-data-schema.yaml"
+
+# ── JD keywords ─────────────────────────────────────────────────────────────
+KEYWORDS_SKILL = _C["keywords"]["skill"]
+KEYWORDS_FILE = _C["keywords"]["file"]
+KEYWORDS_SCHEMA = SKILLS_DIR / KEYWORDS_SKILL / "jd-keywords-schema.yaml"
 
 # ── research.md placeholders ────────────────────────────────────────────────
 RESEARCH_SKIPPED = _C["research_placeholders"]["skipped"]

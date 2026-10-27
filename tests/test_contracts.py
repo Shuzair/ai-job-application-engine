@@ -19,3 +19,9 @@ def test_style_files_exist():
         assert path.exists(), path
     assert contracts.CV_SCHEMA.parent.name == "cv-style-netherlands"
     assert contracts.CL_SCHEMA.parent.name == "cl-style-netherlands"
+
+
+def test_keyword_contract():
+    assert contracts.KEYWORDS_FILE == "jd-keywords.yaml"
+    assert contracts.KEYWORDS_SCHEMA.exists()
+    assert (contracts.KEYWORDS_SCHEMA.parent / "SKILL.md").exists()

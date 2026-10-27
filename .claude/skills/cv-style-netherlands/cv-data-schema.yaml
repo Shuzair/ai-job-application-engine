@@ -160,7 +160,7 @@ properties:
 
   projects:
     type: array
-    description: "Personal/side projects — valued in Dutch tech market. Only include if directly addressing a JD Signal List item."
+    description: "Personal/side projects (0–2). Only include one that proves a keyword in jd-keywords.yaml the experience section does not already prove."
     items:
       type: object
       required: [name, description, bullets]
@@ -182,6 +182,6 @@ properties:
 
   interests:
     type: array
-    description: "Brief interests list — Dutch employers value seeing the whole person; work-life balance is a core Dutch cultural value. Keep to 3–5 items."
+    description: "Optional brief interests list, 3–5 items from candidate.md. First section to drop when the CV runs over two pages."
     items:
       type: string

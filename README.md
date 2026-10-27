@@ -12,7 +12,9 @@ Tailored CV and cover letter for a job in the Netherlands, from one job posting.
 ## What it does
 
 - Researches the company (skipped for agency postings with no company name).
+- Extracts the posting's keywords once (`jd-keywords.yaml`), ranks them, and marks each as something you have, have an alternative for, or lack. The CV and letter are both written from that list, and the validator checks every must-have you have made it into the CV — and that nothing you lack is listed as a skill.
 - Writes the CV and cover letter in English to Dutch norms: direct, factual, quantified; CV max 2 pages, letter max 1 page and 250–350 words.
+- Writes each section to Dutch norms for data and analytics engineer roles, with the emphasis set by the role (analytics vs data engineer) and seniority (medior / senior).
 - Uses one fixed layout for every application (`scripts/nl_template.py`), built for an international data / analytics engineer: A4, Calibri, one column, summary → technical skills → experience → projects → education → certifications → languages → interests. Only the text changes per job.
 - Never puts nationality, visa or sponsorship in the documents; relocation readiness only.
 - Flags a posting written in Dutch, which usually means Dutch is required.

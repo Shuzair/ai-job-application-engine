@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Generate a tailored CV and cover letter for a job in the Netherlands. Takes a job description pasted with the command, a posting URL, or job-applications/input.md; creates a versioned output folder, researches the company, writes the CV and cover letter data with subagents, and renders docx + pdf.
+description: Generate a tailored CV and cover letter for a job in the Netherlands. Takes a job description pasted with the command, a posting URL, or job-applications/input.md; creates a versioned output folder, researches the company and extracts the posting's keywords, writes the CV and cover letter data with subagents, and renders docx + pdf.
 disable-model-invocation: true
 argument-hint: "[pasted job description or posting URL — optional]"
 ---
@@ -31,7 +31,11 @@ python scripts/run.py scripts/prepare_folder.py --input job-applications/input.m
 
 Outputs JSON: `folder_path`, `folder_name`, `parsed` (company, link, role, location, job_description, date). The folder is named `<company>_<role>_v<n>` and gets an `input.md` snapshot. If `valid` is `false`, show `errors` and stop.
 
-## Step 3: Company Research
+## Step 3: Company Research and Keywords
+
+Steps 3a and 3b are independent: start both agents in the same message so they run in parallel, then wait for both.
+
+### 3a: Company Research
 
 **Skip research if** Company is empty (agency posting) or the user asked to skip it. Then write `research.md` in the folder — the title (`Not Available`) and first sentence are a shared contract (`config/contracts.yaml` → `research_placeholders`), use them verbatim:
 
@@ -45,11 +49,25 @@ The CV and cover letter are tailored based on the job description and candidate 
 
 **Otherwise** delegate to `research-agent` with: the company name, the link, and the full path where it writes `research.md`. Do not pass `candidate.md`. When it returns, check that `research.md` exists.
 
+### 3b: JD Keywords
+
+Delegate to `keyword-agent` with:
+- Full path to the application folder
+- Full path to `candidate.md`
+
+It writes `jd-keywords.yaml` in the folder: the role (title, family, seniority, whether Dutch is required) and the ranked keywords, each marked as something the candidate has, has an analogue for, or lacks. Both document agents write from this one file. When it returns, check it:
+
+```bash
+python scripts/run.py scripts/validate_output.py <folder_path> --type keywords
+```
+
+If it reports errors, send them back to `keyword-agent` once to fix; if they remain, stop and show them.
+
 ## Step 4: CV Agent
 
 Delegate to `cv-agent` with:
 - Full path to `candidate.md`
-- Full path to the application folder
+- Full path to the application folder (has `input.md`, `research.md`, `jd-keywords.yaml`)
 - Whether research was skipped (if so: tailor to the JD and profile only, no company-specific framing)
 
 Check that `cv-data.yaml` exists.
@@ -58,7 +76,7 @@ Check that `cv-data.yaml` exists.
 
 Delegate to `cl-agent` with:
 - Full path to `candidate.md`
-- Full path to the application folder (now has `cv-data.yaml`)
+- Full path to the application folder (now has `jd-keywords.yaml` and `cv-data.yaml`)
 - Whether research was skipped (if so: open with the role and a JD requirement, not the company's product or mission)
 - The letter date: `parsed.date` from Step 2
 
@@ -71,9 +89,9 @@ python scripts/run.py scripts/validate_output.py <folder_path>
 ```
 
 Outputs JSON with `errors`, `limits`, `warnings`:
-- **errors** (schema, name mismatch): fix the YAML yourself if the fix is mechanical (a wrong key, a misplaced field); otherwise stop and show them.
+- **errors** (schema, name mismatch, a gap keyword listed as a skill): fix the YAML yourself if the fix is mechanical (a wrong key, a misplaced field, removing a skill the candidate lacks); otherwise stop and show them.
 - **limits**: fix any *over* limit yourself with the smallest edit that brings it in — cut the least JD-relevant bullet, tighten a long bullet or summary. Never add facts. Leave *under* limits as they are and report them.
-- **warnings**: report them.
+- **warnings**: `[keywords]` warnings name must-have keywords the candidate has that the CV does not show. Fix each yourself when candidate.md backs it (jd-keywords.yaml → `evidence`): add it to the skills section, or work it into an existing bullet without breaking the word limit. Report any you leave and why. Report other warnings.
 
 Re-run the validator after any fix.
 
@@ -89,11 +107,12 @@ Writes `cv.docx`, `cover-letter.docx`, `cv.pdf`, `cover-letter.pdf`, checks the 
 
 1. **Folder:** full path
 2. **Research:** done or skipped; if done, a 2–3 line company summary, and whether the company is a recognised IND sponsor (from research.md)
-3. **CV:** technologies prioritised, projects selected, JD requirements that couldn't be matched
-4. **Cover letter:** achievements highlighted, company details used (or JD-focused only), word count
-5. **Checks:** limits fixed or left, warnings, page counts
-6. **Language:** if the posting is written in Dutch, say so — it usually means Dutch is required; the documents are in English
-7. **Next:** "Review in Word. Use `/revise` for changes — PDFs are re-exported each time."
+3. **Keywords:** role family and seniority, the top must-haves, analogues used, and must-have gaps (`match: "no"`) — the user should know what the posting asks for that the CV cannot claim
+4. **CV:** what leads the summary and skills, projects selected
+5. **Cover letter:** achievements highlighted, company details used (or JD-focused only), word count
+6. **Checks:** limits fixed or left, warnings, page counts
+7. **Language:** if the posting is written in Dutch or `dutch_required` is `yes` in jd-keywords.yaml, say so — the documents are in English
+8. **Next:** "Review in Word. Use `/revise` for changes — PDFs are re-exported each time."
 
 Finally, reset the input file — only after everything above succeeded:
 

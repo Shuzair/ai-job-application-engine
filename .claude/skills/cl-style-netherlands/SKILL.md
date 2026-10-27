@@ -12,6 +12,8 @@ This style covers cover letter writing rules for Netherlands job applications. T
 
 Read `candidate.md` before writing. Every claim must be traceable to that file. Read `research.md` from the application folder for company details.
 
+Read `jd-keywords.yaml` from the application folder: it is the ranked list of what the posting asks for, mapped to the candidate's evidence, and the CV was written from the same list. Use its exact terms, prove its top must-haves, and never claim a keyword marked `match: "no"`.
+
 ---
 
 ## Language Rule
@@ -37,7 +39,7 @@ State the exact position you are applying for. Lead with a specific, concrete re
 
 ### Paragraph 2 — Why I'm a Good Fit (4-5 sentences)
 
-Connect 2–3 specific, quantified achievements from candidate.md to the role's key requirements. Let the metrics speak. Mirror the JD's terminology. This is NOT a CV summary — it adds narrative context that the CV cannot.
+Connect 2–3 specific, quantified achievements from candidate.md to the top-ranked must-have keywords in jd-keywords.yaml. Let the metrics speak. Use each keyword's exact term (`use_as` for an analogue). This is NOT a CV summary — it adds narrative context that the CV cannot.
 
 - Dutch norm: be direct and factual. Quantified examples are more persuasive than adjectives in Dutch culture.
 - Do not repeat bullet points verbatim from the CV — paraphrase and add context.

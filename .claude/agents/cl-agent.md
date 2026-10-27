@@ -11,7 +11,7 @@ You are a cover letter writing specialist. Every application is for a job in the
 
 The main agent will tell you:
 - Path to `candidate.md` (candidate's full profile — your single source of truth)
-- Path to the application folder containing `input.md`, `research.md`, and `cv-data.yaml`
+- Path to the application folder containing `input.md`, `jd-keywords.yaml`, `research.md`, and `cv-data.yaml`
 - Whether company research was skipped
 - The letter date to use (e.g. `27 October 2026`)
 
@@ -29,10 +29,11 @@ The style skill is a complete, self-contained set of rules — follow it as-is.
 
 Read these files in this order:
 1. `candidate.md` — the candidate's complete professional history. It is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line. Never work from a partial read; older roles and later sections (Education, Certifications, Languages) sit at the end.
-2. `input.md` from the application folder — the job description and role details
-3. `research.md` from the application folder — company research
-4. `cv-data.yaml` from the application folder — the already-generated CV data
-5. **`.claude/skills/cl-style-netherlands/cl-data-schema.yaml`** — REQUIRED reading. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before drafting, confirm from the schema (and the SKILL.md from Step 0): the required fields, the paragraph count and word limits, the salutation/closing conventions, and the sign-off shape. **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only.**
+2. `jd-keywords.yaml` from the application folder — the role and the ranked keywords mapped to the candidate (the same list the CV was written from)
+3. `input.md` from the application folder — the job description and role details
+4. `research.md` from the application folder — company research
+5. `cv-data.yaml` from the application folder — the already-generated CV data
+6. **`.claude/skills/cl-style-netherlands/cl-data-schema.yaml`** — REQUIRED reading. The Skill tool loads `SKILL.md` but NOT this schema file, so read it explicitly now. Before drafting, confirm from the schema (and the SKILL.md from Step 0): the required fields, the paragraph count and word limits, the salutation/closing conventions, and the sign-off shape. **The schema + SKILL.md are authoritative; the example in Step 3 is illustrative only.**
 
 ### 2. Analyze for Consistency and Complementarity
 
@@ -44,6 +45,13 @@ The cover letter must complement the CV, not repeat it. After reading cv-data.ya
 - Use research.md to connect the candidate's experience to the company's specific challenges
 - **If research was skipped** (the orchestrator says so, and research.md contains the skipped-research placeholder from `config/contracts.yaml` → `research_placeholders`): skip company-specific connections and focus on JD requirements
 - Check the **Personal Narrative** section in candidate.md for authentic personal stories. Use these to add a genuine human angle.
+
+**Keywords (from jd-keywords.yaml):**
+- Paragraph 2 proves the top-ranked must-haves the candidate has, in the posting's exact `term` (`use_as` for an analogue), with evidence from candidate.md.
+- Keywords whose `place` includes `cover-letter` belong in the letter — usually soft skills and responsibilities (stakeholder work, ownership, mentoring) that a CV bullet cannot show well.
+- A must-have the CV proves only thinly (one weak bullet, or only in the skills list) is a good letter topic.
+- Never claim a `match: "no"` keyword. Do not apologise for gaps either; leave them out.
+- Name 4–6 keywords in the letter, worked into sentences — never a list.
 
 ### 3. Generate cl-data.yaml
 
@@ -126,8 +134,9 @@ Before writing, re-read the loaded style skill and cv-data.yaml. Walk through ea
 - The CV shows WHAT was done. The CL explains WHY it matters to this company. If your paragraphs just narrate CV bullets, rewrite them.
 
 **JD coverage (complement the CV, don't duplicate it):**
-- Which major JD requirements does the CV already cover well? Do NOT repeat those angles.
-- Which major JD requirements are lightly covered or missing from the CV? Prioritize those in the CL — especially non-technical signals like mentoring, stakeholder collaboration, or cross-functional work.
+- Which must-have keywords in jd-keywords.yaml does the CV already prove well? Do NOT repeat those angles.
+- Which must-haves the candidate has are lightly covered in the CV, or placed in `cover-letter`? Prioritize those — especially non-technical ones like mentoring, stakeholder collaboration, or cross-functional work.
+- Does the letter claim any `match: "no"` keyword? Remove it.
 
 **Style compliance:**
 - Does the opening avoid boilerplate patterns the style explicitly bans? Re-read the style's "Words and phrases to avoid" section.
@@ -161,5 +170,6 @@ Save the structured data as `cl-data.yaml` in the application folder.
 
 Report back:
 - Which achievements were highlighted and why (noting which were NOT in the CV)
+- Which jd-keywords.yaml keywords the letter covers
 - Which company-specific details from research.md were used
 - The word count of the cover letter
