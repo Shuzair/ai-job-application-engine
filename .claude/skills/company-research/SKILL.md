@@ -42,7 +42,7 @@ Extract: recent funding rounds, product launches, leadership changes, acquisitio
 
 Search: `[company name] culture`, `[company name] glassdoor`, `[company name] values`
 
-Extract: work culture signals, remote/hybrid policies, diversity initiatives, company values. Look for signals that help tailor tone — flat hierarchy (Nordic style), process-oriented (German style), results-driven (Dutch style).
+Extract: work culture signals, remote/hybrid policies, diversity initiatives, company values, and whether the company sponsors highly skilled migrants (IND recognised sponsor). Look for signals that help tailor tone — flat hierarchy, direct communication, results-driven.
 
 ## Output Format
 
@@ -65,7 +65,7 @@ Write the research to a file called `research.md` with this structure:
 
 ## Tech Stack
 
-[List technologies found. Note which ones overlap with the candidate's stack.]
+[List technologies found.]
 
 If no tech stack information was found, state that explicitly: "No public tech stack information found."
 
@@ -87,9 +87,9 @@ If nothing was found, state: "No public engineering culture information found."
 
 [From their website or about page]
 
-## Relevance to Candidate
+## Sponsorship
 
-[Brief note on why this is a good fit — tech stack overlap, similar challenges, mission alignment. Reference specific overlaps with candidate.md if you've read it.]
+[Whether the company is on the IND public register of recognised sponsors (highly skilled migrants), if found. Internal use only — never written into the CV or cover letter.]
 ```
 
 ## Important Rules

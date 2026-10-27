@@ -63,5 +63,3 @@ candidate.backup.md
 job-applications/output/*
 !job-applications/output/.gitkeep
 
-# Generic CV outputs
-generic-cv/

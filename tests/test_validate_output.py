@@ -70,3 +70,22 @@ def test_mentions_handles_special_chars():
     assert vo._mentions("c++", "experience in c++ required") is True
     assert vo._mentions("ci/cd", "owns ci/cd pipelines") is True
     assert vo._mentions("sql", "mysql postgresql") is False
+
+
+def _role(n_bullets):
+    return {"company": "C", "title": "T", "bullets": ["Did a thing."] * n_bullets}
+
+
+def _bullet_limits(*counts):
+    cv = {"summary": "", "experience": [_role(n) for n in counts]}
+    _, limits = vo._validate_cv(cv, {"validation": {
+        "max_bullets_recent": 5, "max_bullets_previous": 4, "max_bullets_old": 3,
+    }}, str(vo.contracts.CV_SCHEMA))
+    return [l for l in limits if "bullets (max" in l]
+
+
+def test_bullet_limit_depends_on_role_position():
+    assert _bullet_limits(5, 4, 3, 3) == []
+    assert _bullet_limits(6, 4, 3) == ["[cv] T @ C: 6 bullets (max 5 for most recent role)"]
+    assert _bullet_limits(5, 5, 3) == ["[cv] T @ C: 5 bullets (max 4 for previous role)"]
+    assert _bullet_limits(5, 4, 4) == ["[cv] T @ C: 4 bullets (max 3 for older role)"]

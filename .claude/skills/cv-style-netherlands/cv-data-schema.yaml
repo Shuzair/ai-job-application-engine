@@ -35,15 +35,9 @@ properties:
         description: "LinkedIn URL — required in Dutch CVs; LinkedIn is the primary professional network in the Netherlands"
       github:
         type: string
-      nationality:
-        type: string
-        description: "Nationality — standard in Dutch CVs and helpful for international applicants (e.g. 'Pakistani', 'German', 'EU citizen')"
-      photo_path:
-        type: string
-        description: "Optional — include for traditional Dutch companies; omit for tech/international/startups. Path to professional headshot image."
       relocation:
         type: string
-        description: "Relocation statement — e.g. 'Open to relocation to the Netherlands' or 'EU citizen, no work permit required'"
+        description: "Relocation statement — e.g. 'Open to relocation to the Netherlands'. Never visa, sponsorship or work-permit status."
 
   summary:
     type: string
@@ -185,22 +179,3 @@ properties:
     description: "Brief interests list — Dutch employers value seeing the whole person; work-life balance is a core Dutch cultural value. Keep to 3–5 items."
     items:
       type: string
-
-  volunteer_work:
-    type: array
-    description: "Volunteer work — valued in Dutch CVs, especially for junior candidates or career changers"
-    items:
-      type: object
-      required: [role, organization]
-      additionalProperties: false
-      properties:
-        role:
-          type: string
-        organization:
-          type: string
-        date_start:
-          type: string
-        date_end:
-          type: string
-        description:
-          type: string

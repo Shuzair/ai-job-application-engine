@@ -1,8 +1,8 @@
 ---
 name: cv-style-netherlands
 description: "Netherlands CV style. Complete, self-contained CV writing
-  rules for Netherlands job applications. Loaded when style resolution
-  matches netherlands. This is a full style skill — not a partial override."
+  rules for Netherlands job applications. Loaded by the cv-agent for every
+  application."
 user-invocable: false
 ---
 
@@ -23,7 +23,7 @@ Before writing anything, analyze the job posting and extract:
 - **Must-haves vs nice-to-haves**: required/essential vs preferred/bonus
 - **Cultural signals**: team structure, work style, company culture indicators
 - Whether the posting mentions relocation support or visa sponsorship
-- **Language**: is the posting in Dutch or English? Write the CV in the same language
+- **Language**: note whether the posting is written in Dutch — the orchestrator flags it, since it usually means Dutch is required. The CV is always written in English.
 
 Build a **JD Signal List** — a ranked list of the top 8–12 skills, tools, domain terms, and buzzwords from the posting. Reference this list throughout content generation.
 
@@ -67,7 +67,7 @@ These rules define HOW to collect and filter data from candidate.md for each sec
 
 ## CV Sections
 
-Generate these sections in this exact order (for experienced professionals).
+The rendered order is set by `cv-format.yaml`: summary, experience, projects, education, skills, certifications, languages, interests. Generate the data for each section below.
 
 ### 1. Header
 
@@ -76,9 +76,9 @@ Include: full name, city (not full address), email, phone, LinkedIn URL, GitHub 
 Add one line about relocation readiness if applying from outside the Netherlands.
 
 **Dutch-specific header rules:**
-- **Photo**: Optional. If the application targets a traditional Dutch company (non-tech, non-startup), include a professional headshot (neutral background, business attire, top-right corner). For international tech companies and Randstad startups, omit unless requested. Never fabricate — only include if the candidate has provided a photo path.
-- **Date of birth**: Omit. Dutch law (WGBLA) prohibits age discrimination; modern guidance consistently says to omit. If the candidate's profile includes it and they strongly prefer to include it, format as day-month-year (e.g., 15 April 1990).
-- **Nationality**: Include. It is a standard personal information item in Dutch CVs and provides useful context, especially for international applicants.
+- **Photo**: None. A photo is optional in the Netherlands and usually omitted for tech and international employers.
+- **Date of birth**: Omit. Dutch law (WGBLA) prohibits age discrimination; modern guidance consistently says to omit.
+- **Nationality, visa, sponsorship, work permit**: Omit. Follow the Visa Note in candidate.md — relocation readiness may be stated, work authorisation is discussed at interview.
 - **Marital status**: Never include. Dutch law (AWGB) and all major Dutch career guides explicitly say to omit.
 - **BSN (Burgerservicenummer)**: Never include. This sensitive national ID number is not provided until after a job offer; including it on a CV is contrary to Dutch privacy law.
 - **Address**: City only (e.g., "Amsterdam, Netherlands"). Never include full street address.
@@ -128,10 +128,10 @@ Follow the Experience data collection philosophy above (collect all → rank by 
 - No embellishment or superlatives. State the fact and the impact — nothing more.
 - For combining multiple roles at the same company: list each title separately with its own date range and bullets. Do not merge roles into one entry.
 
-**Bullets per role:**
-- Recent/current role: 4–5 bullets
-- Previous role (2–5 years ago): 3–4 bullets
-- Older roles (5+ years): 2–3 bullets
+**Bullets per role** (by position in the experience list; `validate_output.py` checks these against `cv-format.yaml` → `validation`):
+- First (most recent) role: 4–5 bullets
+- Second role: 3–4 bullets
+- Third role and older: 2–3 bullets
 
 **Good bullet example**: "Reduced ETL pipeline latency by 40% by migrating from batch processing to Apache Kafka streaming."
 
@@ -183,10 +183,10 @@ Reference your JD Signal List. Include a project only if it directly demonstrate
 
 The Dutch tech market (Tech-Careers.nl, Cresuma) explicitly values personal and side projects for tech roles. The Randstad tech ecosystem has a high density of international tech workers who share GitHub portfolios.
 
-**Format per project:**
-- Project name (with GitHub link if public)
-- One-line description: what it is and the technology stack
-- 1–2 bullet points: what you built and what it demonstrates
+**Format per project** (`cv-data-schema.yaml` → `projects`):
+- `name`, plus `url` if the project is public
+- `description`: one line — what it is and the technology stack
+- `bullets`: 1–2 — what you built and what it demonstrates
 
 ### 9. Interests (optional but recommended)
 
@@ -202,11 +202,11 @@ Keep it to 3–5 items, inline (comma or dot separated). Gate lightly: omit only
 
 ## Critical Rules
 
-- **Language match**: Write the CV in the same language as the job posting. English is standard for tech/Randstad/international roles. Dutch is expected for government, education, and traditional regional employers.
+- **Language**: Always English. English is standard for tech/Randstad/international roles, and the candidate does not speak Dutch (candidate.md → Languages). A posting written in Dutch is flagged to the user, not answered in Dutch.
 - **Dutch directness**: Factual, precise, no embellishment. Over-selling is culturally off-putting to Dutch recruiters. State facts and impacts — never inflate.
 - **ATS compliance**: Use standard characters. Avoid tables, columns, graphics, headers/footers. Dutch market uses Workday, SAP SuccessFactors, Greenhouse (multinationals) and Recruitee, Homerun, Bullhorn (Dutch-specific).
 - **Factual integrity**: Never fabricate experience, skills, or metrics not in candidate.md.
-- **Page limit**: Maximum 2 pages (1 page for entry-level). Trim order if exceeding: oldest role bullets → interests → project context → bullet word count. Never cut certifications, education, or languages.
-- **Anti-discrimination compliance**: Per Dutch AWGB and WGBLA legislation — never include marital status, religion, or BSN. Omit DOB by default. Photos are optional and the candidate decides.
+- **Page limit**: Maximum 2 pages — `render.py` checks the exported PDF. Trim order if exceeding: oldest role bullets → interests → project context → bullet word count. Never cut certifications, education, or languages.
+- **Anti-discrimination compliance**: Per Dutch AWGB and WGBLA legislation — never include marital status, religion, or BSN. Omit DOB and photo.
 - **LinkedIn**: Always include the LinkedIn URL — it is a professional standard in the Netherlands and expected by Dutch recruiters.
 - Use en-dash for date ranges (–), middle dot (·) for skill separators.

@@ -29,15 +29,15 @@ properties:
         type: string
       relocation:
         type: string
-        description: "Optional relocation/work authorization statement — e.g. 'EU citizen, no work permit required' or 'Available to relocate to Amsterdam'"
+        description: "Optional relocation statement — e.g. 'Available to relocate to Amsterdam'. Never visa, sponsorship or work-permit status."
 
   date:
     type: string
-    description: "Letter date — format: 'DD Month YYYY' for Dutch (e.g. '30 mei 2026') or 'Month DD, YYYY' for English (e.g. 'May 30, 2026'). Match language of the letter."
+    description: "Letter date, day first — e.g. '27 October 2026'. Use the `date` that prepare_folder.py returned."
 
   salutation:
     type: string
-    description: "Dutch: 'Geachte heer [Surname],' / 'Geachte mevrouw [Surname],' / 'Geachte heer of mevrouw,' / 'Geachte sollicitatiecommissie,' / 'Beste [First Name],'. English: 'Dear Mr./Ms. [Surname],' / 'Dear Hiring Manager,' / 'Hi [First Name],' — match formality to letter tone and company culture."
+    description: "English: 'Dear Mr./Ms. [Surname],' / 'Dear Hiring Manager,' / 'Dear [Team] Team,' / 'Hi [First Name],' — match formality to company culture."
 
   paragraphs:
     type: array
@@ -53,7 +53,7 @@ properties:
     properties:
       closing:
         type: string
-        description: "Dutch: 'Met vriendelijke groet,' (standard) / 'Hoogachtend,' (very formal) / 'Met vriendelijke groeten,' (warmer) / 'Hartelijke groeten,' (informal). English: 'Kind regards,' / 'Yours sincerely,' / 'Best regards,'. Match language and formality of the letter opening."
+        description: "'Kind regards,' (standard) / 'Yours sincerely,' (formal) / 'Best regards,' (warmer). Match the formality of the salutation."
       name:
         type: string
       title:

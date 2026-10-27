@@ -30,12 +30,9 @@ date:
 body:
   paragraph_spacing_after: 120  # twips — Suggested range: 100–160 twips (≈5–8pt). 120 twips (≈6pt) gives clean separation without excessive whitespace on A4
 
-# SIGN-OFF — Dutch business closing phrases.
-# Select based on letter language (Dutch or English) and formality of the opening salutation.
-# Dutch: "Met vriendelijke groet," is the standard, universally acceptable closing.
-# English: "Kind regards," is the equivalent standard closing.
+# SIGN-OFF — used only when cl-data.yaml has no sign_off.closing. Letters are always in English.
 sign_off:
-  closing_text: "Kind regards,"  # English default. Dutch alternatives: "Met vriendelijke groet," (standard), "Hoogachtend," (very formal), "Met vriendelijke groeten," (slightly warmer), "Hartelijke groeten," (informal). Agent should select based on letter language and formality.
+  closing_text: "Kind regards,"  # Standard English business closing, the equivalent of "Met vriendelijke groet,"
   name_bold: true
   name_color: "#1A3A5C"  # Must match CV primary color for visual consistency
 
@@ -56,3 +53,4 @@ validation:
   max_paragraphs: 5  # Rarely 5 paragraphs; 4 is the standard. Max 5 to allow slight variation.
   min_total_words: 200  # Floor for a substantive Dutch cover letter
   max_total_words: 350  # Dutch directness: 250–350 words is ideal. One A4 page maximum. Per Dutch career guides and IAmExpat.
+  max_pages: 1  # Checked on the exported PDF

@@ -1,8 +1,8 @@
 ---
 name: cl-style-netherlands
 description: "Netherlands CL style. Complete, self-contained cover letter
-  writing rules for Netherlands job applications. Loaded when style resolution
-  matches netherlands. This is a full style skill — not a partial override."
+  writing rules for Netherlands job applications. Loaded by the cl-agent for
+  every application."
 user-invocable: false
 ---
 
@@ -16,11 +16,7 @@ Read `candidate.md` before writing. Every claim must be traceable to that file. 
 
 ## Language Rule
 
-**Write the cover letter in the same language as the job posting.** If the posting is in English → write in English. If in Dutch → write in Dutch.
-
-- English is the working language at most tech companies, multinationals, and startups in the Randstad (Amsterdam, Rotterdam, The Hague, Utrecht).
-- Dutch is expected for government, education, traditional Dutch companies, and regional (non-Randstad) employers.
-- When in doubt: check the job posting language. Do not assume Dutch or English.
+**Always write in English.** English is the working language at most tech companies, multinationals, and startups in the Randstad (Amsterdam, Rotterdam, The Hague, Utrecht), and the candidate does not speak Dutch (candidate.md → Languages). If the posting is written in Dutch, still write in English; the orchestrator flags it to the user.
 
 The Dutch term for a cover letter is **motivatiebrief** or **sollicitatiebrief** — interchangeable.
 
@@ -48,7 +44,7 @@ Connect 2–3 specific, quantified achievements from candidate.md to the role's 
 
 ### Paragraph 3 — Why This Company (3-4 sentences)
 
-Demonstrate that you researched the company (draw from research.md). Explain specifically why you want to work there — not just what the company does, but what about their mission, product, or culture appeals to you. If applying from outside the Netherlands, briefly mention relocation readiness or work authorization.
+Demonstrate that you researched the company (draw from research.md). Explain specifically why you want to work there — not just what the company does, but what about their mission, product, or culture appeals to you. If applying from outside the Netherlands, briefly mention relocation readiness — never visa, sponsorship or work authorization.
 
 - Dutch employers explicitly penalise generic cover letters. Personalised motivation is the single most important differentiator.
 
@@ -64,31 +60,17 @@ Express readiness to discuss in an interview. Thank them for their consideration
 
 **Addressing conventions:**
 
-Dutch (when writing in Dutch):
-- Known name: "Geachte heer [Surname]," or "Geachte mevrouw [Surname],"
-- Unknown name/gender: "Geachte heer of mevrouw," or "Geachte sollicitatiecommissie,"
-- Startup/informal: "Beste [First Name],"
-- Never: "Geachte heer, mevrouw" without a name — this is considered impersonal and amateurish per Carrieretijger.nl and Randstad.nl
-
-English (when writing in English):
 - Known name: "Dear Mr./Ms. [Surname],"
 - Unknown: "Dear Hiring Manager," or "Dear [Department] Team,"
 - Informal/startup: "Hi [First Name],"
 
 **Sign-off phrases:**
 
-Dutch:
-- Standard: "Met vriendelijke groet," — the most universally acceptable Dutch business closing
-- Formal (with anonymous "Geachte heer/mevrouw"): "Hoogachtend,"
-- Warmer variant: "Met vriendelijke groeten,"
-- Informal: "Hartelijke groeten,"
-
-English:
 - Standard: "Kind regards,"
 - Formal: "Yours sincerely,"
 - Slightly warmer: "Best regards,"
 
-**Selection rule**: Match the sign-off formality to the opening. If you opened with "Beste [First Name]," use "Met vriendelijke groeten," or "Kind regards," not "Hoogachtend,".
+**Selection rule**: Match the sign-off formality to the opening. If you opened with "Hi [First Name]," use "Kind regards," or "Best regards," not "Yours sincerely,".
 
 ---
 
@@ -103,7 +85,7 @@ English:
 - Show genuine interest in the company — generic motivation is the most common cover letter failure in the Netherlands per Dutch career guides.
 - Authenticity is valued over polish in Dutch culture.
 
-**Dutch vs. non-Dutch candidates**: Expat applicants should briefly reference their connection to the Netherlands (currently living there, relocating, EU citizen) — Dutch employers appreciate this transparency.
+**Applying from abroad**: Briefly state readiness to relocate to the Netherlands — Dutch employers appreciate this transparency. Never mention visa, sponsorship or work-permit status (candidate.md → Visa Note).
 
 ---
 
@@ -111,7 +93,7 @@ English:
 
 - **BSN (burgerservicenummer)**: Never — sensitive national ID, not appropriate on any application document
 - **Date of birth, marital status, religion, ethnicity**: Prohibited context per Dutch AWGB anti-discrimination law
-- Visa or sponsorship status (unless it helps, e.g., "EU citizen — no work permit required")
+- Visa, sponsorship or work-permit status — never (candidate.md → Visa Note)
 - Salary expectations (unless the job posting explicitly asks for them)
 - References (not included in the initial application; provided only upon request)
 - Flattery about the company that isn't backed by specific research ("Your amazing company known for excellence...")
@@ -121,7 +103,7 @@ English:
 
 ## Critical Rules
 
-- **Language match**: Dutch or English — always follow the job posting language.
+- **Language**: English, always.
 - **ATS-safe characters**: Plain text, no special formatting. Dutch employers use the same ATS platforms as the broader European market (Workday, Recruitee, Homerun).
 - **Factual integrity**: Every claim traceable to candidate.md.
 - **Word count**: 250–350 words total. One side of A4 maximum. Dutch preference for directness makes brevity a virtue.

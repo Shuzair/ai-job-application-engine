@@ -28,11 +28,12 @@ header:
 # Fresh graduates: swap order of experience and education (education first).
 # Dutch work culture values hobbies/interests as showing "whole person" — include interests.
 # References section is NOT included; "available upon request" in cover letter suffices.
-# Projects section: valued in Dutch tech market (per Tech-Careers.nl and Cresuma).
+# Projects section: valued in Dutch tech market (per Tech-Careers.nl and Cresuma). Skipped when cv-data has none.
 sections:
   order:
     - summary
     - experience
+    - projects
     - education
     - skills
     - certifications
@@ -46,16 +47,13 @@ sections:
     certifications: "Certifications"    # Certificeringen
     languages: "Languages"             # Taalvaardigheden
     interests: "Interests"             # Interesses / Hobby's
-    projects: "Projects"               # Projecten (optional — add to order if using)
-    volunteer_work: "Volunteer Work"   # Vrijwilligerswerk (optional — add to order if using)
+    projects: "Projects"               # Projecten
   heading_case: upper  # Uppercase section headings are standard in Dutch professional CVs. Options: upper, title, as-is
   heading_bold: true  # Bold headings are universal. Options: true, false
   heading_underline: true  # Ruled underline below heading is clean and common in Dutch templates. Options: true, false
   heading_size: 12  # pt — Suggested range: 12–14pt. 12pt bold uppercase is the most common Dutch heading treatment
   section_types:
     interests: inline  # Interests displayed as comma/dot separated list (not bullets)
-    volunteer_work: list  # Volunteer work displayed as bullet list
-    projects: list  # Projects displayed as bullet list
 
 typography:
   heading_font: Calibri  # Most-recommended font in Dutch career guides. Popular alternatives: Arial, Verdana, Helvetica, Georgia (conservative sectors)
@@ -83,6 +81,7 @@ validation:
   summary_min_words: 40  # Dutch summaries are concise; 40 words is the floor for meaningful content
   summary_max_words: 80  # Dutch preference for directness: keep summary tight. Suggested range: 60–100 words
   max_bullet_words: 18  # Dutch CV guides emphasise brevity and clarity. Suggested range: 15–20 words per bullet
-  max_bullets_recent: 5  # Recent/current roles: 3–5 bullets. Quality over quantity is the explicit Dutch norm
-  max_bullets_old: 3  # Older roles (3+ years ago): 2–3 bullets maximum
-  max_pages: 2  # Mid-career professionals: max 2 pages. Entry-level: 1 page. Exceeding 2 is seen as poor prioritisation in NL
+  max_bullets_recent: 5  # First (most recent) role: 4–5 bullets. Quality over quantity is the explicit Dutch norm
+  max_bullets_previous: 4  # Second role: 3–4 bullets
+  max_bullets_old: 3  # Third role and older: 2–3 bullets maximum
+  max_pages: 2  # Checked on the exported PDF. Mid-career: max 2 pages. Exceeding 2 is seen as poor prioritisation in NL

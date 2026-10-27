@@ -8,10 +8,7 @@
 [job title exactly as listed]
 
 # Location
-[e.g. Berlin, Germany / Remote (EU) / Remote (Worldwide) / Germany, Netherlands, Belgium]
-
-# Style
-[optional — override automatic style resolution, e.g. germany, europe, default. Leave empty for auto]
+[city, e.g. Amsterdam — leave empty if just "Netherlands"]
 
 # Job Description
 [paste the full job description here]

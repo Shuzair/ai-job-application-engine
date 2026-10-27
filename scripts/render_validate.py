@@ -163,7 +163,7 @@ def validate(docx_path, yaml_path, label):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python3 validate.py <docx_path> <yaml_path> <label>", file=sys.stderr)
+        print("Usage: python scripts/run.py scripts/render_validate.py <docx_path> <yaml_path> <label>", file=sys.stderr)
         sys.exit(1)
     success = validate(sys.argv[1], sys.argv[2], sys.argv[3])
     sys.exit(0 if success else 1)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-platform venv wrapper. Replaces run.sh.
+"""Venv wrapper for every project script.
 
 Usage: python scripts/run.py <script.py> [args...]
 
@@ -33,6 +33,11 @@ def main():
         print("Installing dependencies from requirements.txt ...")
         subprocess.check_call([str(PIP), "install", "-q", "-r", str(req)])
         marker.touch()
+
+    # The Windows console is cp1252: without this, printing an arrow, a check
+    # mark or an emoji from a pasted job description crashes the script.
+    os.environ["PYTHONUTF8"] = "1"
+    os.environ["PYTHONIOENCODING"] = "utf-8"
 
     if sys.platform != "win32":
         os.execv(str(PYTHON), [str(PYTHON)] + sys.argv[1:])

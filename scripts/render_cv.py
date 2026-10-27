@@ -255,6 +255,38 @@ def _render_experience(doc, data, cfg, usable_w):
             _run(bp, b.strip(), font=body_font, size=typo["body_size"])
 
 
+def _render_projects(doc, data, cfg, _w):
+    """Name | link, an italic one-line description, then bullets."""
+    if not data.get("projects"):
+        return
+    _heading(doc, "Projects", cfg, key="projects")
+    typo = cfg["typography"]
+    body_font = typo.get("body_font", typo.get("font", "Calibri"))
+    line_sp = int(typo["line_spacing"] * 240)
+    link_hex = cfg["colors"]["link"]
+
+    for i, proj in enumerate(data["projects"]):
+        tp = doc.add_paragraph()
+        _set_spacing(tp, before=120 if i else 0, after=0)
+        _run(tp, proj["name"], font=body_font, size=typo["body_size"], bold=True)
+        if proj.get("url"):
+            _run(tp, " | ", font=body_font, size=typo["body_size"])
+            display = proj["url"].replace("https://", "").replace("http://", "").rstrip("/")
+            _add_hyperlink(tp, proj["url"], display, link_hex,
+                           font=body_font, size=typo["body_size"])
+
+        if proj.get("description"):
+            dp = doc.add_paragraph()
+            _set_spacing(dp, after=0, line=line_sp)
+            _run(dp, proj["description"].strip(), font=body_font,
+                 size=typo["body_size"], italic=True)
+
+        for b in proj.get("bullets", []):
+            bp = doc.add_paragraph(style="List Bullet")
+            _set_spacing(bp, after=0, line=line_sp)
+            _run(bp, b.strip(), font=body_font, size=typo["body_size"])
+
+
 def _render_education(doc, data, cfg, usable_w):
     if not data.get("education"):
         return
@@ -411,6 +443,7 @@ _RENDERERS = {
     "summary": _render_summary,
     "skills": _render_skills,
     "experience": _render_experience,
+    "projects": _render_projects,
     "education": _render_education,
     "certifications": _render_certifications,
     "languages": _render_languages,

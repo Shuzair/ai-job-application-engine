@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
-"""Validate CV and CL YAML data against style-specific rules.
+"""Validate an application folder's CV and CL data against the Netherlands rules.
 
-Checks:
+errors (structure — the documents cannot be rendered until fixed):
   - JSON Schema validation (via validate_schema.py)
+  - Header consistency: name match between CV and CL
+limits (the style's validation block in cv-format.yaml / cl-format.yaml):
   - CV summary word count (min/max)
   - CV bullet word count per bullet
-  - CV bullet count per role (recent vs old)
+  - CV bullet count per role (most recent / previous / older)
   - CL total word count (min/max)
   - CL paragraph count (min/max)
-  - Header consistency: name match between CV and CL
-  - JD keyword coverage (warnings only)
+warnings:
+  - JD keyword coverage (JD read from the folder's input.md)
 
 Usage:
-    python3 scripts/validate_output.py --type both \
-        --data-dir job-applications/output/folder \
-        --cv-config .claude/skills/cv-style-europe/cv-format.yaml \
-        --cl-config .claude/skills/cl-style-europe/cl-format.yaml \
-        [--cv-schema .claude/skills/cv-style-europe/cv-data-schema.yaml] \
-        [--cl-schema .claude/skills/cl-style-europe/cl-data-schema.yaml] \
-        [--jd-text "job description text for keyword matching"]
+    python scripts/run.py scripts/validate_output.py <folder> [--type cv|cl|both]
 
-Output: JSON to stdout with {valid, errors[], warnings[]}
+Output: JSON to stdout with {valid, errors[], limits[], warnings[]}; exit 1 if errors.
 """
 
 import argparse
@@ -31,6 +27,8 @@ from pathlib import Path
 
 import yaml
 
+import contracts
+from parse_input import parse_input
 from validate_schema import validate
 
 
@@ -61,16 +59,14 @@ def _get_validation_config(config: dict) -> dict:
     return config.get("validation", {})
 
 
-def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str = None) -> tuple:
-    """Validate CV data. Returns (errors, warnings)."""
+def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str) -> tuple:
+    """Validate CV data. Returns (errors, limits)."""
     errors = []
-    warnings = []
+    limits = []
     val = _get_validation_config(cv_config)
 
-    # Schema validation
-    if cv_schema_path and Path(cv_schema_path).exists():
-        schema_errors = validate(cv_data, cv_schema_path)
-        errors.extend(f"[schema] {e}" for e in schema_errors)
+    schema_errors = validate(cv_data, cv_schema_path)
+    errors.extend(f"[schema] {e}" for e in schema_errors)
 
     # Summary word count
     summary = cv_data.get("summary", "")
@@ -79,26 +75,28 @@ def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str = None) -> 
         min_w = val.get("summary_min_words", 40)
         max_w = val.get("summary_max_words", 100)
         if wc < min_w:
-            errors.append(f"[cv] Summary too short: {wc} words (min {min_w})")
+            limits.append(f"[cv] Summary too short: {wc} words (min {min_w})")
         if wc > max_w:
-            errors.append(f"[cv] Summary too long: {wc} words (max {max_w})")
+            limits.append(f"[cv] Summary too long: {wc} words (max {max_w})")
 
-    # Experience bullets
+    # Experience bullets — the limit depends on the role's position:
+    # most recent, previous, then every older role.
     max_bullet_words = val.get("max_bullet_words", 18)
-    max_bullets_recent = val.get("max_bullets_recent", 6)
-    max_bullets_old = val.get("max_bullets_old", 3)
+    by_position = [
+        ("most recent", val.get("max_bullets_recent", 5)),
+        ("previous", val.get("max_bullets_previous", 4)),
+    ]
+    older = ("older", val.get("max_bullets_old", 3))
 
     experience = cv_data.get("experience", [])
     for i, role in enumerate(experience):
         company = role.get("company", "?")
         title = role.get("title", "?")
         bullets = role.get("bullets", [])
-        is_recent = (i == 0)
 
-        max_b = max_bullets_recent if is_recent else max_bullets_old
+        label, max_b = by_position[i] if i < len(by_position) else older
         if len(bullets) > max_b:
-            label = "most recent" if is_recent else "older"
-            errors.append(
+            limits.append(
                 f"[cv] {title} @ {company}: {len(bullets)} bullets "
                 f"(max {max_b} for {label} role)"
             )
@@ -106,24 +104,22 @@ def _validate_cv(cv_data: dict, cv_config: dict, cv_schema_path: str = None) -> 
         for j, bullet in enumerate(bullets):
             bwc = _word_count(bullet)
             if bwc > max_bullet_words:
-                warnings.append(
+                limits.append(
                     f"[cv] {title} @ {company}, bullet {j+1}: "
                     f"{bwc} words (max {max_bullet_words})"
                 )
 
-    return errors, warnings
+    return errors, limits
 
 
-def _validate_cl(cl_data: dict, cl_config: dict, cl_schema_path: str = None) -> tuple:
-    """Validate CL data. Returns (errors, warnings)."""
+def _validate_cl(cl_data: dict, cl_config: dict, cl_schema_path: str) -> tuple:
+    """Validate CL data. Returns (errors, limits)."""
     errors = []
-    warnings = []
+    limits = []
     val = _get_validation_config(cl_config)
 
-    # Schema validation
-    if cl_schema_path and Path(cl_schema_path).exists():
-        schema_errors = validate(cl_data, cl_schema_path)
-        errors.extend(f"[schema] {e}" for e in schema_errors)
+    schema_errors = validate(cl_data, cl_schema_path)
+    errors.extend(f"[schema] {e}" for e in schema_errors)
 
     # Paragraph count
     paragraphs = cl_data.get("paragraphs", [])
@@ -131,20 +127,20 @@ def _validate_cl(cl_data: dict, cl_config: dict, cl_schema_path: str = None) -> 
     min_p = val.get("min_paragraphs", 2)
     max_p = val.get("max_paragraphs", 6)
     if num_p < min_p:
-        errors.append(f"[cl] Too few paragraphs: {num_p} (min {min_p})")
+        limits.append(f"[cl] Too few paragraphs: {num_p} (min {min_p})")
     if num_p > max_p:
-        errors.append(f"[cl] Too many paragraphs: {num_p} (max {max_p})")
+        limits.append(f"[cl] Too many paragraphs: {num_p} (max {max_p})")
 
     # Total word count
     total_words = sum(_word_count(p) for p in paragraphs)
     min_w = val.get("min_total_words", 250)
     max_w = val.get("max_total_words", 400)
     if total_words < min_w:
-        errors.append(f"[cl] Too few words: {total_words} (min {min_w})")
+        limits.append(f"[cl] Too few words: {total_words} (min {min_w})")
     if total_words > max_w:
-        errors.append(f"[cl] Too many words: {total_words} (max {max_w})")
+        limits.append(f"[cl] Too many words: {total_words} (max {max_w})")
 
-    return errors, warnings
+    return errors, limits
 
 
 def _check_header_consistency(cv_data: dict, cl_data: dict) -> list:
@@ -205,31 +201,19 @@ def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
     return []
 
 
-def validate_output(
-    doc_type: str,
-    data_dir: str,
-    cv_config_path: str = "",
-    cl_config_path: str = "",
-    cv_schema_path: str = "",
-    cl_schema_path: str = "",
-    jd_text: str = "",
-) -> dict:
-    """Validate CV and/or CL data files.
+def validate_output(doc_type: str, data_dir: str) -> dict:
+    """Validate CV and/or CL data files in an application folder.
 
     Args:
         doc_type: "cv", "cl", or "both"
-        data_dir: Path to the output folder containing cv-data.yaml / cl-data.yaml
-        cv_config_path: Path to cv-format.yaml
-        cl_config_path: Path to cl-format.yaml
-        cv_schema_path: Path to cv-data-schema.yaml (optional)
-        cl_schema_path: Path to cl-data-schema.yaml (optional)
-        jd_text: Job description text for keyword coverage (optional)
+        data_dir: Path to the application folder (cv-data.yaml, cl-data.yaml, input.md)
 
     Returns:
-        Dictionary with valid (bool), errors (list), warnings (list)
+        Dictionary with valid (bool), errors, limits and warnings (lists)
     """
     data_path = Path(data_dir)
     all_errors = []
+    all_limits = []
     all_warnings = []
 
     do_cv = doc_type in ("cv", "both")
@@ -244,11 +228,11 @@ def validate_output(
             all_errors.append(f"[cv] File not found: {cv_file}")
         else:
             cv_data = _load_yaml(cv_file)
-            cv_config = _load_yaml(Path(cv_config_path)) if cv_config_path else {}
-            schema = cv_schema_path or None
-            errs, warns = _validate_cv(cv_data, cv_config, schema)
+            errs, lims = _validate_cv(
+                cv_data, _load_yaml(contracts.CV_CONFIG), str(contracts.CV_SCHEMA)
+            )
             all_errors.extend(errs)
-            all_warnings.extend(warns)
+            all_limits.extend(lims)
 
     if do_cl:
         cl_file = data_path / "cl-data.yaml"
@@ -256,70 +240,47 @@ def validate_output(
             all_errors.append(f"[cl] File not found: {cl_file}")
         else:
             cl_data = _load_yaml(cl_file)
-            cl_config = _load_yaml(Path(cl_config_path)) if cl_config_path else {}
-            schema = cl_schema_path or None
-            errs, warns = _validate_cl(cl_data, cl_config, schema)
+            errs, lims = _validate_cl(
+                cl_data, _load_yaml(contracts.CL_CONFIG), str(contracts.CL_SCHEMA)
+            )
             all_errors.extend(errs)
-            all_warnings.extend(warns)
+            all_limits.extend(lims)
 
-    # Cross-document checks
-    if do_cv and do_cl and cv_data and cl_data:
+    # Cross-document check: when only one document was asked for, the other is
+    # read from disk, so revising one cannot drift from the other.
+    if not cl_data:
+        cl_data = _load_yaml(data_path / "cl-data.yaml")
+    if not cv_data:
+        cv_data = _load_yaml(data_path / "cv-data.yaml")
+    if cv_data and cl_data:
         all_errors.extend(_check_header_consistency(cv_data, cl_data))
 
     # JD keyword coverage
-    if do_cv and cv_data and jd_text:
+    input_md = data_path / "input.md"
+    if do_cv and cv_data and input_md.exists():
+        jd_text = parse_input(str(input_md))["job_description"]
         all_warnings.extend(_check_jd_keywords(cv_data, jd_text))
 
     return {
         "valid": len(all_errors) == 0,
         "errors": all_errors,
+        "limits": all_limits,
         "warnings": all_warnings,
     }
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Validate CV/CL YAML data against style-specific rules"
+        description="Validate an application folder's CV/CL data against the Netherlands rules"
     )
+    parser.add_argument("folder", help="Application folder containing the data YAML files")
     parser.add_argument(
-        "--type", required=True, choices=["cv", "cl", "both"],
-        help="What to validate: cv, cl, or both"
-    )
-    parser.add_argument(
-        "--data-dir", required=True,
-        help="Path to output folder containing data YAML files"
-    )
-    parser.add_argument(
-        "--cv-config", default="",
-        help="Path to cv-format.yaml"
-    )
-    parser.add_argument(
-        "--cl-config", default="",
-        help="Path to cl-format.yaml"
-    )
-    parser.add_argument(
-        "--cv-schema", default="",
-        help="Path to cv-data-schema.yaml"
-    )
-    parser.add_argument(
-        "--cl-schema", default="",
-        help="Path to cl-data-schema.yaml"
-    )
-    parser.add_argument(
-        "--jd-text", default="",
-        help="Job description text for keyword coverage check"
+        "--type", default="both", choices=["cv", "cl", "both"],
+        help="What to validate: cv, cl, or both (default)"
     )
     args = parser.parse_args()
 
-    result = validate_output(
-        doc_type=args.type,
-        data_dir=args.data_dir,
-        cv_config_path=args.cv_config,
-        cl_config_path=args.cl_config,
-        cv_schema_path=args.cv_schema,
-        cl_schema_path=args.cl_schema,
-        jd_text=args.jd_text,
-    )
+    result = validate_output(doc_type=args.type, data_dir=args.folder)
 
     json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
     print()

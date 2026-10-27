@@ -2,7 +2,7 @@
 """Validate YAML data against a JSON Schema (stored as YAML).
 
 Usage:
-    python3 validate_schema.py <data.yaml> <schema.yaml>
+    python scripts/run.py scripts/validate_schema.py <data.yaml> <schema.yaml>
 
 Returns exit code 0 on success, 1 on validation errors.
 """
@@ -40,7 +40,7 @@ def validate_file(data_path, schema_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python3 validate_schema.py <data.yaml> <schema.yaml>", file=sys.stderr)
+        print("Usage: python scripts/run.py scripts/validate_schema.py <data.yaml> <schema.yaml>", file=sys.stderr)
         sys.exit(1)
 
     errs = validate_file(sys.argv[1], sys.argv[2])
