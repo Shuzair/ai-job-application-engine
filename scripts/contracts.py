@@ -48,6 +48,10 @@ CV_SCHEMA = SKILLS_DIR / CV_STYLE_SKILL / "cv-data-schema.yaml"
 CL_CONFIG = SKILLS_DIR / CL_STYLE_SKILL / "cl-format.yaml"
 CL_SCHEMA = SKILLS_DIR / CL_STYLE_SKILL / "cl-data-schema.yaml"
 
+# ── Master CV ───────────────────────────────────────────────────────────────
+MASTER_CV_DIR = PROJECT_ROOT / _C["master_cv"]["dir"]
+CANDIDATE_PATH = PROJECT_ROOT / "candidate.md"
+
 # ── Override files ──────────────────────────────────────────────────────────
 CV_FORMAT_OVERRIDE = _C["override_files"]["cv_format_override"]
 CL_FORMAT_OVERRIDE = _C["override_files"]["cl_format_override"]

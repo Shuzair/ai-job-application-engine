@@ -59,6 +59,9 @@ candidate.md
 candidate.backup.md
 *.jpg
 
+# The master CV (built from candidate.md by /cv)
+master-cv/
+
 # Application output contents (keep folder structure, ignore contents)
 job-applications/output/*
 !job-applications/output/.gitkeep

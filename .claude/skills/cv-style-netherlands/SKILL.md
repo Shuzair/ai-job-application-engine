@@ -12,56 +12,53 @@ This style covers CV writing rules for Netherlands job applications. It does NOT
 
 Read `candidate.md` before writing any CV content. Every claim, skill, and metric must be traceable to that file. Never fabricate.
 
+**One CV for every application.** This CV is the master CV: built once from candidate.md and sent unchanged with every Netherlands application. It is never tailored to one posting. Per-job tailoring lives in the cover letter. So write for the candidate's target roles, never for a single company or job ad: no company names you are applying to, no "this role", no terms that only one posting uses.
+
 ---
 
-## Pre-work: Decode the Job Posting First
+## Pre-work: Build the Target Profile
 
-Before writing anything, analyze the job posting and extract:
+Before writing anything, build a **Target Profile** from candidate.md:
 
-- The **top 3 technologies** mentioned most prominently
-- The **core responsibility** from the first 2-3 requirement bullets
-- **Must-haves vs nice-to-haves**: required/essential vs preferred/bonus
-- **Cultural signals**: team structure, work style, company culture indicators
-- Whether the posting mentions relocation support or visa sponsorship
-- **Language**: note whether the posting is written in Dutch — the orchestrator flags it, since it usually means Dutch is required. The CV is always written in English.
+- **Target roles**: candidate.md → Target → Roles, in the order listed. The first is the lead role; the summary and header titles lead with it.
+- **Core stack**: the technologies the candidate has used most, most recently, and in production. Recurrence across roles and depth of evidence beat a single mention.
+- **Signature results**: the 5–8 strongest quantified achievements in candidate.md (scale, cost, latency, accuracy, time saved).
+- **Domains**: the problem areas the candidate has real depth in (e.g. data pipelines, web scraping at scale, data quality, LLMs in production).
 
-Build a **JD Signal List** — a ranked list of the top 8–12 skills, tools, domain terms, and buzzwords from the posting. Reference this list throughout content generation.
+From it, build a **Target Signal List**: a ranked list of 10–15 skills, tools and responsibilities that Dutch postings for the target roles commonly ask for **and** that the candidate has hands-on evidence for. Reference this list throughout content generation. It replaces any single job description.
 
 ---
 
 ## Data Collection Philosophy
 
-These rules define HOW to collect and filter data from candidate.md for each section. They are fixed across all styles — only the presentation rules (bucket names, bullet format, tone) vary by country.
+These rules define HOW to collect and filter data from candidate.md for each section.
 
-### Skills — Relevance-First Filtering
+### Skills — Evidence-First Filtering
 
 1. **Collect**: Read ALL skills from `candidate.md`
-2. **Match**: Keep skills that appear in the JD (exact or synonym match). Reference your JD Signal List.
-3. **Expand**: If the JD mentions a skill the candidate lacks exactly but has a closely related or similar skill, include that similar skill (e.g., JD says "Redshift" → candidate has "Snowflake" → include Snowflake)
-4. **Discard**: Remove all remaining skills that have no relevance to the JD or company's domain
-5. **Distribute**: Organize the surviving skills into the category buckets defined below. If a bucket ends up empty after filtering, omit it entirely
+2. **Keep**: skills that serve at least one target role and that the candidate has used hands-on (production work, a shipped project, or a certification). Reference your Target Signal List.
+3. **Discard**: skills used once or trivially, and tools that no target role cares about. Breadth across the three roles is fine; padding is not.
+4. **Distribute**: Organize the surviving skills into the category buckets defined below. If a bucket ends up empty, omit it entirely
 
-### Certifications — Strict Relevance Gate
+### Certifications — Relevance Gate
 
 1. **Collect**: Read ALL certifications from `candidate.md`
-2. **Filter**: Keep ONLY certifications relevant to the job description — map each cert to a named signal from the JD Signal List. If you cannot map it to a signal, discard it.
-3. **Discard**: Remove all certifications with no relevance to the target role. Do not include them just to fill space.
+2. **Filter**: Keep certifications that support a target role — map each to a named Target Signal List item. If you cannot, discard it.
 
 ### Experience — Maximum Context, Then Rank
 
 1. **Collect**: Read ALL experience details from `candidate.md` — roles, projects, technologies, metrics, achievements, context
-2. **Analyze**: Rank each piece of experience by relevance to the JD. Prioritize: matching technologies, matching responsibilities, matching scale/domain
-3. **Shape**: Write bullet points using terminology and keywords from the JD Signal List. If the JD says "data pipelines," use that phrase — not a synonym. Mirror the JD's technical vocabulary in the bullets
-4. **Prioritize**: Place the most JD-relevant bullets first within each role. Cut the least relevant bullets when space is tight
+2. **Analyze**: Rank each piece of experience by how strongly it shows the target roles' core work. Prioritize: quantified results, ownership, production scale, core-stack technologies
+3. **Shape**: Write bullets in the standard industry terms recruiters and ATS filters search for (e.g. "data pipelines", "ETL/ELT", "data modelling", "data quality"), not internal project names
+4. **Prioritize**: Place the strongest bullets first within each role. Cut the weakest when space is tight
 5. **Format**: Follow the bullet writing rules defined in the style section below (word count, action verbs, tone)
 
-### Summary — Candidate-Meets-JD Synthesis
+### Summary — Candidate-Meets-Target Synthesis
 
 1. **Read**: Study the full candidate profile — experience arc, strongest skills, key achievements, career trajectory
-2. **Synthesize**: Write an optimal summary that positions the candidate for THIS specific role. The summary should read as if this candidate is a natural fit for the job
-3. **Mirror**: Use the job title and key terms from the JD Signal List. If the JD says "Senior Data Engineer," the summary should echo that framing
-4. **Quantify**: Include the single most impressive metric from candidate.md that aligns with the role
-5. **Format**: Follow the structure and tone rules defined in the style section below
+2. **Synthesize**: Write a summary that positions the candidate for the lead target role while staying true for the others
+3. **Quantify**: Include the single most impressive metric from candidate.md
+4. **Format**: Follow the structure and tone rules defined in the style section below
 
 ---
 
@@ -71,7 +68,7 @@ The rendered order is set by `cv-format.yaml`: summary, experience, projects, ed
 
 ### 1. Header
 
-Include: full name, city (not full address), email, phone, LinkedIn URL, GitHub (if relevant to the role).
+Include: full name, target role titles (lead role first), city (not full address), email, phone, LinkedIn URL, GitHub.
 
 Add one line about relocation readiness if applying from outside the Netherlands.
 
@@ -88,9 +85,9 @@ Add one line about relocation readiness if applying from outside the Netherlands
 
 Follow the Summary data collection philosophy above, then format as exactly 4 components in 3-4 lines total:
 
-1. **Who you are**: Mirror the job title from the posting. State years of experience and domain.
-2. **What you do best**: Name 3-4 technologies or skills matching the JD's must-haves from the JD Signal List.
-3. **Differentiator**: One quantified achievement most relevant to this role.
+1. **Who you are**: The lead target role. State years of experience and domain.
+2. **What you do best**: Name 3-4 core-stack technologies or skills from the Target Signal List.
+3. **Differentiator**: One quantified signature result.
 4. **Availability**: Relocation readiness or availability statement if applicable.
 
 **Dutch tone for the summary**: Direct and factual. Avoid superlatives and marketing language. Dutch recruiters explicitly penalize over-selling and vague positivity. Use implied first person (no "I" at the start of sentences). State what you have done and what you bring — concisely.
@@ -100,7 +97,7 @@ Follow the Summary data collection philosophy above, then format as exactly 4 co
 
 ### 3. Skills
 
-Follow the Skills data collection philosophy above (collect → match → expand → discard → distribute). Reference your JD Signal List to confirm each retained skill addresses a named signal.
+Follow the Skills data collection philosophy above (collect → keep → discard → distribute). Reference your Target Signal List to confirm each retained skill addresses a named signal.
 
 Distribute surviving skills into up to 6 category buckets (omit empty buckets):
 
@@ -115,7 +112,7 @@ Note: English bucket names are standard for English-language CVs targeting Dutch
 
 ### 4. Professional Experience
 
-Follow the Experience data collection philosophy above (collect all → rank by JD relevance → shape with JD terminology → prioritize).
+Follow the Experience data collection philosophy above (collect all → rank by target-role strength → shape with standard terms → prioritize).
 
 **Date format**: Mon YYYY (e.g., "Jan 2022 – Mar 2024"). This is the standard Dutch CV date format. Use en-dash between dates.
 
@@ -124,7 +121,7 @@ Follow the Experience data collection philosophy above (collect all → rank by 
 - Open with a strong past-tense action verb (built, reduced, migrated, designed, implemented, led, automated).
 - Quantify wherever possible: percentages, numbers, time savings, scale. Dutch recruiters explicitly value quantified achievements.
 - Use implied first person — write "Built a data pipeline" not "I built" and not "Responsible for building."
-- Mirror JD Signal List terminology exactly. If the JD says "streaming pipelines," use that phrase.
+- Use the standard industry term for the work ("streaming pipelines", "data modelling"), not an internal name.
 - No embellishment or superlatives. State the fact and the impact — nothing more.
 - For combining multiple roles at the same company: list each title separately with its own date range and bullets. Do not merge roles into one entry.
 
@@ -150,11 +147,11 @@ Follow the Experience data collection philosophy above (collect all → rank by 
 - **GPA**: Include ONLY if the Dutch score is 8.0+ (cum laude or near-cum laude). The Dutch grading scale is 1–10; a 7.5 is solid but not typically highlighted. Convert non-Dutch grades with a brief note if meaningful (e.g., "GPA 3.8/4.0" or "Cum Laude").
 - For non-Dutch degrees targeting Dutch employers: mention Nuffic recognition or ECTS credits only if the degree origin is unfamiliar in the Netherlands.
 - **High school (VWO/HAVO)**: Omit for experienced professionals (3+ years). Include only for recent graduates or entry-level roles where it fills a gap.
-- **Thesis**: Include title only if it is directly relevant to the role and demonstrates a concrete skill from the JD Signal List.
+- **Thesis**: Include title only if it is directly relevant to a target role and demonstrates a concrete skill from the Target Signal List.
 
 ### 6. Certifications
 
-Follow the Certifications data collection philosophy above (keep only JD-relevant, discard the rest — map each to a named JD Signal List item).
+Follow the Certifications data collection philosophy above (keep only those supporting a target role — map each to a named Target Signal List item).
 
 **Format**: Certification name · Issuing body · Month YYYY
 
@@ -179,7 +176,7 @@ Follow the Certifications data collection philosophy above (keep only JD-relevan
 
 ### 8. Projects (optional — include for tech roles)
 
-Reference your JD Signal List. Include a project only if it directly demonstrates a skill or domain from a named signal. A technically impressive project that addresses no named JD signal should be omitted.
+Reference your Target Signal List. Include a project only if it directly demonstrates a skill or domain from a named signal. A technically impressive project that addresses no target role should be omitted.
 
 The Dutch tech market (Tech-Careers.nl, Cresuma) explicitly values personal and side projects for tech roles. The Randstad tech ecosystem has a high density of international tech workers who share GitHub portfolios.
 
@@ -202,10 +199,11 @@ Keep it to 3–5 items, inline (comma or dot separated). Gate lightly: omit only
 
 ## Critical Rules
 
-- **Language**: Always English. English is standard for tech/Randstad/international roles, and the candidate does not speak Dutch (candidate.md → Languages). A posting written in Dutch is flagged to the user, not answered in Dutch.
+- **Language**: Always English. English is standard for tech/Randstad/international roles, and the candidate does not speak Dutch (candidate.md → Languages).
 - **Dutch directness**: Factual, precise, no embellishment. Over-selling is culturally off-putting to Dutch recruiters. State facts and impacts — never inflate.
 - **ATS compliance**: Use standard characters. Avoid tables, columns, graphics, headers/footers. Dutch market uses Workday, SAP SuccessFactors, Greenhouse (multinationals) and Recruitee, Homerun, Bullhorn (Dutch-specific).
 - **Factual integrity**: Never fabricate experience, skills, or metrics not in candidate.md.
+- **No per-job content**: nothing in the CV names or targets one employer or posting — that belongs in the cover letter.
 - **Page limit**: Maximum 2 pages — `render.py` checks the exported PDF. Trim order if exceeding: oldest role bullets → interests → project context → bullet word count. Never cut certifications, education, or languages.
 - **Anti-discrimination compliance**: Per Dutch AWGB and WGBLA legislation — never include marital status, religion, or BSN. Omit DOB and photo.
 - **LinkedIn**: Always include the LinkedIn URL — it is a professional standard in the Netherlands and expected by Dutch recruiters.
