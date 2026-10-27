@@ -18,12 +18,6 @@ style:
   cv_skill: cv-style-netherlands
   cl_skill: cl-style-netherlands
 
-# The master CV: built once by /cv, copied unchanged into every application.
-# Read by:    scripts/master_cv.py
-# Mirrored in: .claude/skills/cv, .claude/skills/apply, .claude/skills/revise
-master_cv:
-  dir: master-cv
-
 # Per-application format override files.
 # Written by: .claude/skills/revise/SKILL.md
 # Read by:    scripts/render.py

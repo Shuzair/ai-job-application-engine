@@ -155,11 +155,9 @@ def _check_header_consistency(cv_data: dict, cl_data: dict) -> list:
     return errors
 
 
-def _check_jd_keywords(cv_data: dict, jd_text: str, cl_data: dict = None) -> list:
+def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
     """Warn about candidate skills the JD asks for that aren't surfaced in the
-    CV prose (summary + experience bullets) or the cover letter. Warnings only.
-    The CV is the same for every application, so the letter is where a missing
-    one gets surfaced.
+    CV prose (summary + experience bullets). Warnings only.
 
     The vocabulary is derived from the candidate's OWN documented skills
     (cv-data, sourced from candidate.md) rather than a hardcoded keyword list,
@@ -188,7 +186,6 @@ def _check_jd_keywords(cv_data: dict, jd_text: str, cl_data: dict = None) -> lis
     prose_parts = [cv_data.get("summary", "")]
     for role in cv_data.get("experience", []):
         prose_parts.extend(role.get("bullets", []))
-    prose_parts.extend((cl_data or {}).get("paragraphs", []))
     prose = " ".join(prose_parts).lower()
 
     not_surfaced = sorted(
@@ -198,8 +195,8 @@ def _check_jd_keywords(cv_data: dict, jd_text: str, cl_data: dict = None) -> lis
 
     if not_surfaced:
         return [
-            "[keywords] Skills the CV lists that the JD asks for but neither the "
-            f"CV summary/bullets nor the letter mention: {', '.join(not_surfaced)}"
+            "[keywords] Skills you list that the JD asks for but aren't "
+            f"surfaced in your summary/bullets: {', '.join(not_surfaced)}"
         ]
     return []
 
@@ -258,11 +255,11 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
     if cv_data and cl_data:
         all_errors.extend(_check_header_consistency(cv_data, cl_data))
 
-    # JD keyword coverage (application folders only: master-cv/ has no input.md)
+    # JD keyword coverage
     input_md = data_path / "input.md"
-    if cv_data and input_md.exists():
+    if do_cv and cv_data and input_md.exists():
         jd_text = parse_input(str(input_md))["job_description"]
-        all_warnings.extend(_check_jd_keywords(cv_data, jd_text, cl_data))
+        all_warnings.extend(_check_jd_keywords(cv_data, jd_text))
 
     return {
         "valid": len(all_errors) == 0,

@@ -12,23 +12,6 @@ This style covers cover letter writing rules for Netherlands job applications. V
 
 Read `candidate.md` before writing. Every claim must be traceable to that file. Read `research.md` from the application folder for company details.
 
-**The letter is the only tailored document.** The CV is the candidate's master CV: the same document goes with every application and never mentions this job. Everything specific to this company and this posting lives in the letter.
-
----
-
-## Pre-work: Decode the Job Posting First
-
-Before writing anything, analyze the job posting and extract:
-
-- The **top 3 technologies** mentioned most prominently
-- The **core responsibility** from the first 2-3 requirement bullets
-- **Must-haves vs nice-to-haves**: required/essential vs preferred/bonus
-- **Cultural signals**: team structure, work style, company culture indicators
-- Whether the posting mentions relocation support or visa sponsorship (internal note only — never in the letter)
-- **Language**: whether the posting is written in Dutch — report it; it usually means Dutch is required
-
-Build a **JD Signal List**: every technology, domain, responsibility and non-technical requirement the posting names, each labeled `[MUST]` or `[NICE]`. Then mark each `[MUST]` as **shown** (the CV plainly evidences it), **not shown** (candidate.md has evidence the CV leaves out or underplays), or **gap** (no evidence in candidate.md). The letter's job is the **not shown** items; gaps are reported, never claimed.
-
 ---
 
 ## Language Rule
@@ -54,7 +37,7 @@ State the exact position you are applying for. Lead with a specific, concrete re
 
 ### Paragraph 2 — Why I'm a Good Fit (4-5 sentences)
 
-Connect 2–3 specific, quantified achievements from candidate.md to the role's key requirements, starting with the `[MUST]` items the CV does not show. Let the metrics speak. Mirror the JD's terminology — the CV uses general terms, so the letter is where the posting's own words appear. This is NOT a CV summary — it adds narrative context that the CV cannot.
+Connect 2–3 specific, quantified achievements from candidate.md to the role's key requirements. Let the metrics speak. Mirror the JD's terminology. This is NOT a CV summary — it adds narrative context that the CV cannot.
 
 - Dutch norm: be direct and factual. Quantified examples are more persuasive than adjectives in Dutch culture.
 - Do not repeat bullet points verbatim from the CV — paraphrase and add context.
