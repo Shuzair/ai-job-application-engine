@@ -16,18 +16,22 @@ The layout is fixed: `scripts/nl_template.py` renders every CV the same way — 
 
 Dutch recruiters expect a CV of **at most two A4 pages**, in **reverse-chronological** order, written in **short bullets** that are **direct, factual and quantified** — over-selling and vague self-praise count against you. CVs are usually screened by an applicant tracking system (ATS) and then skimmed in well under a minute, so the posting's own keywords must be visible, in the posting's own wording. English is accepted for international roles. Europass is not the Dutch norm; this format is.
 
-## Your three inputs
+## Your inputs
 
-| File | What it gives you |
+| File (application folder) | What it gives you |
 |---|---|
-| `jd-keywords.yaml` (application folder) | What the employer wants: the role's title, family (analytics / data engineer / hybrid) and seniority, and the ranked keywords — each with `match` (yes / analogue / no), the candidate's `use_as` term, `evidence` in candidate.md, and `place` (which sections use it). **This is your keyword list. Do not build your own.** |
-| `candidate.md` | What the candidate has done. The only source of facts. |
-| `research.md` | Context on the company, for the company-descriptor lines and framing. |
+| `jd-keywords.yaml` | What the employer wants, from the posting alone: the role's title, family (analytics / data engineer / hybrid) and seniority, and the ranked keywords with type and priority. **This is the keyword list. Do not build your own.** |
+| `jd-to-profile.yaml` | Job → profile: for each keyword, `match` (yes / analogue / no), the candidate's `use_as` term, evidence `strength`, exact `evidence` quotes from candidate.md, `place` (which sections use it) and `wording` (how to phrase it honestly). |
+| `profile-to-jd.yaml` | Profile → job: the candidate's achievements ranked by value to this employer — including ones the posting does not name — with `why`, `metric`, `use_in`; plus `leave_out`, what not to include. |
+| `company-to-profile.yaml` | Company → profile: verified company facts linked to the candidate's background, with `use_in`. Often empty; that is fine. |
+| `candidate.md` | What the candidate has done. The only source of facts — the mappings point into it. |
+| `research.md` | Context on the company, for framing. |
 
-Two rules hold for every section:
+Three rules hold for every section:
 
-1. **Every fact traces to candidate.md.** A keyword with `match: "no"` is a gap: never claim it, never list it as a skill (the validator rejects that). For `match: analogue`, write the candidate's own tool (`use_as`), never the posting's.
-2. **Use the posting's exact words** for what the candidate has. If the posting says "data pipelines", write "data pipelines", not "ETL flows".
+1. **Every fact traces to candidate.md.** The mappings quote it; use the quoted facts and their numbers. A keyword with `match: "no"` is a gap: never claim it, never list it as a skill. For `match: analogue`, write the candidate's own tool (`use_as`), never the posting's.
+2. **Strength decides how strongly you may say it.** `shipped` and `built` work can go in the skills list and be written as done ("built" work: say it was not deployed when the mapping's `wording` says so). `tooling`, `certified`, `learning` and `planned` never go in the skills list — write them only as the mapping's `wording` says ("built an agent that generates dbt models"). The validator rejects a skills list that breaks this.
+3. **Use the posting's exact words** for what the candidate has. If the posting says "data pipelines", write "data pipelines", not "ETL flows". Tailoring is rewording true facts toward the job; it never adds facts.
 
 ## Role emphasis
 
@@ -50,7 +54,7 @@ Two rules hold for every section:
 
 ## Section by section
 
-For each section: what to take from the posting (via jd-keywords.yaml), what to take from candidate.md, and how to write it.
+For each section: what to take from the posting (jd-keywords.yaml with jd-to-profile.yaml), what to take from the profile (profile-to-jd.yaml, company-to-profile.yaml, candidate.md), and how to write it.
 
 ### 1. Header
 
@@ -67,8 +71,8 @@ For each section: what to take from the posting (via jd-keywords.yaml), what to 
 
 ### 2. Summary
 
-**From the posting:** `role.title`, `role.family`, `role.seniority`, and the keywords whose `place` includes `summary` (the top 3–4 musts).
-**From candidate.md:** total years of relevant experience, the domains worked in, the single strongest metric that matches a top must, the Personal Narrative for framing.
+**From the posting:** `role.title`, `role.family`, `role.seniority`, and the keywords whose `place` (jd-to-profile.yaml) includes `summary` (the top 3–4 musts).
+**From the profile:** the highlights whose `use_in` includes `summary` (profile-to-jd.yaml) for the proof; a company link with `use_in: summary` if one exists; total years of relevant experience and domains from candidate.md; the Personal Narrative for framing.
 
 **Write** 3–4 lines, **40–80 words**, implied first person (no "I"), in three parts:
 
@@ -85,7 +89,7 @@ No adjectives about the candidate (passionate, motivated, dynamic, results-drive
 
 ### 3. Technical skills
 
-**From the posting:** every keyword of type `tool` or `skill` with `match` yes or analogue **whose `place` includes `skills`**, in rank order. When the keyword file leaves `skills` out of `place`, the evidence is too thin for a skills-list claim: show it in a bullet that says exactly what was done, and do not list it.
+**From the posting:** every keyword of type `tool` or `skill` with `match` yes or analogue **whose `place` (jd-to-profile.yaml) includes `skills`**, in rank order. When `skills` is not in `place`, the strength is too weak for a skills-list claim: show it in a bullet worded as the mapping's `wording` says, and do not list it.
 **From candidate.md:** the candidate's skills, to confirm each and to add a few closely related ones that support the role.
 
 **Write:** sort into the six fixed categories — exact names, each at most once, empty ones left out. They render in this order whatever order you write them:
@@ -109,8 +113,8 @@ No adjectives about the candidate (passionate, motivated, dynamic, results-drive
 
 The main section. Reverse-chronological, every role from candidate.md that falls in the last ~10 years.
 
-**From the posting:** keywords whose `place` includes `experience` — tools, skills, responsibilities, domains, soft skills — and their `evidence` pointers.
-**From candidate.md:** for each role: title, company, dates, location, work model, what the company does, and every achievement with its numbers.
+**From the posting:** keywords whose `place` includes `experience` — tools, skills, responsibilities, domains, soft skills — with their `evidence` quotes and `wording`.
+**From the profile:** the highlights whose `use_in` includes `experience`, in rank order — they are the strongest material for this job, including needs the posting only implies; company links with `use_in: experience`; and from candidate.md, each role's title, company, dates, location, work model and description. Skip anything in `leave_out`.
 
 **Write per role:**
 - Fields: `title`, `company`, `hq`, `location`, `work_model` (Remote / On-site / Hybrid), `company_description`, `date_start`, `date_end`.
@@ -122,8 +126,8 @@ The main section. Reverse-chronological, every role from candidate.md that falls
 - Count by position: most recent role 4–5, previous role 3–4, every older role 2–3.
 - Max 18 words each. Start with a past-tense action verb (present tense for a current role is also fine, but be consistent): built, designed, migrated, modelled, automated, reduced, led.
 - Pattern: **action + what (in the posting's words) + tool + result with a number**. "Migrated 40 batch ETL jobs to Airflow on GCP, cutting pipeline failures by 60%."
-- Order inside a role: bullets that prove the highest-ranked musts first.
-- Coverage: every must-have the candidate has should be proven by at least one bullet somewhere — use the `evidence` pointer to find the achievement. Spread keywords naturally; a bullet carries one to three, never a list.
+- Order inside a role: the top-ranked highlights and the bullets that prove the highest-ranked musts first.
+- Coverage: every must-have the candidate has should be proven by at least one bullet somewhere — the `evidence` quotes show where the achievement is. Spread keywords naturally; a bullet carries one to three, never a list.
 - Soft skills appear as achievements: "Ran weekly metric reviews with 4 business teams", not "Excellent communicator".
 - Numbers only as candidate.md states them. No number in candidate.md → describe scope instead (teams served, sources integrated, models owned).
 - Avoid: "responsible for", "helped with", "worked on", "various", "etc.", superlatives.
@@ -131,7 +135,7 @@ The main section. Reverse-chronological, every role from candidate.md that falls
 ### 5. Projects (optional)
 
 **From the posting:** keywords whose `place` includes `projects`, and musts the jobs do not prove well.
-**From candidate.md:** side and open-source projects.
+**From the profile:** highlights with `use_in: projects`; nothing in `leave_out`. A project whose strength is `planned` proves nothing yet — describe only what exists.
 
 **Write** 0–2 projects, each: `name`, `url` if public, `description` (one line: what it is + stack), 1–2 bullets (what was built and what it shows). Include a project only if it proves a ranked keyword the experience section does not already prove. With 5–6 years of experience, the jobs carry the CV; projects support it.
 
@@ -143,7 +147,7 @@ The main section. Reverse-chronological, every role from candidate.md that falls
 
 ### 7. Certifications
 
-**From the posting:** keywords whose `place` includes `certifications`; the cloud and tools the posting names.
+**From the posting:** keywords whose `place` includes `certifications` (strength `certified` lands here); the cloud and tools the posting names. Skip certifications in `leave_out`.
 **From candidate.md:** certifications with issuer, date and verification link.
 
 **Write** only certifications that support a keyword in the posting — a cloud certification for the posting's cloud, a dbt or Databricks certification for those tools. Format: name, issuer, `Month YYYY`, `url` only if candidate.md gives one. Drop the rest; an unrelated certification is noise.
@@ -169,8 +173,9 @@ The main section. Reverse-chronological, every role from candidate.md that falls
 
 ## Final check before writing the YAML
 
-- Every must-have keyword with `match` yes or analogue appears in the skills section (tools/skills) **and** in at least one bullet or the summary — `validate_output.py` warns about any that do not.
-- No gap keyword appears as a skill — `validate_output.py` rejects it.
+- Every must-have keyword with `match` yes or analogue appears in the skills section (when `place` says so) **and** in at least one bullet or the summary — `validate_output.py` warns about any that do not.
+- No gap keyword and no `tooling` / `certified` / `learning` / `planned` keyword appears as a skill — `validate_output.py` rejects it.
+- The top highlights from profile-to-jd.yaml are in the CV (or deliberately left to the letter).
 - Every number and claim traces to candidate.md.
 - No photo, date of birth, nationality, visa or sponsorship anywhere.
 - Plain characters; en-dash (–) for date ranges.

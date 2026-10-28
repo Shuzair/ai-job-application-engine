@@ -12,7 +12,10 @@ This style covers cover letter writing rules for Netherlands job applications. T
 
 Read `candidate.md` before writing. Every claim must be traceable to that file. Read `research.md` from the application folder for company details.
 
-Read `jd-keywords.yaml` from the application folder: it is the ranked list of what the posting asks for, mapped to the candidate's evidence, and the CV was written from the same list. Use its exact terms, prove its top must-haves, and never claim a keyword marked `match: "no"`.
+Read the keyword and mapping files from the application folder — the CV was written from the same files:
+- `jd-keywords.yaml` + `jd-to-profile.yaml`: what the posting asks for and what the candidate has, at what strength. Use the exact terms, prove the top must-haves, never claim a keyword marked `match: "no"`, and never state anything above its mapped strength.
+- `profile-to-jd.yaml`: the candidate's achievements ranked for this employer. The letter's stories come from here (`use_in: cover-letter` first).
+- `company-to-profile.yaml`: verified company facts paired with the candidate's background — the material for the opening and paragraph 3. Empty means no forced connection.
 
 ---
 
@@ -32,7 +35,7 @@ Keep paragraphs focused and paragraphs concise. Dutch business culture values di
 
 ### Paragraph 1 — Opening Hook (3-4 sentences)
 
-State the exact position you are applying for. Lead with a specific, concrete reason you are interested in this company — reference something from research.md (a product, mission, recent news, or technology decision). Avoid generic enthusiasm.
+State the exact position you are applying for. Lead with a specific, concrete reason you are interested in this company — preferably a link from company-to-profile.yaml, where a verified company fact meets something the candidate has done; otherwise something from research.md (a product, mission, recent news, or technology decision). Avoid generic enthusiasm.
 
 - Good: "I'm applying for the Senior Data Engineer role. Your migration to a streaming-first architecture using Apache Kafka — detailed in your recent engineering blog — aligns directly with the work I've spent the last three years building at [Company]."
 - Bad: "I am writing to express my keen interest in the Senior Data Engineer position at your esteemed organisation."

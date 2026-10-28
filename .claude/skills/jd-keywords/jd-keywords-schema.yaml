@@ -1,7 +1,9 @@
 # JSON Schema (in YAML) for jd-keywords.yaml
-# Written by the keyword-agent (method: .claude/skills/jd-keywords/SKILL.md).
-# Read by cv-agent, cl-agent, /revise, and scripts/validate_output.py, which
-# checks that every must-have keyword the candidate has reaches the CV.
+# Written by the keyword-agent from the posting alone (method:
+# .claude/skills/jd-keywords/SKILL.md). It says what the employer asks for and
+# nothing about the candidate; jd-to-profile.yaml maps each keyword to the
+# candidate. Read by the mapper agents, cv-agent, cl-agent, /revise, and
+# scripts/validate_output.py.
 
 type: object
 required: [role, keywords]
@@ -34,6 +36,9 @@ properties:
         type: string
         enum: ["yes", "nice", "no"]
         description: "Whether the posting asks for Dutch: required, a plus, or not mentioned"
+      english_level:
+        type: string
+        description: "English level the posting asks for, as written (e.g. 'B2+'); omit if none"
 
   keywords:
     type: array
@@ -41,47 +46,26 @@ properties:
     description: "Ranked: rank 1 is the most important. Musts first, then nices."
     items:
       type: object
-      required: [term, type, priority, rank, match]
+      required: [term, type, priority, rank]
       additionalProperties: false
       properties:
         term:
           type: string
-          description: "The posting's exact wording (e.g. 'data pipelines', 'dbt', 'stakeholder management')"
+          description: "The posting's exact wording (e.g. 'data pipelines', 'dbt', 'stakeholder management'). Unique within the file."
         aliases:
           type: array
           items: { type: string }
-          description: "Other spellings of the SAME thing (e.g. 'Google BigQuery' for 'BigQuery'). Not analogues."
+          description: "Other spellings of the SAME thing (e.g. 'Google BigQuery' for 'BigQuery'). Not alternatives."
         type:
           type: string
           enum: [tool, skill, responsibility, domain, soft-skill]
+          description: "tool/skill terms are short names ('Airflow', 'data modelling'); longer phrases are responsibilities"
         priority:
           type: string
           enum: [must, nice]
         rank:
           type: integer
           minimum: 1
-        match:
+        context:
           type: string
-          enum: ["yes", analogue, "no"]
-          description: "yes = candidate.md shows it; analogue = candidate.md shows a close equivalent (named in use_as); no = a gap"
-        use_as:
-          type: string
-          description: "For an analogue: the candidate's own tool or skill to write instead (e.g. 'Snowflake' for 'Redshift'). For yes: only if the candidate's wording differs; omit otherwise."
-        evidence:
-          type: string
-          description: "Where candidate.md shows it: section and role, plus a short quote or metric. Required for yes and analogue."
-        place:
-          type: array
-          items:
-            type: string
-            enum: [summary, skills, experience, projects, certifications, cover-letter]
-          description: "Where the CV and letter should use it. Empty or omitted for a gap."
-      allOf:
-        - if:
-            properties: { match: { enum: ["yes", analogue] } }
-          then:
-            required: [evidence]
-        - if:
-            properties: { match: { const: analogue } }
-          then:
-            required: [use_as]
+          description: "Optional: the posting's sentence the keyword comes from, when the term alone loses meaning"

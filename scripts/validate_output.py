@@ -5,8 +5,12 @@ errors (structure — the documents cannot be rendered until fixed):
   - JSON Schema validation (via validate_schema.py)
   - Header consistency: name match between CV and CL
   - CV skill category listed twice
-  - jd-keywords.yaml schema
-  - a JD keyword marked as a gap (match: no) listed as a CV skill
+  - jd-keywords.yaml and the three mapping files: schema
+  - jd-to-profile.yaml: exactly one entry per jd-keywords.yaml term
+  - every evidence quote found word for word in candidate.md (research
+    quotes in research.md)
+  - a CV skill the candidate lacks (match: no) or knows too weakly to list
+    (strength tooling / certified / learning / planned)
 limits (CV_LIMITS / CL_LIMITS below):
   - CV summary word count (min/max)
   - CV bullet word count per bullet
@@ -14,12 +18,15 @@ limits (CV_LIMITS / CL_LIMITS below):
   - CL total word count (min/max)
   - CL paragraph count (min/max)
 warnings:
-  - JD keyword coverage: with jd-keywords.yaml, every must-have tool/skill the
-    candidate has must reach the skills section and the summary/bullets;
-    without it, falls back to the JD text in the folder's input.md
+  - JD keyword coverage: with jd-keywords.yaml + jd-to-profile.yaml, every
+    must-have tool/skill the candidate has must reach the skills section and
+    the summary/bullets; without them, falls back to the JD text in input.md
 
 Usage:
-    python scripts/run.py scripts/validate_output.py <folder> [--type cv|cl|both|keywords]
+    python scripts/run.py scripts/validate_output.py <folder> [--type TYPE]
+
+    TYPE: cv | cl | both (default) | keywords | jd-to-profile | profile-to-jd |
+          company-to-profile | mappings (all three mapping files)
 
 Output: JSON to stdout with {valid, errors[], limits[], warnings[]}; exit 1 if errors.
 """
@@ -227,6 +234,9 @@ def _check_jd_keywords(cv_data: dict, jd_text: str) -> list:
 # and soft skills are phrased freely in bullets, so a literal check would be noise.
 _LITERAL_TYPES = ("tool", "skill")
 
+# Evidence strengths strong enough for the CV skills list (profile-mapping skill).
+_SKILL_LIST_STRENGTHS = ("shipped", "built")
+
 
 def _keyword_names(kw: dict) -> list:
     """The words the CV should carry for a keyword, lowercased: the candidate's
@@ -239,14 +249,26 @@ def _keyword_names(kw: dict) -> list:
     return [n.strip().lower() for n in names if n and n.strip()]
 
 
-def _check_keyword_coverage(cv_data: dict, kw_data: dict) -> tuple:
-    """Check the CV against jd-keywords.yaml. Returns (errors, warnings).
+def _merge_keywords(kw_data: dict, map_data: dict) -> list:
+    """Join jd-keywords.yaml (what the posting asks) with jd-to-profile.yaml
+    (what the candidate has) on the keyword term."""
+    by_term = {m.get("keyword"): m for m in map_data.get("mappings", [])}
+    merged = []
+    for kw in kw_data.get("keywords", []):
+        m = by_term.get(kw.get("term"), {})
+        merged.append({**kw, **{k: v for k, v in m.items() if k != "keyword"}})
+    return merged
 
-    errors:   a gap (match: no) listed in the skills section — a skill the
-              candidate does not have.
+
+def _check_keyword_coverage(cv_data: dict, keywords: list) -> tuple:
+    """Check the CV against the merged keyword list. Returns (errors, warnings).
+
+    errors:   a gap (match: no), or a keyword whose evidence is too weak for
+              the skills list (tooling / certified / learning / planned),
+              listed in the skills section.
     warnings: a must-have tool/skill the candidate has (yes or analogue) that is
-              missing from the skills section, from the summary/bullets/projects,
-              or from the summary when the keyword file places it there.
+              missing from the skills section (when placed there), from the
+              summary/bullets/projects, or from the summary when placed there.
     """
     errors, warnings = [], []
 
@@ -266,7 +288,7 @@ def _check_keyword_coverage(cv_data: dict, kw_data: dict) -> tuple:
         return any(_mentions(n, text) for n in names)
 
     missing_skills, missing_prose, missing_summary = [], [], []
-    for kw in kw_data.get("keywords", []):
+    for kw in keywords:
         if kw.get("type") not in _LITERAL_TYPES:
             continue
         match = kw.get("match")
@@ -274,13 +296,22 @@ def _check_keyword_coverage(cv_data: dict, kw_data: dict) -> tuple:
             gap = kw.get("term", "").strip().lower()
             if gap and _mentions(gap, skill_text):
                 errors.append(
-                    f"[keywords] '{kw['term']}' is a gap in jd-keywords.yaml (match: no) "
+                    f"[keywords] '{kw['term']}' is a gap in jd-to-profile.yaml (match: no) "
                     "but is listed as a skill — remove it or list the candidate's analogue"
                 )
             continue
-        if kw.get("priority") != "must":
+        if match not in ("yes", "analogue"):
             continue
         names = _keyword_names(kw)
+        strength = kw.get("strength")
+        if strength and strength not in _SKILL_LIST_STRENGTHS and found(names, skill_text):
+            errors.append(
+                f"[keywords] '{names[0]}' is listed as a skill but its evidence is "
+                f"'{strength}' in jd-to-profile.yaml — only shipped or built work goes in "
+                "the skills list; show it in a bullet worded as the mapping says"
+            )
+        if kw.get("priority") != "must":
+            continue
         label = names[0] if names else kw.get("term", "?")
         place = kw.get("place") or []
         if "skills" in place and not found(names, skill_text):
@@ -302,19 +333,112 @@ def _check_keyword_coverage(cv_data: dict, kw_data: dict) -> tuple:
         )
     if missing_summary:
         warnings.append(
-            "[keywords] Keywords jd-keywords.yaml places in the summary but the "
+            "[keywords] Keywords jd-to-profile.yaml places in the summary but the "
             f"summary lacks: {', '.join(missing_summary)}"
         )
     return errors, warnings
 
 
-def validate_output(doc_type: str, data_dir: str) -> dict:
-    """Validate CV and/or CL data files in an application folder.
+# ── Evidence quotes ──────────────────────────────────────────────────────────
+
+_QUOTE_CHARS = str.maketrans({
+    "\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"',
+    "\u2013": "-", "\u2014": "-", "\u2212": "-", "\u00a0": " ",
+})
+
+
+def _normalise(text: str) -> str:
+    """Lowercase, straighten quotes and dashes, drop markdown emphasis and
+    collapse whitespace, so a quote matches its source despite formatting."""
+    text = str(text).translate(_QUOTE_CHARS).lower()
+    text = re.sub(r"[*`]", "", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _quote_found(quote: str, source: str) -> bool:
+    """True if every fragment of *quote* (fragments joined by ... or …) appears
+    word for word in *source*. *source* must already be normalised."""
+    fragments = re.split(r"\s*(?:\.\.\.|\u2026)\s*", str(quote))
+    fragments = [_normalise(f) for f in fragments if f.strip()]
+    return bool(fragments) and all(f in source for f in fragments)
+
+
+def _evidence_quotes(name: str, data: dict) -> list:
+    """(location, quote, source) for every quote in a mapping file; source is
+    'candidate' or 'research'."""
+    out = []
+    if name == "jd-to-profile":
+        for m in data.get("mappings", []):
+            for e in m.get("evidence", []):
+                out.append((f"keyword '{m.get('keyword')}'", e.get("quote", ""), "candidate"))
+    elif name == "profile-to-jd":
+        for h in data.get("highlights", []):
+            for e in h.get("evidence", []):
+                out.append((f"highlight '{h.get('title')}'", e.get("quote", ""), "candidate"))
+    elif name == "company-to-profile":
+        for link in data.get("links", []):
+            where = f"link '{link.get('company_fact')}'"
+            out.append((where, link.get("research_quote", ""), "research"))
+            for e in link.get("candidate_evidence", []):
+                out.append((where, e.get("quote", ""), "candidate"))
+    return out
+
+
+def _check_quotes(name: str, data: dict, sources: dict) -> list:
+    """Errors for every quote not found in its source file."""
+    errors = []
+    file_name = contracts.MAPPINGS[name][0]
+    for where, quote, source in _evidence_quotes(name, data):
+        text = sources.get(source)
+        if text is None:
+            errors.append(f"[{name}] Cannot check quotes: {source} file not found")
+            break
+        if not _quote_found(quote, text):
+            short = quote if len(quote) <= 80 else quote[:77] + "..."
+            errors.append(
+                f"[{name}] {where}: quote not found in {source} file "
+                f"(copy it exactly from the source, or drop the claim): \"{short}\""
+            )
+    return errors
+
+
+def _check_mapping_terms(kw_data: dict, map_data: dict) -> list:
+    """jd-to-profile.yaml must hold exactly one entry per jd-keywords.yaml term."""
+    terms = [k.get("term") for k in kw_data.get("keywords", [])]
+    mapped = [m.get("keyword") for m in map_data.get("mappings", [])]
+    errors = []
+    missing = [t for t in terms if t not in mapped]
+    unknown = [m for m in mapped if m not in terms]
+    dupes = sorted({m for m in mapped if mapped.count(m) > 1})
+    if missing:
+        errors.append(f"[jd-to-profile] Keywords with no mapping: {', '.join(missing)}")
+    if unknown:
+        errors.append(
+            "[jd-to-profile] Mappings for terms not in jd-keywords.yaml "
+            f"(use the exact term): {', '.join(unknown)}"
+        )
+    if dupes:
+        errors.append(f"[jd-to-profile] Keywords mapped more than once: {', '.join(dupes)}")
+    return errors
+
+
+def _read_text(path: Path):
+    return _normalise(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+_MAPPING_TYPES = tuple(contracts.MAPPINGS)
+
+
+def validate_output(doc_type: str, data_dir: str, candidate_path=None) -> dict:
+    """Validate the data files in an application folder.
 
     Args:
-        doc_type: "cv", "cl", "both", or "keywords" (jd-keywords.yaml only)
-        data_dir: Path to the application folder (cv-data.yaml, cl-data.yaml,
-            jd-keywords.yaml, input.md)
+        doc_type: "cv", "cl", "both", "keywords", one mapping name
+            ("jd-to-profile", "profile-to-jd", "company-to-profile"), or
+            "mappings" for all three
+        data_dir: Path to the application folder
+        candidate_path: candidate.md to check quotes against (default: the
+            project's candidate.md)
 
     Returns:
         Dictionary with valid (bool), errors, limits and warnings (lists)
@@ -326,6 +450,10 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
 
     do_cv = doc_type in ("cv", "both")
     do_cl = doc_type in ("cl", "both")
+    required_mappings = (
+        _MAPPING_TYPES if doc_type == "mappings"
+        else (doc_type,) if doc_type in _MAPPING_TYPES else ()
+    )
 
     cv_data = {}
     cl_data = {}
@@ -335,12 +463,40 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
     kw_data = {}
     if kw_file.exists():
         kw_data = _load_yaml(kw_file)
-        kw_errors = validate(kw_data, str(contracts.KEYWORDS_SCHEMA))
-        all_errors.extend(f"[schema:keywords] {e}" for e in kw_errors)
+        kw_errors = [f"[schema:keywords] {e}" for e in validate(kw_data, str(contracts.KEYWORDS_SCHEMA))]
+        terms = [k.get("term") for k in kw_data.get("keywords", []) if isinstance(k, dict)]
+        dupes = sorted({t for t in terms if terms.count(t) > 1})
+        if dupes:
+            kw_errors.append(f"[keywords] Terms listed more than once: {', '.join(dupes)}")
+        all_errors.extend(kw_errors)
         if kw_errors:
             kw_data = {}
     elif doc_type == "keywords":
         all_errors.append(f"[keywords] File not found: {kw_file}")
+
+    # Mapping files: required for their own --type, checked whenever present.
+    sources = None
+    mapping_data = {}
+    for name, (file_name, schema) in contracts.MAPPINGS.items():
+        path = data_path / file_name
+        if not path.exists():
+            if name in required_mappings:
+                all_errors.append(f"[{name}] File not found: {path}")
+            continue
+        data = _load_yaml(path)
+        errs = [f"[schema:{name}] {e}" for e in validate(data, str(schema))]
+        if not errs:
+            if sources is None:
+                sources = {
+                    "candidate": _read_text(Path(candidate_path or contracts.CANDIDATE_MD)),
+                    "research": _read_text(data_path / "research.md"),
+                }
+            errs.extend(_check_quotes(name, data, sources))
+        if name == "jd-to-profile" and not errs and kw_data:
+            errs.extend(_check_mapping_terms(kw_data, data))
+        all_errors.extend(errs)
+        if not errs:
+            mapping_data[name] = data
 
     if do_cv:
         cv_file = data_path / "cv-data.yaml"
@@ -364,18 +520,20 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
 
     # Cross-document check: when only one document was asked for, the other is
     # read from disk, so revising one cannot drift from the other.
-    if not cl_data:
-        cl_data = _load_yaml(data_path / "cl-data.yaml")
-    if not cv_data:
-        cv_data = _load_yaml(data_path / "cv-data.yaml")
-    if cv_data and cl_data and doc_type != "keywords":
-        all_errors.extend(_check_header_consistency(cv_data, cl_data))
+    if do_cv or do_cl:
+        if not cl_data:
+            cl_data = _load_yaml(data_path / "cl-data.yaml")
+        if not cv_data:
+            cv_data = _load_yaml(data_path / "cv-data.yaml")
+        if cv_data and cl_data:
+            all_errors.extend(_check_header_consistency(cv_data, cl_data))
 
-    # JD keyword coverage: from jd-keywords.yaml when there is one, otherwise
-    # from the JD text (folders made before the keyword agent existed).
+    # JD keyword coverage: from jd-keywords.yaml + jd-to-profile.yaml when both
+    # are valid, otherwise from the JD text (folders made before the mappers).
     input_md = data_path / "input.md"
-    if do_cv and cv_data and kw_data:
-        errs, warns = _check_keyword_coverage(cv_data, kw_data)
+    if do_cv and cv_data and kw_data and "jd-to-profile" in mapping_data:
+        keywords = _merge_keywords(kw_data, mapping_data["jd-to-profile"])
+        errs, warns = _check_keyword_coverage(cv_data, keywords)
         all_errors.extend(errs)
         all_warnings.extend(warns)
     elif do_cv and cv_data and input_md.exists():
@@ -392,12 +550,14 @@ def validate_output(doc_type: str, data_dir: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Validate an application folder's CV/CL data against the Netherlands rules"
+        description="Validate an application folder's data files against the Netherlands rules"
     )
     parser.add_argument("folder", help="Application folder containing the data YAML files")
     parser.add_argument(
-        "--type", default="both", choices=["cv", "cl", "both", "keywords"],
-        help="What to validate: cv, cl, both (default), or keywords (jd-keywords.yaml only)"
+        "--type", default="both",
+        choices=["cv", "cl", "both", "keywords", *_MAPPING_TYPES, "mappings"],
+        help="What to validate: cv, cl, both (default), keywords, one mapping file, "
+             "or mappings (all three)"
     )
     args = parser.parse_args()
 

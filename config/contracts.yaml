@@ -27,6 +27,21 @@ keywords:
   skill: jd-keywords
   file: jd-keywords.yaml
 
+# Profile mapping: the skill folder (holds the three schemas) and the files the
+# three mapper agents write in each application folder.
+# Read by:    scripts/validate_output.py
+# Mirrored in: .claude/skills/apply, .claude/skills/revise, .claude/skills/profile-mapping,
+#              .claude/agents/{jd-to-profile,profile-to-jd,company-to-profile,cv,cl}-agent.md
+mappings:
+  skill: profile-mapping
+  jd_to_profile: jd-to-profile.yaml
+  profile_to_jd: profile-to-jd.yaml
+  company_to_profile: company-to-profile.yaml
+
+# The candidate profile at the project root (gitignored).
+# Read by: scripts/validate_output.py (evidence quotes are checked against it)
+candidate_file: candidate.md
+
 # Placeholder strings emitted into research.md.
 # Written by: .claude/skills/apply/SKILL.md (skipped), .claude/skills/company-research/SKILL.md (no-data)
 # Detected by: .claude/agents/cl-agent.md (uses `skipped` to know research is absent)

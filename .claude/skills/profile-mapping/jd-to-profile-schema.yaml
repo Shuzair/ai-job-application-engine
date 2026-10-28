@@ -1,0 +1,65 @@
+# JSON Schema (in YAML) for jd-to-profile.yaml — the job → profile mapping.
+# Written by jd-to-profile-agent (method: .claude/skills/profile-mapping/SKILL.md).
+# One entry per keyword in jd-keywords.yaml: does the candidate have it, how
+# strongly, and where candidate.md shows it. validate_output.py checks that the
+# entries match the keyword list and that every quote exists in candidate.md.
+
+type: object
+required: [mappings]
+additionalProperties: false
+
+definitions:
+  evidence:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [where, quote]
+      additionalProperties: false
+      properties:
+        where:
+          type: string
+          description: "Section path in candidate.md, e.g. 'Experience 2: Motive → AI & LLM Workflow Engineering'"
+        quote:
+          type: string
+          minLength: 12
+          description: "Exact text copied from candidate.md (contiguous; join separate fragments with ' ... ')"
+  strength:
+    type: string
+    enum: [shipped, built, tooling, certified, learning, planned]
+    description: "shipped = used in production work; built = built but not deployed or not in production; tooling = built tools around it, not used directly; certified = known from a certification only; learning = studying it; planned = in a plan only"
+  place:
+    type: array
+    items:
+      type: string
+      enum: [summary, skills, experience, projects, certifications, cover-letter]
+
+properties:
+  mappings:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [keyword, match]
+      additionalProperties: false
+      properties:
+        keyword:
+          type: string
+          description: "The term exactly as in jd-keywords.yaml"
+        match:
+          type: string
+          enum: ["yes", analogue, "no"]
+        use_as:
+          type: string
+          description: "For an analogue: the candidate's own tool or skill to write instead. For yes: only if the candidate's wording differs."
+        strength: { $ref: "#/definitions/strength" }
+        evidence: { $ref: "#/definitions/evidence" }
+        place: { $ref: "#/definitions/place" }
+        wording:
+          type: string
+          description: "How to phrase it honestly at this strength, e.g. 'built a dbt model generation agent' rather than 'built dbt models'"
+      allOf:
+        - if: { properties: { match: { enum: ["yes", analogue] } } }
+          then: { required: [strength, evidence, place] }
+        - if: { properties: { match: { const: analogue } } }
+          then: { required: [use_as] }

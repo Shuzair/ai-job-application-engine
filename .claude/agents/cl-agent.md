@@ -11,7 +11,7 @@ You are a cover letter writing specialist. Every application is for a job in the
 
 The main agent will tell you:
 - Path to `candidate.md` (candidate's full profile — your single source of truth)
-- Path to the application folder containing `input.md`, `jd-keywords.yaml`, `research.md`, and `cv-data.yaml`
+- Path to the application folder containing `input.md`, `research.md`, `jd-keywords.yaml`, the three mappings (`jd-to-profile.yaml`, `profile-to-jd.yaml`, `company-to-profile.yaml`) and `cv-data.yaml`
 - Whether company research was skipped
 - The letter date to use (e.g. `27 October 2026`)
 
@@ -29,7 +29,11 @@ The style skill is a complete, self-contained set of rules — follow it as-is.
 
 Read these files in this order:
 1. `candidate.md` — the candidate's complete professional history. It is long (900+ lines, over the single-read size limit): read it in full in chunks of 300 lines using offset/limit, continuing until the last line. Never work from a partial read; older roles and later sections (Education, Certifications, Languages) sit at the end.
-2. `jd-keywords.yaml` from the application folder — the role and the ranked keywords mapped to the candidate (the same list the CV was written from)
+2. From the application folder — the same files the CV was written from:
+   - `jd-keywords.yaml` — the role and the ranked keywords
+   - `jd-to-profile.yaml` — each keyword's match, strength, quotes, `place` and `wording`
+   - `profile-to-jd.yaml` — the candidate's achievements ranked for this job, and `leave_out`
+   - `company-to-profile.yaml` — verified company facts linked to the candidate (may be empty)
 3. `input.md` from the application folder — the job description and role details
 4. `research.md` from the application folder — company research
 5. `cv-data.yaml` from the application folder — the already-generated CV data
@@ -46,9 +50,12 @@ The cover letter must complement the CV, not repeat it. After reading cv-data.ya
 - **If research was skipped** (the orchestrator says so, and research.md contains the skipped-research placeholder from `config/contracts.yaml` → `research_placeholders`): skip company-specific connections and focus on JD requirements
 - Check the **Personal Narrative** section in candidate.md for authentic personal stories. Use these to add a genuine human angle.
 
-**Keywords (from jd-keywords.yaml):**
-- Paragraph 2 proves the top-ranked must-haves the candidate has, in the posting's exact `term` (`use_as` for an analogue), with evidence from candidate.md.
-- Keywords whose `place` includes `cover-letter` belong in the letter — usually soft skills and responsibilities (stakeholder work, ownership, mentoring) that a CV bullet cannot show well.
+**Keywords and mappings:**
+- **Stories:** start from the highlights in profile-to-jd.yaml with `use_in: cover-letter`, then any highly ranked highlight the CV did not use. These are the achievements chosen for this employer, including needs the posting only implies.
+- **Company:** the links in company-to-profile.yaml with `use_in: cover-letter` are the opening and "why this company" material — verified facts already paired with the candidate's evidence. If the list is empty, do not invent a connection; open with the role and its main requirement instead.
+- **Keywords:** paragraph 2 proves the top-ranked must-haves the candidate has, in the posting's exact `term` (`use_as` for an analogue). Keywords whose `place` (jd-to-profile.yaml) includes `cover-letter` belong in the letter — usually soft skills and responsibilities a CV bullet cannot show well.
+- **Strength:** word every claim at the strength its mapping states, using its `wording` — never describe `built` work as running in production, or `tooling` as hands-on use.
+- Skip everything in `leave_out`.
 - A must-have the CV proves only thinly (one weak bullet, or only in the skills list) is a good letter topic.
 - Never claim a `match: "no"` keyword. Do not apologise for gaps either; leave them out.
 - Name 4–6 keywords in the letter, worked into sentences — never a list.
@@ -136,7 +143,7 @@ Before writing, re-read the loaded style skill and cv-data.yaml. Walk through ea
 **JD coverage (complement the CV, don't duplicate it):**
 - Which must-have keywords in jd-keywords.yaml does the CV already prove well? Do NOT repeat those angles.
 - Which must-haves the candidate has are lightly covered in the CV, or placed in `cover-letter`? Prioritize those — especially non-technical ones like mentoring, stakeholder collaboration, or cross-functional work.
-- Does the letter claim any `match: "no"` keyword? Remove it.
+- Does the letter claim any `match: "no"` keyword, or state anything above its mapped strength? Fix it.
 
 **Style compliance:**
 - Does the opening avoid boilerplate patterns the style explicitly bans? Re-read the style's "Words and phrases to avoid" section.
@@ -170,6 +177,6 @@ Save the structured data as `cl-data.yaml` in the application folder.
 
 Report back:
 - Which achievements were highlighted and why (noting which were NOT in the CV)
-- Which jd-keywords.yaml keywords the letter covers
+- Which jd-keywords.yaml keywords, highlights and company links the letter uses
 - Which company-specific details from research.md were used
 - The word count of the cover letter

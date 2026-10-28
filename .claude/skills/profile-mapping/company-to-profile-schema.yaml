@@ -1,0 +1,49 @@
+# JSON Schema (in YAML) for company-to-profile.yaml — company ↔ profile links.
+# Written by company-to-profile-agent (method: .claude/skills/profile-mapping/SKILL.md).
+# Each link pairs a verified fact from research.md with candidate.md evidence.
+# Both quotes are checked by validate_output.py. An empty list is a valid answer.
+
+type: object
+required: [research_available, links]
+additionalProperties: false
+
+properties:
+  research_available:
+    type: boolean
+    description: "false when research.md is the skipped placeholder; links is then empty"
+  links:
+    type: array
+    items:
+      type: object
+      required: [company_fact, research_quote, candidate_evidence, strength, connection, use_in]
+      additionalProperties: false
+      properties:
+        company_fact:
+          type: string
+          description: "The fact about the company, in one line"
+        research_quote:
+          type: string
+          minLength: 12
+          description: "Exact text copied from research.md that states the fact"
+        candidate_evidence:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [where, quote]
+            additionalProperties: false
+            properties:
+              where: { type: string }
+              quote: { type: string, minLength: 12 }
+        strength:
+          type: string
+          enum: [shipped, built, tooling, certified, learning, planned]
+        connection:
+          type: string
+          description: "Why this candidate fact matters to this company — one or two sentences"
+        use_in:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum: [summary, experience, cover-letter]

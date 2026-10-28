@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Typed access to config/contracts.yaml — the single source of truth for
-cross-component "magic strings" (style folders, keyword file, research.md placeholders).
+cross-component "magic strings" (style folders, keyword and mapping files, research.md placeholders).
 
 Import as a sibling module from any script in scripts/:
 
@@ -49,6 +49,21 @@ CL_SCHEMA = SKILLS_DIR / CL_STYLE_SKILL / "cl-data-schema.yaml"
 KEYWORDS_SKILL = _C["keywords"]["skill"]
 KEYWORDS_FILE = _C["keywords"]["file"]
 KEYWORDS_SCHEMA = SKILLS_DIR / KEYWORDS_SKILL / "jd-keywords-schema.yaml"
+
+# ── Profile mapping ─────────────────────────────────────────────────────────
+MAPPING_SKILL = _C["mappings"]["skill"]
+# name (as used by validate_output.py --type) → (file in the application folder, schema)
+MAPPINGS = {
+    name: (_C["mappings"][key], SKILLS_DIR / MAPPING_SKILL / f"{name}-schema.yaml")
+    for name, key in (
+        ("jd-to-profile", "jd_to_profile"),
+        ("profile-to-jd", "profile_to_jd"),
+        ("company-to-profile", "company_to_profile"),
+    )
+}
+
+# ── Candidate profile ───────────────────────────────────────────────────────
+CANDIDATE_MD = PROJECT_ROOT / _C["candidate_file"]
 
 # ── research.md placeholders ────────────────────────────────────────────────
 RESEARCH_SKIPPED = _C["research_placeholders"]["skipped"]

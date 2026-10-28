@@ -25,3 +25,11 @@ def test_keyword_contract():
     assert contracts.KEYWORDS_FILE == "jd-keywords.yaml"
     assert contracts.KEYWORDS_SCHEMA.exists()
     assert (contracts.KEYWORDS_SCHEMA.parent / "SKILL.md").exists()
+
+
+def test_mapping_contract():
+    assert set(contracts.MAPPINGS) == {"jd-to-profile", "profile-to-jd", "company-to-profile"}
+    for file_name, schema in contracts.MAPPINGS.values():
+        assert file_name.endswith(".yaml")
+        assert schema.exists(), schema
+    assert contracts.CANDIDATE_MD.name == "candidate.md"
