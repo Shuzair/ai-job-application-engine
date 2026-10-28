@@ -84,7 +84,7 @@ No adjectives about the candidate (passionate, motivated, dynamic, results-drive
 
 ### 3. Technical skills
 
-**From the posting:** every keyword of type `tool` or `skill` with `match` yes or analogue, in rank order.
+**From the posting:** every keyword of type `tool` or `skill` with `match` yes or analogue **whose `place` includes `skills`**, in rank order. When the keyword file leaves `skills` out of `place`, the evidence is too thin for a skills-list claim: show it in a bullet that says exactly what was done, and do not list it.
 **From candidate.md:** the candidate's skills, to confirm each and to add a few closely related ones that support the role.
 
 **Write:** sort into the six fixed categories — exact names, each at most once, empty ones left out. They render in this order whatever order you write them:
@@ -101,6 +101,7 @@ No adjectives about the candidate (passionate, motivated, dynamic, results-drive
 - Analogue: list `use_as` (Snowflake), never the posting's term (Redshift).
 - Gap (`match: "no"`): never listed.
 - Supporting skills: only those candidate.md shows and the role plausibly uses; drop unrelated tools. Aim for about 20–30 items in total.
+- Items are tool or technique names ("Airflow", "dimensional modelling"), not phrases or results ("Airflow DAG scheduling", "CLV segmentation"); those go in the bullets.
 - No soft skills here — they go in the bullets.
 
 ### 4. Work experience

@@ -47,7 +47,9 @@ Rules:
 3. **priority**: `must` for anything under requirements / "you have" / "must" / "required" / "essential", and for anything the posting repeats or puts in the title or intro. `nice` for "a plus", "bonus", "preferred", "nice to have", "familiarity with".
 4. **rank**: 1 = most important. Order musts before nices. Within a priority: title and intro first, then how often it is repeated, then position in the requirements list.
 5. Split lists: "Snowflake or BigQuery" becomes two keywords. Merge duplicates ("SQL" and "advanced SQL" are one keyword, `advanced SQL` as the term if that is the stronger phrasing).
-6. Size: aim for **12–25 keywords**. Leave out filler that every posting says ("team player", "passion for data") unless it is stressed.
+6. **Language requirements are not keywords.** "English at B2+" or "fluent Dutch" go in the role block (`dutch_required`) and the CV's Languages section, not in `keywords`.
+7. **Analogues are for things that can be swapped one-for-one.** If an analogue rests only on a plan, a prototype, or work that was never deployed, say so in evidence and leave `skills` out of `place`.
+8. Size: aim for **12–25 keywords**. Leave out filler that every posting says ("team player", "passion for data") unless it is stressed.
 
 ---
 
