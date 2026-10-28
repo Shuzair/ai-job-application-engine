@@ -65,7 +65,9 @@ One entry per keyword in `jd-keywords.yaml`, using the keyword's exact `term` �
 | Keyword | place |
 |---|---|
 | Top 3–4 musts by rank, strength `shipped` | `summary`, plus wherever else they belong |
-| `tool`/`skill`, strength `shipped` or `built` | `skills`, `experience` |
+| `tool`, strength `shipped` or `built` | `skills`, `experience` |
+| `skill` that is a named technique a recruiter scans for (ELT, CI/CD, dimensional modelling, data quality testing), `shipped` or `built` | `skills`, `experience` |
+| `skill` that is a practice or quality (scalability, troubleshooting, documentation, observability, ownership) | `experience` — shown through an achievement, never listed |
 | `tool`/`skill`, strength `tooling` | `experience` only (and `cover-letter` if a must) |
 | strength `certified` | `certifications` |
 | `responsibility`, `domain` | `experience` (and `summary` if top-ranked) |

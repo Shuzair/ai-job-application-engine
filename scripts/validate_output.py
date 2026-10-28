@@ -270,8 +270,10 @@ def _check_keyword_coverage(cv_data: dict, keywords: list) -> tuple:
               the skills list (tooling / certified / learning / planned),
               listed in the skills section.
     warnings: a must-have tool/skill the candidate has (yes or analogue) that is
-              missing from the skills section (when placed there), from the
-              summary/bullets/projects, or from the summary when placed there.
+              missing from the summary/bullets/projects, or from the summary
+              when placed there; a must-have *tool* placed in skills that is
+              missing from the skills section. Techniques and practices are not
+              required in the skills list — it stays a crisp list of tools.
     """
     errors, warnings = [], []
 
@@ -317,7 +319,7 @@ def _check_keyword_coverage(cv_data: dict, keywords: list) -> tuple:
             continue
         label = names[0] if names else kw.get("term", "?")
         place = kw.get("place") or []
-        if "skills" in place and not found(names, skill_text):
+        if kw.get("type") == "tool" and "skills" in place and not found(names, skill_text):
             missing_skills.append(label)
         if not found(names, prose):
             missing_prose.append(label)

@@ -107,6 +107,7 @@ No adjectives about the candidate (passionate, motivated, dynamic, results-drive
 - Gap (`match: "no"`): never listed.
 - Supporting skills: only those candidate.md shows and the role plausibly uses; drop unrelated tools. Aim for about 20–30 items in total.
 - Items are tool or technique names ("Airflow", "dimensional modelling"), not phrases or results ("Airflow DAG scheduling", "CLV segmentation"); those go in the bullets.
+- Never list practices or qualities ("scalability and reliability", "troubleshooting", "technical documentation") even when a mapping places them in `skills` — show them in a bullet. A recruiter reads a listed item as a technology; abstract items make the list look padded. The validator only requires tools here.
 - No soft skills here — they go in the bullets.
 
 ### 4. Work experience

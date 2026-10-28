@@ -158,6 +158,15 @@ def test_coverage_warns_when_must_missing_from_skills():
     assert not any("python" in w for w in warns if "skills section" in w)
 
 
+def test_skills_list_is_not_required_to_hold_practices():
+    # A must-have practice ("skill" type) shown in a bullet need not be listed as
+    # a skill — only tools are required in the skills list.
+    cv = yaml.safe_load(yaml.safe_dump(DE_CV))
+    cv["experience"][0]["bullets"].append("Added troubleshooting runbooks for every pipeline.")
+    _, warns = _coverage(_kw("troubleshooting", type_="skill", place=["skills", "experience"]), cv=cv)
+    assert warns == []
+
+
 def test_coverage_warns_when_summary_placement_missed():
     _, warns = _coverage(_kw("SQL", place=["summary", "skills"]))
     assert any("summary lacks" in w and "sql" in w for w in warns)

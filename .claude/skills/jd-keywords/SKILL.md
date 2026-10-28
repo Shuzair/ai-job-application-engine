@@ -41,7 +41,7 @@ Collect every requirement the posting names, across the whole posting — the ti
 Rules:
 
 1. **term** is the posting's exact wording. If it says "data pipelines", write `data pipelines`, not "ETL". Terms are unique in the file.
-2. `tool` and `skill` terms are **short names** ("testing", "CI/CD", "ELT"). A longer phrase ("raise the bar on our testing practices") is a `responsibility`; put the sentence in `context` if useful. The validator matches tool and skill terms literally against the CV.
+2. `tool` and `skill` terms are **short names** ("testing", "CI/CD", "ELT"). A `skill` is a named technique; a practice or quality ("scalability and reliability", "troubleshooting", "technical documentation") is a `responsibility`. A longer phrase ("raise the bar on our testing practices") is a `responsibility` too; put the sentence in `context` if useful. The validator matches tool and skill terms literally against the CV.
 3. **aliases** are other spellings of the same thing only ("Google BigQuery", "GBQ"). Never put an alternative here.
 4. **priority**: `must` for anything under requirements / "you have" / "must" / "required" / "essential", and for anything the posting repeats or puts in the title or intro. `nice` for "a plus", "bonus", "preferred", "nice to have", "familiarity with".
 5. **Alternatives**: "ClickHouse, Snowflake or BigQuery" — each becomes its own keyword with the same priority. The mapper decides which the candidate has.
