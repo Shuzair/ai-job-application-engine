@@ -149,10 +149,12 @@ links:
 
 ## Check, then report
 
+Validate your own file only — the other mappers may still be writing theirs:
+
 ```bash
-python scripts/run.py scripts/validate_output.py <folder> --type mappings
+python scripts/run.py scripts/validate_output.py <folder> --type <jd-to-profile|profile-to-jd|company-to-profile>
 ```
 
-Fix every error about your own file (a quote not found is fixed by copying the exact text, or by dropping the claim). Errors about another mapper's file are not yours to fix.
+Fix every error (a quote not found is fixed by copying the exact text, or by dropping the claim). The orchestrator checks all three together with `--type mappings` afterwards.
 
 Report in 4–6 lines: the headline finding of your mapping, anything weak (strength below `shipped` on a must-have), and anything you left out on purpose.
