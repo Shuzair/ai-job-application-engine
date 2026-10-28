@@ -24,6 +24,7 @@ Read `input.md` in the application folder. The job description is everything und
 - **posting_language**: `Dutch` if the posting body is in Dutch.
 - **dutch_required**: `yes` ("vloeiend Nederlands", "Dutch is required", "native Dutch"), `nice` ("Dutch is a plus"), `no` (not mentioned). A posting written in Dutch with no statement counts as `yes`.
 - **english_level**: as written ("B2+", "fluent"), if stated.
+- **sponsorship**: `offered` if the posting mentions visa sponsorship, visa or relocation support that includes the visa, or being a recognised sponsor (IND); `not-offered` if it says candidates must already have the right to work in the Netherlands / EU, or that it cannot sponsor; otherwise `not-mentioned`. This is only for the fit verdict — it never reaches the CV or letter.
 
 ## Keywords
 
@@ -64,6 +65,7 @@ role:
   posting_language: English
   dutch_required: "no"
   english_level: "B2+"
+  sponsorship: not-mentioned
 
 keywords:
   - term: "dbt"

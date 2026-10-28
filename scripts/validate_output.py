@@ -11,6 +11,8 @@ errors (structure — the documents cannot be rendered until fixed):
     quotes in research.md)
   - a CV skill the candidate lacks (match: no) or knows too weakly to list
     (strength tooling / certified / learning / planned)
+  - fit-verdict.yaml: schema, a verdict above fit_check.py's ceiling, or
+    blockers that differ from fit_check.py's
 limits (CV_LIMITS / CL_LIMITS below):
   - CV summary word count (min/max)
   - CV bullet word count per bullet
@@ -26,7 +28,7 @@ Usage:
     python scripts/run.py scripts/validate_output.py <folder> [--type TYPE]
 
     TYPE: cv | cl | both (default) | keywords | jd-to-profile | profile-to-jd |
-          company-to-profile | mappings (all three mapping files)
+          company-to-profile | mappings (all three mapping files) | fit
 
 Output: JSON to stdout with {valid, errors[], limits[], warnings[]}; exit 1 if errors.
 """
@@ -40,6 +42,7 @@ from pathlib import Path
 import yaml
 
 import contracts
+import fit_check
 from parse_input import parse_input
 from validate_schema import validate
 
@@ -429,13 +432,40 @@ def _read_text(path: Path):
 _MAPPING_TYPES = tuple(contracts.MAPPINGS)
 
 
+def _check_fit(data_path: Path, candidate_path=None) -> list:
+    """fit-verdict.yaml: schema, verdict within fit_check.py's ceiling, same blockers."""
+    path = data_path / contracts.FIT_FILE
+    if not path.exists():
+        return [f"[fit] File not found: {path}"]
+    data = _load_yaml(path)
+    errors = [f"[schema:fit] {e}" for e in validate(data, str(contracts.FIT_SCHEMA))]
+    if errors:
+        return errors
+    try:
+        facts = fit_check.check_fit(data_path, candidate_path)
+    except FileNotFoundError as e:
+        return [f"[fit] {e}"]
+    verdict, ceiling = data["verdict"], facts["ceiling"]
+    if fit_check.VERDICTS.index(verdict) > fit_check.VERDICTS.index(ceiling):
+        errors.append(
+            f"[fit] Verdict '{verdict}' is above what fit_check.py allows ('{ceiling}'): "
+            f"must coverage {facts['must_coverage']}, top-5 gaps {facts['top_must_gaps']}, "
+            f"top-5 weak {facts['top_must_weak']}, blockers {[b['code'] for b in facts['blockers']]}"
+        )
+    expected = sorted(b["code"] for b in facts["blockers"])
+    given = sorted(b.get("code") for b in data.get("blockers", []))
+    if given != expected:
+        errors.append(f"[fit] Blockers must be exactly fit_check.py's: expected {expected}, got {given}")
+    return errors
+
+
 def validate_output(doc_type: str, data_dir: str, candidate_path=None) -> dict:
     """Validate the data files in an application folder.
 
     Args:
         doc_type: "cv", "cl", "both", "keywords", one mapping name
-            ("jd-to-profile", "profile-to-jd", "company-to-profile"), or
-            "mappings" for all three
+            ("jd-to-profile", "profile-to-jd", "company-to-profile"),
+            "mappings" for all three, or "fit" (fit-verdict.yaml)
         data_dir: Path to the application folder
         candidate_path: candidate.md to check quotes against (default: the
             project's candidate.md)
@@ -498,6 +528,9 @@ def validate_output(doc_type: str, data_dir: str, candidate_path=None) -> dict:
         if not errs:
             mapping_data[name] = data
 
+    if doc_type == "fit":
+        all_errors.extend(_check_fit(data_path, candidate_path))
+
     if do_cv:
         cv_file = data_path / "cv-data.yaml"
         if not cv_file.exists():
@@ -555,9 +588,9 @@ def main():
     parser.add_argument("folder", help="Application folder containing the data YAML files")
     parser.add_argument(
         "--type", default="both",
-        choices=["cv", "cl", "both", "keywords", *_MAPPING_TYPES, "mappings"],
+        choices=["cv", "cl", "both", "keywords", *_MAPPING_TYPES, "mappings", "fit"],
         help="What to validate: cv, cl, both (default), keywords, one mapping file, "
-             "or mappings (all three)"
+             "mappings (all three), or fit"
     )
     args = parser.parse_args()
 

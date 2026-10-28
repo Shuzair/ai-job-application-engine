@@ -1,0 +1,92 @@
+# JSON Schema (in YAML) for fit-verdict.yaml
+# Written by the fit-agent (method: .claude/skills/fit-verdict/SKILL.md) after
+# the three mappings. /apply continues on its own only when verdict is strong;
+# otherwise it stops and asks the user. validate_output.py --type fit checks the
+# verdict is not above what scripts/fit_check.py allows and the blockers match.
+# This file is for the user only — nothing in it reaches the CV or letter.
+
+type: object
+required: [verdict, summary, strengths, gaps, blockers, seniority, recommendation]
+additionalProperties: false
+
+properties:
+  verdict:
+    type: string
+    enum: [strong, possible, weak]
+    description: "Never above fit_check.py's ceiling; lower it when judgement says so"
+
+  summary:
+    type: string
+    description: "One line a person can act on, e.g. 'Good match on pipelines and SQL; dbt only from tooling'"
+
+  strengths:
+    type: array
+    minItems: 1
+    maxItems: 4
+    items:
+      type: object
+      required: [point]
+      additionalProperties: false
+      properties:
+        point:
+          type: string
+          description: "A strength for this job, in one line"
+        keywords:
+          type: array
+          items: { type: string }
+          description: "jd-keywords.yaml terms it covers"
+
+  gaps:
+    type: array
+    items:
+      type: object
+      required: [area, severity, note]
+      additionalProperties: false
+      properties:
+        area:
+          type: string
+          description: "A keyword term, or an area such as 'seniority' or 'domain'"
+        severity:
+          type: string
+          enum: [core, minor]
+          description: "core = central to this role (title, intro, top musts, the family's core skill); minor = everything else"
+        note:
+          type: string
+
+  blockers:
+    type: array
+    description: "Exactly the blockers fit_check.py reports (same codes)"
+    items:
+      type: object
+      required: [code, message]
+      additionalProperties: false
+      properties:
+        code: { type: string }
+        message: { type: string }
+
+  seniority:
+    type: object
+    required: [posting, candidate_years, assessment, note]
+    additionalProperties: false
+    properties:
+      posting:
+        type: string
+        description: "role.seniority and years_required from jd-keywords.yaml, e.g. 'medior, 3+ years'"
+      candidate_years:
+        type: string
+        description: "Years of relevant data work from candidate.md's experience dates, e.g. '5.5'"
+      assessment:
+        type: string
+        enum: [fits, stretch, below, above]
+        description: "fits; stretch = one level up; below = clearly short of it; above = clearly overqualified"
+      note:
+        type: string
+
+  risks:
+    type: array
+    items: { type: string }
+    description: "What an interviewer is likely to probe, e.g. 'dbt depth: no hand-built models'"
+
+  recommendation:
+    type: string
+    description: "Apply / apply with a caveat / skip unless..., in one or two sentences"

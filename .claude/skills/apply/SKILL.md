@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Generate a tailored CV and cover letter for a job in the Netherlands. Takes a job description pasted with the command, a posting URL, or job-applications/input.md; creates a versioned output folder, researches the company and extracts the posting's keywords, maps the candidate's profile against the job and the company, writes the CV and cover letter data with subagents, and renders docx + pdf.
+description: Generate a tailored CV and cover letter for a job in the Netherlands. Takes a job description pasted with the command, a posting URL, or job-applications/input.md; creates a versioned output folder, researches the company and extracts the posting's keywords, maps the candidate's profile against the job and the company, gives a fit verdict (and asks before going on unless it is strong), writes the CV and cover letter data with subagents, and renders docx + pdf.
 disable-model-invocation: true
 argument-hint: "[pasted job description or posting URL — optional]"
 ---
@@ -81,7 +81,24 @@ The validator checks each schema, that `jd-to-profile.yaml` maps every keyword e
 
 Then read the three files yourself and look for **conflicts** — e.g. jd-to-profile marks dbt `shipped` while profile-to-jd's dbt highlight is `tooling`. Resolve each toward the **weaker** strength (edit the stronger entry's `strength` and `place` to match; drop `skills` from `place` below `built`), and list what you changed in the report.
 
-## Step 5: CV Agent
+## Step 5: Fit Verdict (gate)
+
+Delegate to `fit-agent` with the full path to the application folder and to `candidate.md`. It runs `scripts/fit_check.py` (the fixed part: must-have coverage, hard blockers such as Dutch required or no sponsorship, and the best verdict the numbers allow), adds judgement on core gaps, seniority and what the role really is, and writes `fit-verdict.yaml`. Check it:
+
+```bash
+python scripts/run.py scripts/validate_output.py <folder_path> --type fit
+```
+
+If it reports errors, send them back to `fit-agent` once; if they remain, stop and show them.
+
+Then show the user the **verdict card** — verdict and summary, core gaps, blockers, seniority, recommendation — and:
+
+- **`strong`**: say so in one line and continue to Step 6.
+- **`possible` or `weak`**: stop and ask: *"Continue with the CV and cover letter anyway?"* Continue only on a clear yes. On no, stop here: reset `input.md` (Step 10's last command) and say the folder keeps the keywords, mappings and verdict.
+
+The verdict card may mention Dutch and sponsorship — it is for the user only. Nothing from it goes into the CV or letter.
+
+## Step 6: CV Agent
 
 Delegate to `cv-agent` with:
 - Full path to `candidate.md`
@@ -90,7 +107,7 @@ Delegate to `cv-agent` with:
 
 Check that `cv-data.yaml` exists.
 
-## Step 6: Cover Letter Agent
+## Step 7: Cover Letter Agent
 
 Delegate to `cl-agent` with:
 - Full path to `candidate.md`
@@ -100,7 +117,7 @@ Delegate to `cl-agent` with:
 
 Check that `cl-data.yaml` exists.
 
-## Step 7: Validate
+## Step 8: Validate
 
 ```bash
 python scripts/run.py scripts/validate_output.py <folder_path>
@@ -113,7 +130,7 @@ Outputs JSON with `errors`, `limits`, `warnings`:
 
 Re-run the validator after any fix.
 
-## Step 8: Render
+## Step 9: Render
 
 ```bash
 python scripts/run.py scripts/render.py <folder_path>
@@ -121,17 +138,18 @@ python scripts/run.py scripts/render.py <folder_path>
 
 Writes `cv.docx`, `cover-letter.docx`, `cv.pdf`, `cover-letter.pdf`, checks the content made it into each docx, reports page counts, and opens both docx files in Word. If it exits with `ERROR`, stop and show the message. If it prints a page-limit `WARNING`, trim the CV (style trim order: oldest role bullets → interests → project detail → bullet length) or the letter, then render again.
 
-## Step 9: Report Back
+## Step 10: Report Back
 
 1. **Folder:** full path
 2. **Research:** done or skipped; if done, a 2–3 line company summary, and whether the company is a recognised IND sponsor (from research.md)
 3. **Keywords:** role family and seniority, the top must-haves, analogues used, and must-have gaps (`match: "no"`) — the user should know what the posting asks for that the CV cannot claim
-4. **Mappings:** must-haves with weak evidence (strength below `built`) and how they are worded; the top 3 highlights from profile-to-jd.yaml and any implied need it found; the company links (or none); conflicts you resolved
-5. **CV:** what leads the summary and skills, projects selected
-6. **Cover letter:** achievements highlighted, company details used (or JD-focused only), word count
-7. **Checks:** limits fixed or left, warnings, page counts
-8. **Language:** if the posting is written in Dutch or `dutch_required` is `yes` in jd-keywords.yaml, say so — the documents are in English
-9. **Next:** "Review in Word. Use `/revise` for changes — PDFs are re-exported each time."
+4. **Fit:** the verdict and its one-line summary, and whether the user chose to go on despite it
+5. **Mappings:** must-haves with weak evidence (strength below `built`) and how they are worded; the top 3 highlights from profile-to-jd.yaml and any implied need it found; the company links (or none); conflicts you resolved
+6. **CV:** what leads the summary and skills, projects selected
+7. **Cover letter:** achievements highlighted, company details used (or JD-focused only), word count
+8. **Checks:** limits fixed or left, warnings, page counts
+9. **Language:** if the posting is written in Dutch or `dutch_required` is `yes` in jd-keywords.yaml, say so — the documents are in English
+10. **Next:** "Review in Word. Use `/revise` for changes — PDFs are re-exported each time."
 
 Finally, reset the input file — only after everything above succeeded:
 

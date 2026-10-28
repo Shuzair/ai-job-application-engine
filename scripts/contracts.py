@@ -62,6 +62,11 @@ MAPPINGS = {
     )
 }
 
+# ── Fit verdict ─────────────────────────────────────────────────────────────
+FIT_SKILL = _C["fit"]["skill"]
+FIT_FILE = _C["fit"]["file"]
+FIT_SCHEMA = SKILLS_DIR / FIT_SKILL / "fit-verdict-schema.yaml"
+
 # ── Candidate profile ───────────────────────────────────────────────────────
 CANDIDATE_MD = PROJECT_ROOT / _C["candidate_file"]
 

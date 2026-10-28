@@ -36,6 +36,10 @@ properties:
         type: string
         enum: ["yes", "nice", "no"]
         description: "Whether the posting asks for Dutch: required, a plus, or not mentioned"
+      sponsorship:
+        type: string
+        enum: [offered, not-offered, not-mentioned]
+        description: "Whether the posting offers visa sponsorship: offered (sponsorship, visa support or recognised-sponsor status stated), not-offered ('must already have the right to work in the NL/EU', 'no sponsorship'), not-mentioned"
       english_level:
         type: string
         description: "English level the posting asks for, as written (e.g. 'B2+'); omit if none"

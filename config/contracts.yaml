@@ -38,6 +38,14 @@ mappings:
   profile_to_jd: profile-to-jd.yaml
   company_to_profile: company-to-profile.yaml
 
+# Fit verdict: the skill folder (holds fit-verdict-schema.yaml) and the file the
+# fit-agent writes in each application folder.
+# Read by:    scripts/validate_output.py
+# Mirrored in: .claude/skills/apply, .claude/skills/fit-verdict, .claude/agents/fit-agent.md
+fit:
+  skill: fit-verdict
+  file: fit-verdict.yaml
+
 # The candidate profile at the project root (gitignored).
 # Read by: scripts/validate_output.py (evidence quotes are checked against it)
 candidate_file: candidate.md
