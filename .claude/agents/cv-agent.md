@@ -71,7 +71,8 @@ header:
 
 summary: |
   3-4 lines, 40-80 words, rewritten for this role: who (posting's role name,
-  years, domain), core stack (summary-placed keywords), one metric, relocation.
+  years, domain), core stack (summary-placed keywords), one metric. Relocation
+  stays in the header only.
   Implied first person. Factual, direct, quantified — no adjectives about the candidate.
 
 skills:                           # fixed category names only, each at most once

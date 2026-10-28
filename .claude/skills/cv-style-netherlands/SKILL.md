@@ -70,14 +70,15 @@ For each section: what to take from the posting (via jd-keywords.yaml), what to 
 **From the posting:** `role.title`, `role.family`, `role.seniority`, and the keywords whose `place` includes `summary` (the top 3–4 musts).
 **From candidate.md:** total years of relevant experience, the domains worked in, the single strongest metric that matches a top must, the Personal Narrative for framing.
 
-**Write** 3–4 lines, **40–80 words**, implied first person (no "I"), in four parts:
+**Write** 3–4 lines, **40–80 words**, implied first person (no "I"), in three parts:
 
 1. **Who:** the posting's role name, years of experience, domain — "Analytics engineer with 6 years in e-commerce and fintech data".
 2. **Core stack:** 3–4 of the top-ranked keywords the candidate has, in the posting's words (`use_as` for analogues).
 3. **Proof:** one quantified result that backs the top must.
-4. **Availability:** relocation readiness, if abroad.
 
-- Good: "Analytics engineer with 6 years building dbt and SQL data models on Snowflake for finance and marketing teams. Cut monthly reporting time from 3 days to 4 hours by modelling a single revenue source of truth. Open to relocation to the Netherlands."
+Relocation readiness is already in the header (`relocation`); do not repeat it in the summary.
+
+- Good: "Analytics engineer with 6 years building dbt and SQL data models on Snowflake for finance and marketing teams. Cut monthly reporting time from 3 days to 4 hours by modelling a single revenue source of truth."
 - Bad: "Passionate, results-driven data professional with a proven track record of delivering cutting-edge solutions."
 
 No adjectives about the candidate (passionate, motivated, dynamic, results-driven, expert).
