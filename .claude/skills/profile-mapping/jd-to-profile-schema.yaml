@@ -51,7 +51,7 @@ properties:
           enum: ["yes", analogue, "no"]
         use_as:
           type: string
-          description: "For an analogue: the candidate's own tool or skill to write instead. For yes: only if the candidate's wording differs."
+          description: "For an analogue: the ONE closest tool or skill of the candidate's to write instead (the validator matches it literally). For yes: only if the candidate's wording differs."
         strength: { $ref: "#/definitions/strength" }
         evidence: { $ref: "#/definitions/evidence" }
         place: { $ref: "#/definitions/place" }

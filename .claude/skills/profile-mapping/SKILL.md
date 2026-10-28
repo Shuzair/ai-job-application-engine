@@ -57,7 +57,7 @@ No skill, tool, number, employer fact or outcome that is not in the quotes. Rewo
 One entry per keyword in `jd-keywords.yaml`, using the keyword's exact `term` — no more, no fewer. Use the keyword's `context` and the posting to understand what it means in this job.
 
 - **match `yes`**: candidate.md shows it. Give `strength`, `evidence`, `place`. Set `use_as` only if the candidate's wording differs ("GCP" vs "Google Cloud").
-- **match `analogue`**: the candidate lacks it but has a same-kind equivalent: Redshift → Snowflake, Prefect → Airflow, ClickHouse → BigQuery, Metabase → Tableau, Pub/Sub → SNS. `use_as` is the candidate's own term; `strength` and `evidence` are for that term. An orchestrator for an orchestrator, a warehouse for a warehouse — never across kinds.
+- **match `analogue`**: the candidate lacks it but has a same-kind equivalent: Redshift → Snowflake, Prefect → Airflow, ClickHouse → BigQuery, Metabase → Tableau, Pub/Sub → SNS. `use_as` is the candidate's own term — **one** tool or skill, the closest one (ClickHouse → BigQuery, not "Snowflake and BigQuery"); `strength` and `evidence` are for that term. An orchestrator for an orchestrator, a warehouse for a warehouse — never across kinds.
 - **match `no`**: nothing supports it. Leave out everything else. Never upgrade a gap.
 - When a posting lists alternatives ("ClickHouse, Snowflake or BigQuery") and the candidate has one of them, map that one `yes` and the others `analogue` to it.
 - **place** — where the CV and letter should use it:
