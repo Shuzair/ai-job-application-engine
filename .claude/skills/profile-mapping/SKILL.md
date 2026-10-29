@@ -48,7 +48,7 @@ Pick the strength the evidence proves, not the one that helps. When unsure betwe
 
 ### Never invent
 
-No skill, tool, number, employer fact or outcome that is not in the quotes. Rewording is fine; adding is not.
+No skill, tool, number, employer fact or outcome that is not in the quotes. Rewording is fine; adding is not. The same holds for `wording`, `why`, `connection` and `metric`: no frequency ("daily"), scale, title or result the quotes do not state.
 
 ---
 
