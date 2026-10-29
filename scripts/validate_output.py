@@ -287,6 +287,10 @@ def _check_keyword_coverage(cv_data: dict, keywords: list) -> tuple:
     for project in cv_data.get("projects", []):
         prose_parts.append(project.get("description", ""))
         prose_parts.extend(project.get("bullets", []))
+    # A certification is proof too: a must-have known from a certificate is
+    # shown in the certifications section, not claimed in a bullet.
+    for cert in cv_data.get("certifications", []):
+        prose_parts.append(cert.get("name", ""))
     prose = " ".join(str(p) for p in prose_parts).lower()
 
     def found(names, text):
@@ -334,7 +338,7 @@ def _check_keyword_coverage(cv_data: dict, keywords: list) -> tuple:
     if missing_prose:
         warnings.append(
             "[keywords] Must-have keywords the candidate has, not shown in the "
-            f"summary, bullets or projects: {', '.join(missing_prose)}"
+            f"summary, bullets, projects or certifications: {', '.join(missing_prose)}"
         )
     if missing_summary:
         warnings.append(

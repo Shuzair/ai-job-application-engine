@@ -167,6 +167,16 @@ def test_skills_list_is_not_required_to_hold_practices():
     assert warns == []
 
 
+def test_certification_counts_as_showing_a_certified_must():
+    cv = yaml.safe_load(yaml.safe_dump(DE_CV))
+    cv["certifications"] = [{"name": "Databricks Certified Data Engineer Associate",
+                             "issuer": "Databricks", "date": "April 2026"}]
+    _, warns = _coverage(_kw("Databricks", strength="certified", place=["certifications"]), cv=cv)
+    assert warns == []
+    _, warns = _coverage(_kw("Databricks", strength="certified", place=["certifications"]))
+    assert any("databricks" in w for w in warns)
+
+
 def test_coverage_warns_when_summary_placement_missed():
     _, warns = _coverage(_kw("SQL", place=["summary", "skills"]))
     assert any("summary lacks" in w and "sql" in w for w in warns)
